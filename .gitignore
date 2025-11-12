@@ -1,7 +1,85 @@
-# Archivos y carpetas de Visual Studio que no deben subirse
+# ======================================
+# .gitignore para proyectos .NET (WinForms)
+# ======================================
+
+# Archivos de Visual Studio
 .vs/
 *.user
 *.suo
-*.db
+
+# Archivos de compilación
 bin/
 obj/
+[Bb]uild/
+[Ll]ogs/
+
+# Publicaciones y paquetes
+[Dd]ebug/
+[Rr]elease/
+x64/
+x86/
+[Aa][Rr][Mm]*/
+[Aa][Rr][Mm]64/
+*.appx
+*.appxupload
+*.appxsym
+
+# Archivos de publicación
+publish/
+*.Publish.xml
+
+# Archivos temporales
+*.cache
+*.log
+*.tmp
+*.db
+*.pdb
+*.pidb
+
+# Archivos generados por VS
+*.dbmdl
+*.bak
+*.backup
+*.sdf
+*.vscode/
+
+# Configuraciones locales
+*.userprefs
+*.local.json
+*.launchSettings.json
+
+# Paquetes NuGet (no subir la carpeta packages)
+packages/
+*.nupkg
+*.snupkg
+*.nuspec
+
+# Archivos de test
+TestResults/
+*.coverage
+*.coveragexml
+*.testsettings
+*.vsmdi
+
+# Archivos de publicación de ClickOnce
+publish/
+
+# Archivos de entorno de usuario
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Archivos temporales de diseño
+~$*
+*.tmp
+
+# Archivos específicos de Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ======================================
+# Fin del .gitignore
+# ======================================
