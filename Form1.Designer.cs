@@ -1,4 +1,4 @@
-﻿namespace ComparadorExcelSQL
+﻿namespace ComparaVentasExcel
 {
     partial class Form1
     {
@@ -29,101 +29,150 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
-            this.lblArchivo = new System.Windows.Forms.Label();
-            this.txtArchivo = new System.Windows.Forms.TextBox();
-            this.btnExaminar = new System.Windows.Forms.Button();
-            this.btnProcesar = new System.Windows.Forms.Button();
-            this.dgvResultados = new System.Windows.Forms.DataGridView();
-            this.lblEstado = new System.Windows.Forms.Label();
-            this.btnExportar = new System.Windows.Forms.Button();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).BeginInit();
-            this.SuspendLayout();
+            lblArchivo = new Label();
+            txtArchivo = new TextBox();
+            btnExaminar = new Button();
+            btnProcesar = new Button();
+            dgvResultados = new DataGridView();
+            lblEstado = new Label();
+            btnExportar = new Button();
+            chkMostrarTodos = new CheckBox();
+            chkSoloExistentes = new CheckBox();
+            chkSoloNoExistentes = new CheckBox();
+            ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
+            SuspendLayout();
             // 
             // lblArchivo
             // 
-            this.lblArchivo.AutoSize = true;
-            this.lblArchivo.Location = new System.Drawing.Point(56, 22);
-            this.lblArchivo.Name = "lblArchivo";
-            this.lblArchivo.Size = new System.Drawing.Size(75, 13);
-            this.lblArchivo.TabIndex = 0;
-            this.lblArchivo.Text = "Archivo Excel:";
+            lblArchivo.AutoSize = true;
+            lblArchivo.Location = new Point(65, 25);
+            lblArchivo.Margin = new Padding(4, 0, 4, 0);
+            lblArchivo.Name = "lblArchivo";
+            lblArchivo.Size = new Size(81, 15);
+            lblArchivo.TabIndex = 0;
+            lblArchivo.Text = "Archivo Excel:";
             // 
             // txtArchivo
             // 
-            this.txtArchivo.Location = new System.Drawing.Point(137, 19);
-            this.txtArchivo.Name = "txtArchivo";
-            this.txtArchivo.Size = new System.Drawing.Size(100, 20);
-            this.txtArchivo.TabIndex = 1;
+            txtArchivo.Location = new Point(160, 22);
+            txtArchivo.Margin = new Padding(4, 3, 4, 3);
+            txtArchivo.Name = "txtArchivo";
+            txtArchivo.Size = new Size(116, 23);
+            txtArchivo.TabIndex = 1;
             // 
             // btnExaminar
             // 
-            this.btnExaminar.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnExaminar.Location = new System.Drawing.Point(243, 19);
-            this.btnExaminar.Name = "btnExaminar";
-            this.btnExaminar.Size = new System.Drawing.Size(75, 23);
-            this.btnExaminar.TabIndex = 2;
-            this.btnExaminar.Text = "Examinar";
-            this.btnExaminar.UseVisualStyleBackColor = false;
-            this.btnExaminar.Click += new System.EventHandler(this.btnExaminar_Click);
+            btnExaminar.BackColor = SystemColors.ButtonFace;
+            btnExaminar.Location = new Point(284, 22);
+            btnExaminar.Margin = new Padding(4, 3, 4, 3);
+            btnExaminar.Name = "btnExaminar";
+            btnExaminar.Size = new Size(88, 27);
+            btnExaminar.TabIndex = 2;
+            btnExaminar.Text = "Examinar";
+            btnExaminar.UseVisualStyleBackColor = false;
+            btnExaminar.Click += btnExaminar_Click;
             // 
             // btnProcesar
             // 
-            this.btnProcesar.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnProcesar.Location = new System.Drawing.Point(56, 38);
-            this.btnProcesar.Name = "btnProcesar";
-            this.btnProcesar.Size = new System.Drawing.Size(75, 23);
-            this.btnProcesar.TabIndex = 3;
-            this.btnProcesar.Text = "Procesar";
-            this.btnProcesar.UseVisualStyleBackColor = false;
-            this.btnProcesar.Click += new System.EventHandler(this.btnProcesar_Click);
+            btnProcesar.BackColor = SystemColors.ButtonFace;
+            btnProcesar.Location = new Point(65, 44);
+            btnProcesar.Margin = new Padding(4, 3, 4, 3);
+            btnProcesar.Name = "btnProcesar";
+            btnProcesar.Size = new Size(88, 27);
+            btnProcesar.TabIndex = 3;
+            btnProcesar.Text = "Procesar";
+            btnProcesar.UseVisualStyleBackColor = false;
+            btnProcesar.Click += btnProcesar_Click;
             // 
             // dgvResultados
             // 
-            this.dgvResultados.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResultados.Location = new System.Drawing.Point(39, 78);
-            this.dgvResultados.Name = "dgvResultados";
-            this.dgvResultados.Size = new System.Drawing.Size(656, 270);
-            this.dgvResultados.TabIndex = 4;
+            dgvResultados.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dgvResultados.Location = new Point(46, 90);
+            dgvResultados.Margin = new Padding(4, 3, 4, 3);
+            dgvResultados.Name = "dgvResultados";
+            dgvResultados.Size = new Size(765, 312);
+            dgvResultados.TabIndex = 4;
             // 
             // lblEstado
             // 
-            this.lblEstado.AutoSize = true;
-            this.lblEstado.Location = new System.Drawing.Point(59, 351);
-            this.lblEstado.Name = "lblEstado";
-            this.lblEstado.Size = new System.Drawing.Size(0, 13);
-            this.lblEstado.TabIndex = 5;
+            lblEstado.AutoSize = true;
+            lblEstado.Location = new Point(69, 405);
+            lblEstado.Margin = new Padding(4, 0, 4, 0);
+            lblEstado.Name = "lblEstado";
+            lblEstado.Size = new Size(0, 15);
+            lblEstado.TabIndex = 5;
             // 
             // btnExportar
             // 
-            this.btnExportar.BackColor = System.Drawing.SystemColors.ButtonFace;
-            this.btnExportar.Location = new System.Drawing.Point(567, 354);
-            this.btnExportar.Name = "btnExportar";
-            this.btnExportar.Size = new System.Drawing.Size(75, 23);
-            this.btnExportar.TabIndex = 6;
-            this.btnExportar.Text = "Exportar";
-            this.btnExportar.UseVisualStyleBackColor = false;
-            this.btnExportar.Click += new System.EventHandler(this.btnExportar_Click);
+            btnExportar.BackColor = SystemColors.ButtonFace;
+            btnExportar.Location = new Point(662, 408);
+            btnExportar.Margin = new Padding(4, 3, 4, 3);
+            btnExportar.Name = "btnExportar";
+            btnExportar.Size = new Size(88, 27);
+            btnExportar.TabIndex = 6;
+            btnExportar.Text = "Exportar";
+            btnExportar.UseVisualStyleBackColor = false;
+            btnExportar.Click += btnExportar_Click;
+            // 
+            // chkMostrarTodos
+            // 
+            chkMostrarTodos.AutoSize = true;
+            chkMostrarTodos.Checked = true;
+            chkMostrarTodos.CheckState = CheckState.Checked;
+            chkMostrarTodos.Location = new Point(389, 65);
+            chkMostrarTodos.Name = "chkMostrarTodos";
+            chkMostrarTodos.Size = new Size(100, 19);
+            chkMostrarTodos.TabIndex = 7;
+            chkMostrarTodos.Text = "Mostrar todos";
+            chkMostrarTodos.UseVisualStyleBackColor = true;
+            chkMostrarTodos.CheckedChanged += chkMostrarTodos_CheckedChanged;
+            // 
+            // chkSoloExistentes
+            // 
+            chkSoloExistentes.AutoSize = true;
+            chkSoloExistentes.Location = new Point(495, 65);
+            chkSoloExistentes.Name = "chkSoloExistentes";
+            chkSoloExistentes.Size = new Size(56, 19);
+            chkSoloExistentes.TabIndex = 8;
+            chkSoloExistentes.Text = "Existe";
+            chkSoloExistentes.UseVisualStyleBackColor = true;
+            chkSoloExistentes.CheckedChanged += chkSoloExistentes_CheckedChanged;
+            // 
+            // chkSoloNoExistentes
+            // 
+            chkSoloNoExistentes.AutoSize = true;
+            chkSoloNoExistentes.Location = new Point(557, 65);
+            chkSoloNoExistentes.Name = "chkSoloNoExistentes";
+            chkSoloNoExistentes.Size = new Size(75, 19);
+            chkSoloNoExistentes.TabIndex = 9;
+            chkSoloNoExistentes.Text = "No existe";
+            chkSoloNoExistentes.UseVisualStyleBackColor = true;
+            chkSoloNoExistentes.CheckedChanged += chkSoloNoExistentes_CheckedChanged;
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.SystemColors.ActiveCaption;
-            this.ClientSize = new System.Drawing.Size(730, 394);
-            this.Controls.Add(this.btnExportar);
-            this.Controls.Add(this.lblEstado);
-            this.Controls.Add(this.dgvResultados);
-            this.Controls.Add(this.btnProcesar);
-            this.Controls.Add(this.btnExaminar);
-            this.Controls.Add(this.txtArchivo);
-            this.Controls.Add(this.lblArchivo);
-            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
-            this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "ComparaVentas";
-            ((System.ComponentModel.ISupportInitialize)(this.dgvResultados)).EndInit();
-            this.ResumeLayout(false);
-            this.PerformLayout();
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(852, 455);
+            Controls.Add(chkSoloNoExistentes);
+            Controls.Add(chkSoloExistentes);
+            Controls.Add(chkMostrarTodos);
+            Controls.Add(btnExportar);
+            Controls.Add(lblEstado);
+            Controls.Add(dgvResultados);
+            Controls.Add(btnProcesar);
+            Controls.Add(btnExaminar);
+            Controls.Add(txtArchivo);
+            Controls.Add(lblArchivo);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Margin = new Padding(4, 3, 4, 3);
+            Name = "Form1";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "ComparaVentas";
+            ((System.ComponentModel.ISupportInitialize)dgvResultados).EndInit();
+            ResumeLayout(false);
+            PerformLayout();
 
         }
 
@@ -136,6 +185,9 @@
         private System.Windows.Forms.DataGridView dgvResultados;
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.Button btnExportar;
+        private CheckBox chkMostrarTodos;
+        private CheckBox chkSoloExistentes;
+        private CheckBox chkSoloNoExistentes;
     }
 }
 

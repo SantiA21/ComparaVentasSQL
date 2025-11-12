@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Data.SqlClient;
 using System.IO;
+using System.Reflection;
 
-namespace ComparadorExcelSQL
+namespace ComparaVentasExcel
 {
     public class DataAccess
     {
@@ -10,27 +11,36 @@ namespace ComparadorExcelSQL
 
         public DataAccess()
         {
-            // Ruta al archivo de configuración en la misma carpeta del ejecutable
-            string configPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "dbconfig.ini");
+            // Obtener el ensamblado actual
+            var assembly = Assembly.GetExecutingAssembly();
 
-            if (!File.Exists(configPath))
+            // Nombre completo del recurso: <Namespace>.<NombreArchivo>
+            // En este caso: "ComparaVentasExcel.dbconfig.ini"
+            using (var stream = assembly.GetManifestResourceStream("ComparaVentasExcel.dbconfig.ini"))
             {
-                throw new FileNotFoundException("No se encontró el archivo de configuración: " + configPath);
-            }
+                if (stream == null)
+                    throw new FileNotFoundException("No se encontró el recurso incrustado dbconfig.ini.");
 
-            // Leer el archivo línea por línea y buscar "ConnectionString="
-            foreach (var line in File.ReadAllLines(configPath))
-            {
-                if (line.StartsWith("ConnectionString=", StringComparison.OrdinalIgnoreCase))
+                using (var reader = new StreamReader(stream))
                 {
-                    _connectionString = line.Substring("ConnectionString=".Length).Trim();
-                    break;
+                    // Leer todo el contenido del recurso
+                    string content = reader.ReadToEnd();
+
+                    // Buscar la línea ConnectionString=
+                    foreach (var line in content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None))
+                    {
+                        if (line.StartsWith("ConnectionString=", StringComparison.OrdinalIgnoreCase))
+                        {
+                            _connectionString = line.Substring("ConnectionString=".Length).Trim();
+                            break;
+                        }
+                    }
                 }
             }
 
             if (string.IsNullOrEmpty(_connectionString))
             {
-                throw new Exception("No se encontró la cadena de conexión en dbconfig.ini");
+                throw new Exception("No se encontró la cadena de conexión en dbconfig.ini incrustado.");
             }
         }
 

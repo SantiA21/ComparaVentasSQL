@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ComparadorExcelSQL
+namespace ComparaVentasExcel
+
 {
     internal static class Program
     {
@@ -14,11 +15,8 @@ namespace ComparadorExcelSQL
         [STAThread]
         static void Main()
         {
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            ApplicationConfiguration.Initialize(); // recomendado para .NET 8+
             Application.Run(new Form1());
-
-
         }
     }
 }

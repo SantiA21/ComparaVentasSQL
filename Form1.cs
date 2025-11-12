@@ -5,11 +5,14 @@ using System.Linq;
 using System.Windows.Forms;
 using ClosedXML.Excel;
 
-namespace ComparadorExcelSQL
+namespace ComparaVentasExcel
+
 {
     public partial class Form1 : Form
     {
         private DataAccess dataAccess; // Clase para manejar la conexión
+        private DataTable dtOriginal;
+
 
         public Form1()
         {
@@ -94,7 +97,7 @@ namespace ComparadorExcelSQL
 
                             string suc_codigo = partes[0];
                             string vene_numero = partes[1].PadLeft(8, '0');
-                            string cbtee_codigo = (partes[2] == "1" || partes[2] == "6") ? "FAB" : "DESCONOCIDO";
+                            string cbtee_codigo = (partes[2] == "1") ? "FAA" : (partes[2] == "6") ? "FAB" : "DESCONOCIDO";
 
                             string query = @"
                                 SELECT TOP 1 PERI_CODIGO 
@@ -135,7 +138,7 @@ namespace ComparadorExcelSQL
                                     }
                                 }
 
-                                // “Local” = peri_codigo
+                                
                                 dtResultados.Rows.Add(dato, peri_codigo, suc_codigo, vene_numero, cbtee_codigo, resultado);
                             }
 
@@ -143,7 +146,8 @@ namespace ComparadorExcelSQL
                             fila++;
                         }
 
-                        dgvResultados.DataSource = dtResultados;
+                        dtOriginal = dtResultados; // Guardamos los datos originales
+                        dgvResultados.DataSource = dtOriginal;
                         lblEstado.Text = $"✅ Proceso finalizado. {procesadas} filas procesadas.";
                     }
                 }
@@ -157,6 +161,30 @@ namespace ComparadorExcelSQL
                 btnProcesar.Enabled = true;
             }
         }
+
+        //En este metodo aplico los filtros con los checkbox
+        private void AplicarFiltro()
+        {
+            if (dtOriginal == null) return;
+
+            DataView view = new DataView(dtOriginal);
+
+            if (chkSoloExistentes.Checked)
+            {
+                view.RowFilter = "[Existe] = '✅ Existe'";
+            }
+            else if (chkSoloNoExistentes.Checked)
+            {
+                view.RowFilter = "[Existe] = '❌ No existe'";
+            }
+            else
+            {
+                view.RowFilter = ""; // Mostrar todos
+            }
+
+            dgvResultados.DataSource = view;
+        }
+
 
         // Botón para exportar a Excel
         private void btnExportar_Click(object sender, EventArgs e)
@@ -190,6 +218,37 @@ namespace ComparadorExcelSQL
             catch (Exception ex)
             {
                 MessageBox.Show("Error al exportar: " + ex.Message);
+            }
+        }
+
+        // Con estos metodos controlo que no se puedan activar varios checks a la vez
+        private void chkMostrarTodos_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkMostrarTodos.Checked)
+            {
+                chkSoloExistentes.Checked = false;
+                chkSoloNoExistentes.Checked = false;
+                AplicarFiltro();
+            }
+        }
+
+        private void chkSoloExistentes_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSoloExistentes.Checked)
+            {
+                chkMostrarTodos.Checked = false;
+                chkSoloNoExistentes.Checked = false;
+                AplicarFiltro();
+            }
+        }
+
+        private void chkSoloNoExistentes_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkSoloNoExistentes.Checked)
+            {
+                chkMostrarTodos.Checked = false;
+                chkSoloExistentes.Checked = false;
+                AplicarFiltro();
             }
         }
     }

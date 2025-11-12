@@ -1,13 +1,13 @@
 using System.Reflection;
 using System.Runtime.InteropServices;
 
-[assembly: AssemblyTitle("Comparador Excel SQL")]
-[assembly: AssemblyDescription("Herramienta para comparar y analizar datos entre archivos Excel y bases SQL.")]
+[assembly: AssemblyTitle("ComparaVentasExcel")]
+[assembly: AssemblyDescription("Revisa el excel y verifica si existen las ventas o no en la bd")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Santiago Almiron")]
-[assembly: AssemblyProduct("Comparador Excel SQL")]
+[assembly: AssemblyCompany("CINET")]
+[assembly: AssemblyProduct("ComparaVentasExcel")]
 
-[assembly: AssemblyCopyright("© 2025 Santiago Almiron")]
+[assembly: AssemblyCopyright("© 2025 CINET")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
