@@ -5,6 +5,5 @@ dotnet publish -c Release -r win-x64 --self-contained true ^
  /p:IncludeNativeLibrariesForSelfExtract=true ^
  /p:DebugType=none ^
  /p:OptimizationPreference=Speed ^
- /p:TieredCompilation=true ^
- /p:UseWindowsForms=true
+ /p:TieredCompilation=true
 pause
