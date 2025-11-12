@@ -4,6 +4,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Windows.Forms;
 using ClosedXML.Excel;
+using System.Reflection;
 
 namespace ComparaVentasExcel
 
@@ -138,7 +139,7 @@ namespace ComparaVentasExcel
                                     }
                                 }
 
-                                
+
                                 dtResultados.Rows.Add(dato, peri_codigo, suc_codigo, vene_numero, cbtee_codigo, resultado);
                             }
 
@@ -250,6 +251,22 @@ namespace ComparaVentasExcel
                 chkSoloExistentes.Checked = false;
                 AplicarFiltro();
             }
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+            // Obtiene la versión del ensamblado actual
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+
+            // Opcional: convertirlo a texto amigable
+            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+        }
+
+        private void btnVolver_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormInicio mainForm = new FormInicio();
+            mainForm.Show();
         }
     }
 }

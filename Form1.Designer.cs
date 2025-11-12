@@ -39,13 +39,15 @@
             chkMostrarTodos = new CheckBox();
             chkSoloExistentes = new CheckBox();
             chkSoloNoExistentes = new CheckBox();
+            lblVersion = new Label();
+            btnVolver = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
             SuspendLayout();
             // 
             // lblArchivo
             // 
             lblArchivo.AutoSize = true;
-            lblArchivo.Location = new Point(65, 25);
+            lblArchivo.Location = new Point(46, 24);
             lblArchivo.Margin = new Padding(4, 0, 4, 0);
             lblArchivo.Name = "lblArchivo";
             lblArchivo.Size = new Size(81, 15);
@@ -54,7 +56,7 @@
             // 
             // txtArchivo
             // 
-            txtArchivo.Location = new Point(160, 22);
+            txtArchivo.Location = new Point(141, 21);
             txtArchivo.Margin = new Padding(4, 3, 4, 3);
             txtArchivo.Name = "txtArchivo";
             txtArchivo.Size = new Size(116, 23);
@@ -63,7 +65,7 @@
             // btnExaminar
             // 
             btnExaminar.BackColor = SystemColors.ButtonFace;
-            btnExaminar.Location = new Point(284, 22);
+            btnExaminar.Location = new Point(265, 21);
             btnExaminar.Margin = new Padding(4, 3, 4, 3);
             btnExaminar.Name = "btnExaminar";
             btnExaminar.Size = new Size(88, 27);
@@ -75,7 +77,7 @@
             // btnProcesar
             // 
             btnProcesar.BackColor = SystemColors.ButtonFace;
-            btnProcesar.Location = new Point(65, 44);
+            btnProcesar.Location = new Point(46, 43);
             btnProcesar.Margin = new Padding(4, 3, 4, 3);
             btnProcesar.Name = "btnProcesar";
             btnProcesar.Size = new Size(88, 27);
@@ -105,7 +107,7 @@
             // btnExportar
             // 
             btnExportar.BackColor = SystemColors.ButtonFace;
-            btnExportar.Location = new Point(662, 408);
+            btnExportar.Location = new Point(672, 408);
             btnExportar.Margin = new Padding(4, 3, 4, 3);
             btnExportar.Name = "btnExportar";
             btnExportar.Size = new Size(88, 27);
@@ -119,7 +121,7 @@
             chkMostrarTodos.AutoSize = true;
             chkMostrarTodos.Checked = true;
             chkMostrarTodos.CheckState = CheckState.Checked;
-            chkMostrarTodos.Location = new Point(389, 65);
+            chkMostrarTodos.Location = new Point(508, 65);
             chkMostrarTodos.Name = "chkMostrarTodos";
             chkMostrarTodos.Size = new Size(100, 19);
             chkMostrarTodos.TabIndex = 7;
@@ -130,7 +132,7 @@
             // chkSoloExistentes
             // 
             chkSoloExistentes.AutoSize = true;
-            chkSoloExistentes.Location = new Point(495, 65);
+            chkSoloExistentes.Location = new Point(614, 65);
             chkSoloExistentes.Name = "chkSoloExistentes";
             chkSoloExistentes.Size = new Size(56, 19);
             chkSoloExistentes.TabIndex = 8;
@@ -141,7 +143,7 @@
             // chkSoloNoExistentes
             // 
             chkSoloNoExistentes.AutoSize = true;
-            chkSoloNoExistentes.Location = new Point(557, 65);
+            chkSoloNoExistentes.Location = new Point(676, 65);
             chkSoloNoExistentes.Name = "chkSoloNoExistentes";
             chkSoloNoExistentes.Size = new Size(75, 19);
             chkSoloNoExistentes.TabIndex = 9;
@@ -149,12 +151,33 @@
             chkSoloNoExistentes.UseVisualStyleBackColor = true;
             chkSoloNoExistentes.CheckedChanged += chkSoloNoExistentes_CheckedChanged;
             // 
+            // lblVersion
+            // 
+            lblVersion.AutoSize = true;
+            lblVersion.Location = new Point(773, 440);
+            lblVersion.Name = "lblVersion";
+            lblVersion.Size = new Size(38, 15);
+            lblVersion.TabIndex = 10;
+            lblVersion.Text = "label3";
+            // 
+            // btnVolver
+            // 
+            btnVolver.Location = new Point(46, 436);
+            btnVolver.Name = "btnVolver";
+            btnVolver.Size = new Size(116, 23);
+            btnVolver.TabIndex = 11;
+            btnVolver.Text = "Regresar al inicio";
+            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.Click += btnVolver_Click;
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(852, 455);
+            ClientSize = new Size(852, 467);
+            Controls.Add(btnVolver);
+            Controls.Add(lblVersion);
             Controls.Add(chkSoloNoExistentes);
             Controls.Add(chkSoloExistentes);
             Controls.Add(chkMostrarTodos);
@@ -170,6 +193,7 @@
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ComparaVentas";
+            Load += Form1_Load;
             ((System.ComponentModel.ISupportInitialize)dgvResultados).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -188,6 +212,8 @@
         private CheckBox chkMostrarTodos;
         private CheckBox chkSoloExistentes;
         private CheckBox chkSoloNoExistentes;
+        private Label lblVersion;
+        private Button btnVolver;
     }
 }
 

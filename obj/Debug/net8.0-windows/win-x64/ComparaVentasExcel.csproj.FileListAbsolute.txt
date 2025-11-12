@@ -492,3 +492,6 @@ C:\Projects\ComparaVentasExcel\obj\Debug\net8.0-windows\win-x64\refint\ComparaVe
 C:\Projects\ComparaVentasExcel\obj\Debug\net8.0-windows\win-x64\ComparaVentasExcel.pdb
 C:\Projects\ComparaVentasExcel\obj\Debug\net8.0-windows\win-x64\ComparaVentasExcel.genruntimeconfig.cache
 C:\Projects\ComparaVentasExcel\obj\Debug\net8.0-windows\win-x64\ref\ComparaVentasExcel.dll
+C:\Projects\ComparaVentasExcel\obj\Debug\net8.0-windows\win-x64\ComparaVentasExcel.FormLogin.resources
+C:\Projects\ComparaVentasExcel\obj\Debug\net8.0-windows\win-x64\ComparaVentasExcel.FormConsultaVenta.resources
+C:\Projects\ComparaVentasExcel\obj\Debug\net8.0-windows\win-x64\ComparaVentasExcel.FormInicio.resources

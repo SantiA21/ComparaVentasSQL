@@ -1,0 +1,107 @@
+﻿namespace ComparaVentasExcel
+{
+    partial class FormInicio
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormInicio));
+            menuStrip1 = new MenuStrip();
+            ventasToolStripMenuItem = new ToolStripMenuItem();
+            importarExcelToolStripMenuItem = new ToolStripMenuItem();
+            consultarVentaToolStripMenuItem = new ToolStripMenuItem();
+            lblVersion = new Label();
+            menuStrip1.SuspendLayout();
+            SuspendLayout();
+            // 
+            // menuStrip1
+            // 
+            menuStrip1.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem });
+            menuStrip1.Location = new Point(0, 0);
+            menuStrip1.Name = "menuStrip1";
+            menuStrip1.Size = new Size(302, 24);
+            menuStrip1.TabIndex = 1;
+            menuStrip1.Text = "menuStrip1";
+            // 
+            // ventasToolStripMenuItem
+            // 
+            ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem });
+            ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
+            ventasToolStripMenuItem.Size = new Size(53, 20);
+            ventasToolStripMenuItem.Text = "Ventas";
+            // 
+            // importarExcelToolStripMenuItem
+            // 
+            importarExcelToolStripMenuItem.Name = "importarExcelToolStripMenuItem";
+            importarExcelToolStripMenuItem.Size = new Size(157, 22);
+            importarExcelToolStripMenuItem.Text = "Importar excel";
+            importarExcelToolStripMenuItem.Click += importarExcelToolStripMenuItem_Click;
+            // 
+            // consultarVentaToolStripMenuItem
+            // 
+            consultarVentaToolStripMenuItem.Name = "consultarVentaToolStripMenuItem";
+            consultarVentaToolStripMenuItem.Size = new Size(157, 22);
+            consultarVentaToolStripMenuItem.Text = "Consultar venta";
+            consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
+            // 
+            // lblVersion
+            // 
+            lblVersion.AutoSize = true;
+            lblVersion.Location = new Point(215, 281);
+            lblVersion.Name = "lblVersion";
+            lblVersion.Size = new Size(38, 15);
+            lblVersion.TabIndex = 14;
+            lblVersion.Text = "label3";
+            // 
+            // FormInicio
+            // 
+            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleMode = AutoScaleMode.Font;
+            BackColor = SystemColors.ActiveCaption;
+            ClientSize = new Size(302, 305);
+            Controls.Add(lblVersion);
+            Controls.Add(menuStrip1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            MainMenuStrip = menuStrip1;
+            Name = "FormInicio";
+            StartPosition = FormStartPosition.CenterScreen;
+            Text = "Inicio";
+            Load += FormInicio_Load;
+            menuStrip1.ResumeLayout(false);
+            menuStrip1.PerformLayout();
+            ResumeLayout(false);
+            PerformLayout();
+        }
+
+        #endregion
+
+        private MenuStrip menuStrip1;
+        private ToolStripMenuItem ventasToolStripMenuItem;
+        private ToolStripMenuItem importarExcelToolStripMenuItem;
+        private ToolStripMenuItem consultarVentaToolStripMenuItem;
+        private Label lblVersion;
+    }
+}

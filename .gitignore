@@ -1,0 +1,7 @@
+# Archivos y carpetas de Visual Studio que no deben subirse
+.vs/
+*.user
+*.suo
+*.db
+bin/
+obj/

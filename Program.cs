@@ -16,7 +16,7 @@ namespace ComparaVentasExcel
         static void Main()
         {
             ApplicationConfiguration.Initialize(); // recomendado para .NET 8+
-            Application.Run(new Form1());
+            Application.Run(new FormLogin());
         }
     }
 }
