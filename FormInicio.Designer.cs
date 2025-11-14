@@ -34,12 +34,14 @@
             importarExcelToolStripMenuItem = new ToolStripMenuItem();
             consultarVentaToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
+            sucursalesToolStripMenuItem = new ToolStripMenuItem();
+            verSucursalesToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(302, 24);
@@ -56,14 +58,14 @@
             // importarExcelToolStripMenuItem
             // 
             importarExcelToolStripMenuItem.Name = "importarExcelToolStripMenuItem";
-            importarExcelToolStripMenuItem.Size = new Size(157, 22);
+            importarExcelToolStripMenuItem.Size = new Size(180, 22);
             importarExcelToolStripMenuItem.Text = "Importar excel";
             importarExcelToolStripMenuItem.Click += importarExcelToolStripMenuItem_Click;
             // 
             // consultarVentaToolStripMenuItem
             // 
             consultarVentaToolStripMenuItem.Name = "consultarVentaToolStripMenuItem";
-            consultarVentaToolStripMenuItem.Size = new Size(157, 22);
+            consultarVentaToolStripMenuItem.Size = new Size(180, 22);
             consultarVentaToolStripMenuItem.Text = "Consultar venta";
             consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
             // 
@@ -75,6 +77,20 @@
             lblVersion.Size = new Size(38, 15);
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
+            // 
+            // sucursalesToolStripMenuItem
+            // 
+            sucursalesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { verSucursalesToolStripMenuItem });
+            sucursalesToolStripMenuItem.Name = "sucursalesToolStripMenuItem";
+            sucursalesToolStripMenuItem.Size = new Size(74, 20);
+            sucursalesToolStripMenuItem.Text = "Sucursales";
+            // 
+            // verSucursalesToolStripMenuItem
+            // 
+            verSucursalesToolStripMenuItem.Name = "verSucursalesToolStripMenuItem";
+            verSucursalesToolStripMenuItem.Size = new Size(180, 22);
+            verSucursalesToolStripMenuItem.Text = "Ver sucursales";
+            verSucursalesToolStripMenuItem.Click += verSucursalesToolStripMenuItem_Click;
             // 
             // FormInicio
             // 
@@ -103,5 +119,7 @@
         private ToolStripMenuItem importarExcelToolStripMenuItem;
         private ToolStripMenuItem consultarVentaToolStripMenuItem;
         private Label lblVersion;
+        private ToolStripMenuItem sucursalesToolStripMenuItem;
+        private ToolStripMenuItem verSucursalesToolStripMenuItem;
     }
 }

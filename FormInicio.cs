@@ -32,6 +32,13 @@ namespace ComparaVentasExcel
             mainForm.Show();
         }
 
+        private void verSucursalesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            FormVerSucursales mainForm = new FormVerSucursales();
+            mainForm.Show();
+        }
+
         private void FormInicio_Load(object sender, EventArgs e)
         {
             // Obtiene la versión del ensamblado actual
@@ -40,5 +47,7 @@ namespace ComparaVentasExcel
             // Opcional: convertirlo a texto amigable
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
         }
+
+
     }
 }
