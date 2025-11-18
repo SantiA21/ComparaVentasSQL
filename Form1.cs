@@ -13,12 +13,35 @@ namespace ComparaVentasExcel
     {
         private DataAccess dataAccess; // Clase para manejar la conexión
         private DataTable dtOriginal;
+        private string selectedDbKey;
 
 
         public Form1()
         {
             InitializeComponent();
             dataAccess = new DataAccess();
+
+            var keys = dataAccess.GetKeys();
+            cbBaseDatos.Items.AddRange(keys);
+
+            if (cbBaseDatos.Items.Count > 0)
+            {
+                cbBaseDatos.SelectedIndex = 0;
+                selectedDbKey = cbBaseDatos.SelectedItem.ToString();
+            }
+
+            cbBaseDatos.SelectedIndexChanged += (s, e) =>
+            {
+                if (cbBaseDatos.SelectedItem != null)
+                    selectedDbKey = cbBaseDatos.SelectedItem.ToString();
+            };
+        }
+     
+
+        private void CbBaseDatos_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cbBaseDatos.SelectedItem != null)
+                selectedDbKey = cbBaseDatos.SelectedItem.ToString();
         }
 
         // Botón para examinar archivo
@@ -57,7 +80,7 @@ namespace ComparaVentasExcel
                 dtResultados.Columns.Add("Comprobante");
                 dtResultados.Columns.Add("Existe");
 
-                using (var conexion = dataAccess.GetConnection())
+                using (var conexion = dataAccess.GetConnection(selectedDbKey))
                 {
                     conexion.Open();
 
@@ -88,6 +111,8 @@ namespace ComparaVentasExcel
                                 continue;
                             }
 
+                            // aca separo por partes con los guiones (sucursal, numero y tipo)
+                            // valudo esto por si pasan el dato en forma de fecha con barras(una vez paso)
                             string[] partes = dato.Split('-');
                             if (partes.Length != 3)
                             {
@@ -96,7 +121,8 @@ namespace ComparaVentasExcel
                                 continue;
                             }
 
-                            string suc_codigo = partes[0];
+                            
+                            string suc_codigo = partes[0].PadLeft(4,'0');
                             string vene_numero = partes[1].PadLeft(8, '0');
                             string cbtee_codigo = (partes[2] == "1") ? "FAA" : (partes[2] == "6") ? "FAB" : "DESCONOCIDO";
 
@@ -113,6 +139,7 @@ namespace ComparaVentasExcel
 
                             using (var cmd = new SqlCommand(query, conexion))
                             {
+                                Logger.LogQuery(cmd.CommandText);
                                 cmd.Parameters.AddWithValue("@suc_codigo", suc_codigo);
                                 cmd.Parameters.AddWithValue("@vene_numero", vene_numero);
                                 cmd.Parameters.AddWithValue("@cbtee_codigo", cbtee_codigo);
@@ -122,7 +149,7 @@ namespace ComparaVentasExcel
 
                                 using (var reader = cmd.ExecuteReader())
                                 {
-                                    // Primer resultado: búsqueda exacta
+                                    
                                     if (reader.Read() && reader[0] != DBNull.Value)
                                     {
                                         peri_codigo = reader[0].ToString();
@@ -130,7 +157,7 @@ namespace ComparaVentasExcel
                                     }
                                     else
                                     {
-                                        // Si no hay coincidencia exacta, pasamos al segundo query
+                                        
                                         if (reader.NextResult() && reader.Read() && reader[0] != DBNull.Value)
                                         {
                                             peri_codigo = reader[0].ToString();
@@ -147,7 +174,7 @@ namespace ComparaVentasExcel
                             fila++;
                         }
 
-                        dtOriginal = dtResultados; // Guardamos los datos originales
+                        dtOriginal = dtResultados;
                         dgvResultados.DataSource = dtOriginal;
                         lblEstado.Text = $"✅ Proceso finalizado. {procesadas} filas procesadas.";
                     }
@@ -155,6 +182,7 @@ namespace ComparaVentasExcel
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 MessageBox.Show("Error durante el proceso: " + ex.Message);
             }
             finally
@@ -180,7 +208,7 @@ namespace ComparaVentasExcel
             }
             else
             {
-                view.RowFilter = ""; // Mostrar todos
+                view.RowFilter = "";
             }
 
             dgvResultados.DataSource = view;
@@ -218,6 +246,7 @@ namespace ComparaVentasExcel
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 MessageBox.Show("Error al exportar: " + ex.Message);
             }
         }
@@ -255,18 +284,14 @@ namespace ComparaVentasExcel
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // Obtiene la versión del ensamblado actual
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
-            // Opcional: convertirlo a texto amigable
+            Version version = Assembly.GetExecutingAssembly().GetName().Version;
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            FormInicio mainForm = new FormInicio();
-            mainForm.Show();
+            this.Close();
         }
     }
 }

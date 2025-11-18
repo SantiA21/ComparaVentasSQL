@@ -41,13 +41,15 @@
             chkSoloNoExistentes = new CheckBox();
             lblVersion = new Label();
             btnVolver = new Button();
+            cbBaseDatos = new ComboBox();
+            label1 = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
             SuspendLayout();
             // 
             // lblArchivo
             // 
             lblArchivo.AutoSize = true;
-            lblArchivo.Location = new Point(46, 24);
+            lblArchivo.Location = new Point(180, 20);
             lblArchivo.Margin = new Padding(4, 0, 4, 0);
             lblArchivo.Name = "lblArchivo";
             lblArchivo.Size = new Size(81, 15);
@@ -56,7 +58,7 @@
             // 
             // txtArchivo
             // 
-            txtArchivo.Location = new Point(141, 21);
+            txtArchivo.Location = new Point(180, 38);
             txtArchivo.Margin = new Padding(4, 3, 4, 3);
             txtArchivo.Name = "txtArchivo";
             txtArchivo.Size = new Size(116, 23);
@@ -65,7 +67,7 @@
             // btnExaminar
             // 
             btnExaminar.BackColor = SystemColors.ButtonFace;
-            btnExaminar.Location = new Point(265, 21);
+            btnExaminar.Location = new Point(304, 35);
             btnExaminar.Margin = new Padding(4, 3, 4, 3);
             btnExaminar.Name = "btnExaminar";
             btnExaminar.Size = new Size(88, 27);
@@ -77,7 +79,7 @@
             // btnProcesar
             // 
             btnProcesar.BackColor = SystemColors.ButtonFace;
-            btnProcesar.Location = new Point(46, 43);
+            btnProcesar.Location = new Point(400, 35);
             btnProcesar.Margin = new Padding(4, 3, 4, 3);
             btnProcesar.Name = "btnProcesar";
             btnProcesar.Size = new Size(88, 27);
@@ -170,12 +172,32 @@
             btnVolver.UseVisualStyleBackColor = true;
             btnVolver.Click += btnVolver_Click;
             // 
+            // cbBaseDatos
+            // 
+            cbBaseDatos.FormattingEnabled = true;
+            cbBaseDatos.Location = new Point(46, 38);
+            cbBaseDatos.Name = "cbBaseDatos";
+            cbBaseDatos.Size = new Size(121, 23);
+            cbBaseDatos.TabIndex = 12;
+            // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(46, 20);
+            label1.Margin = new Padding(4, 0, 4, 0);
+            label1.Name = "label1";
+            label1.Size = new Size(82, 15);
+            label1.TabIndex = 13;
+            label1.Text = "Base de datos:";
+            // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(852, 467);
+            Controls.Add(label1);
+            Controls.Add(cbBaseDatos);
             Controls.Add(btnVolver);
             Controls.Add(lblVersion);
             Controls.Add(chkSoloNoExistentes);
@@ -214,6 +236,8 @@
         private CheckBox chkSoloNoExistentes;
         private Label lblVersion;
         private Button btnVolver;
+        private ComboBox cbBaseDatos;
+        private Label label1;
     }
 }
 

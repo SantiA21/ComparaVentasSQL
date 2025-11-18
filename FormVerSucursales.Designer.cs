@@ -28,12 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormVerSucursales));
             btnVolver = new Button();
             lblVersion = new Label();
             dgvSucursales = new DataGridView();
-            lblEstado = new Label();
             txtBuscar = new TextBox();
             label1 = new Label();
+            label2 = new Label();
+            cbBaseDatos = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvSucursales).BeginInit();
             SuspendLayout();
             // 
@@ -64,30 +66,39 @@
             dgvSucursales.Size = new Size(240, 306);
             dgvSucursales.TabIndex = 15;
             // 
-            // lblEstado
-            // 
-            lblEstado.AutoSize = true;
-            lblEstado.Location = new Point(142, 368);
-            lblEstado.Name = "lblEstado";
-            lblEstado.Size = new Size(38, 15);
-            lblEstado.TabIndex = 16;
-            lblEstado.Text = "label1";
-            // 
             // txtBuscar
             // 
-            txtBuscar.Location = new Point(142, 30);
+            txtBuscar.Location = new Point(280, 30);
             txtBuscar.Name = "txtBuscar";
-            txtBuscar.Size = new Size(240, 23);
+            txtBuscar.Size = new Size(102, 23);
             txtBuscar.TabIndex = 17;
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(142, 12);
+            label1.Location = new Point(280, 12);
             label1.Name = "label1";
             label1.Size = new Size(56, 15);
             label1.TabIndex = 18;
             label1.Text = "Buscador";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(142, 9);
+            label2.Margin = new Padding(4, 0, 4, 0);
+            label2.Name = "label2";
+            label2.Size = new Size(82, 15);
+            label2.TabIndex = 20;
+            label2.Text = "Base de datos:";
+            // 
+            // cbBaseDatos
+            // 
+            cbBaseDatos.FormattingEnabled = true;
+            cbBaseDatos.Location = new Point(142, 27);
+            cbBaseDatos.Name = "cbBaseDatos";
+            cbBaseDatos.Size = new Size(101, 23);
+            cbBaseDatos.TabIndex = 19;
             // 
             // FormVerSucursales
             // 
@@ -95,15 +106,17 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(526, 433);
+            Controls.Add(label2);
+            Controls.Add(cbBaseDatos);
             Controls.Add(label1);
             Controls.Add(txtBuscar);
-            Controls.Add(lblEstado);
             Controls.Add(dgvSucursales);
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormVerSucursales";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "FormVerSucursales";
+            Text = "Sucursales";
             Load += FormVerSucursales_Load;
             ((System.ComponentModel.ISupportInitialize)dgvSucursales).EndInit();
             ResumeLayout(false);
@@ -115,8 +128,9 @@
         private Button btnVolver;
         private Label lblVersion;
         private DataGridView dgvSucursales;
-        private Label lblEstado;
         private TextBox txtBuscar;
         private Label label1;
+        private Label label2;
+        private ComboBox cbBaseDatos;
     }
 }

@@ -21,30 +21,42 @@ namespace ComparaVentasExcel
         private void importarExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
-            Form1 mainForm = new Form1();
-            mainForm.Show();
+            using (Form1 mainForm = new Form1())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+
         }
 
         private void consultarVentaToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
-            FormConsultaVenta mainForm = new FormConsultaVenta();
-            mainForm.Show();
+            using (FormConsultaVenta mainForm = new FormConsultaVenta())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+
         }
 
         private void verSucursalesToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
-            FormVerSucursales mainForm = new FormVerSucursales();
-            mainForm.Show();
+            using (FormVerSucursales mainForm = new FormVerSucursales())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+
         }
 
         private void FormInicio_Load(object sender, EventArgs e)
         {
-            // Obtiene la versión del ensamblado actual
+            
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
-            // Opcional: convertirlo a texto amigable
+            
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
         }
 

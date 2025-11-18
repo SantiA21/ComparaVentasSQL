@@ -42,6 +42,8 @@
             dgvVenta = new DataGridView();
             label4 = new Label();
             label1 = new Label();
+            label5 = new Label();
+            cbBaseDatos = new ComboBox();
             ((System.ComponentModel.ISupportInitialize)dgvVenta).BeginInit();
             SuspendLayout();
             // 
@@ -163,12 +165,32 @@
             label1.TabIndex = 30;
             label1.Text = "Sucursal:";
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(12, 25);
+            label5.Margin = new Padding(4, 0, 4, 0);
+            label5.Name = "label5";
+            label5.Size = new Size(82, 15);
+            label5.TabIndex = 32;
+            label5.Text = "Base de datos:";
+            // 
+            // cbBaseDatos
+            // 
+            cbBaseDatos.FormattingEnabled = true;
+            cbBaseDatos.Location = new Point(12, 43);
+            cbBaseDatos.Name = "cbBaseDatos";
+            cbBaseDatos.Size = new Size(101, 23);
+            cbBaseDatos.TabIndex = 31;
+            // 
             // FormConsultaVenta
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(397, 358);
+            Controls.Add(label5);
+            Controls.Add(cbBaseDatos);
             Controls.Add(label1);
             Controls.Add(label4);
             Controls.Add(dgvVenta);
@@ -204,5 +226,7 @@
         private DataGridView dgvVenta;
         private Label label4;
         private Label label1;
+        private Label label5;
+        private ComboBox cbBaseDatos;
     }
 }

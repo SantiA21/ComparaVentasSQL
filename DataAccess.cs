@@ -1,52 +1,36 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.IO;
-using System.Reflection;
 
 namespace ComparaVentasExcel
 {
     public class DataAccess
     {
-        private readonly string _connectionString;
+        private readonly Dictionary<string, string> connectionStrings;
 
         public DataAccess()
         {
-            // Obtener el ensamblado actual
-            var assembly = Assembly.GetExecutingAssembly();
-
-            // Nombre completo del recurso: <Namespace>.<NombreArchivo>
-            // En este caso: "ComparaVentasExcel.dbconfig.ini"
-            using (var stream = assembly.GetManifestResourceStream("ComparaVentasExcel.dbconfig.ini"))
+            // Aquí definís tus dos conexiones
+            connectionStrings = new Dictionary<string, string>()
             {
-                if (stream == null)
-                    throw new FileNotFoundException("No se encontró el recurso incrustado dbconfig.ini.");
-
-                using (var reader = new StreamReader(stream))
-                {
-                    // Leer todo el contenido del recurso
-                    string content = reader.ReadToEnd();
-
-                    // Buscar la línea ConnectionString=
-                    foreach (var line in content.Split(new[] { "\r\n", "\n" }, StringSplitOptions.None))
-                    {
-                        if (line.StartsWith("ConnectionString=", StringComparison.OrdinalIgnoreCase))
-                        {
-                            _connectionString = line.Substring("ConnectionString=".Length).Trim();
-                            break;
-                        }
-                    }
-                }
-            }
-
-            if (string.IsNullOrEmpty(_connectionString))
-            {
-                throw new Exception("No se encontró la cadena de conexión en dbconfig.ini incrustado.");
-            }
+                { "MOSTAZA_ERP", "Server=172.16.0.34;Database=MOSTAZA_ERP;User Id=sa;Password=Cinet1212;" },
+                { "GMG_ERP",     "Server=5.189.159.228,1433;Database=GMG_ERP;User Id=sa;Password=Cinet1212;" }
+            };
         }
 
-        public SqlConnection GetConnection()
+        // Devuelve los keys disponibles (MOSTAZA_ERP, GMG_ERP)
+        public string[] GetKeys()
         {
-            return new SqlConnection(_connectionString);
+            return connectionStrings.Keys.ToArray();
+        }
+
+        // Devuelve la conexión correspondiente
+        public SqlConnection GetConnection(string dbKey)
+        {
+            if (!connectionStrings.ContainsKey(dbKey))
+                throw new ArgumentException("Base de datos no encontrada");
+
+            return new SqlConnection(connectionStrings[dbKey]);
         }
     }
 }
