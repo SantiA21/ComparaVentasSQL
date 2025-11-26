@@ -5,16 +5,16 @@ using System.Linq;
 using System.Windows.Forms;
 using ClosedXML.Excel;
 using System.Reflection;
+using System.Collections.Generic;
+
 
 namespace ComparaVentasExcel
-
 {
     public partial class Form1 : Form
     {
-        private DataAccess dataAccess; // Clase para manejar la conexión
+        private DataAccess dataAccess;
         private DataTable dtOriginal;
         private string selectedDbKey;
-
 
         public Form1()
         {
@@ -36,7 +36,6 @@ namespace ComparaVentasExcel
                     selectedDbKey = cbBaseDatos.SelectedItem.ToString();
             };
         }
-     
 
         private void CbBaseDatos_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -44,7 +43,6 @@ namespace ComparaVentasExcel
                 selectedDbKey = cbBaseDatos.SelectedItem.ToString();
         }
 
-        // Botón para examinar archivo
         private void btnExaminar_Click(object sender, EventArgs e)
         {
             using (OpenFileDialog ofd = new OpenFileDialog())
@@ -57,7 +55,6 @@ namespace ComparaVentasExcel
             }
         }
 
-        // Botón para procesar archivo
         private void btnProcesar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtArchivo.Text))
@@ -88,7 +85,6 @@ namespace ComparaVentasExcel
                     {
                         var hoja = workbook.Worksheet(1);
 
-                        // Buscar la columna "ID Unico"
                         var encabezados = hoja.Row(1).Cells().Select(c => c.GetString()).ToList();
                         int colIndex = encabezados.FindIndex(c => c.Trim().Equals("ID Unico", StringComparison.OrdinalIgnoreCase)) + 1;
 
@@ -111,8 +107,6 @@ namespace ComparaVentasExcel
                                 continue;
                             }
 
-                            // aca separo por partes con los guiones (sucursal, numero y tipo)
-                            // valudo esto por si pasan el dato en forma de fecha con barras(una vez paso)
                             string[] partes = dato.Split('-');
                             if (partes.Length != 3)
                             {
@@ -121,10 +115,10 @@ namespace ComparaVentasExcel
                                 continue;
                             }
 
-                            
-                            string suc_codigo = partes[0].PadLeft(4,'0');
+                            string suc_codigo = partes[0].PadLeft(4, '0');
                             string vene_numero = partes[1].PadLeft(8, '0');
-                            string cbtee_codigo = (partes[2] == "1") ? "FAA" : (partes[2] == "6") ? "FAB" : "DESCONOCIDO";
+                            string cbtee_codigo = (partes[2] == "1") ? "FAA" :
+                                                  (partes[2] == "6") ? "FAB" : "DESCONOCIDO";
 
                             string query = @"
                                 SELECT TOP 1 PERI_CODIGO 
@@ -149,7 +143,6 @@ namespace ComparaVentasExcel
 
                                 using (var reader = cmd.ExecuteReader())
                                 {
-                                    
                                     if (reader.Read() && reader[0] != DBNull.Value)
                                     {
                                         peri_codigo = reader[0].ToString();
@@ -157,7 +150,6 @@ namespace ComparaVentasExcel
                                     }
                                     else
                                     {
-                                        
                                         if (reader.NextResult() && reader.Read() && reader[0] != DBNull.Value)
                                         {
                                             peri_codigo = reader[0].ToString();
@@ -165,7 +157,6 @@ namespace ComparaVentasExcel
                                         }
                                     }
                                 }
-
 
                                 dtResultados.Rows.Add(dato, peri_codigo, suc_codigo, vene_numero, cbtee_codigo, resultado);
                             }
@@ -176,6 +167,10 @@ namespace ComparaVentasExcel
 
                         dtOriginal = dtResultados;
                         dgvResultados.DataSource = dtOriginal;
+
+                        CargarComboDesdeTabla(dtOriginal, cbSucursal, "Sucursal");
+                        CargarComboDesdeTabla(dtOriginal, cbLocal, "Local");
+
                         lblEstado.Text = $"✅ Proceso finalizado. {procesadas} filas procesadas.";
                     }
                 }
@@ -191,36 +186,114 @@ namespace ComparaVentasExcel
             }
         }
 
-        //En este metodo aplico los filtros con los checkbox
-        private void AplicarFiltro()
+        private void ComboFiltro_Changed(object sender, EventArgs e)
+        {
+            AplicarFiltros();
+        }
+
+        private void AplicarFiltros()
         {
             if (dtOriginal == null) return;
 
-            DataView view = new DataView(dtOriginal);
+            DataView dv = dtOriginal.DefaultView;
+            string filtro = "";
 
+            // Filtro por sucursal
+            if (cbSucursal.SelectedItem != null && cbSucursal.Text != "Todos")
+                filtro += $"Sucursal = '{cbSucursal.Text.Replace("'", "''")}'";
+
+            // Filtro por local
+            if (cbLocal.SelectedItem != null && cbLocal.Text != "Todos")
+            {
+                if (filtro != "") filtro += " AND ";
+                filtro += $"Local = '{cbLocal.Text.Replace("'", "''")}'";
+            }
+
+            // Filtro "Existe"
             if (chkSoloExistentes.Checked)
             {
-                view.RowFilter = "[Existe] = '✅ Existe'";
+                if (filtro != "") filtro += " AND ";
+                filtro += "[Existe] = '✅ Existe'";
             }
-            else if (chkSoloNoExistentes.Checked)
+
+            // Filtro "No existe"
+            if (chkSoloNoExistentes.Checked)
             {
-                view.RowFilter = "[Existe] = '❌ No existe'";
+                if (filtro != "") filtro += " AND ";
+                filtro += "[Existe] = '❌ No existe'";
+            }
+
+            dv.RowFilter = filtro;
+            dgvResultados.DataSource = dv;
+
+            CargarComboDesdeVista(dv, cbSucursal, "Sucursal");
+            CargarComboDesdeVista(dv, cbLocal, "Local");
+        }
+
+        private void CargarComboDesdeTabla(DataTable tabla, ComboBox combo, string columna)
+        {
+            if (tabla == null || !tabla.Columns.Contains(columna))
+                return;
+
+            var valores = tabla.AsEnumerable()
+                .Select(r => r[columna]?.ToString())
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct()
+                .OrderBy(s => s)
+                .ToArray();
+
+            combo.SelectedIndexChanged -= ComboFiltro_Changed;
+
+            combo.Items.Clear();
+            combo.Items.Add("Todos");
+            combo.Items.AddRange(valores);
+            combo.SelectedIndex = 0;
+
+            combo.SelectedIndexChanged += ComboFiltro_Changed;
+        }
+
+        private void CargarComboDesdeVista(DataView vista, ComboBox combo, string columna)
+        {
+            if (vista == null || !vista.Table.Columns.Contains(columna))
+                return;
+
+            // Guardamos la selección actual del usuario
+            string valorSeleccionado = combo.SelectedItem?.ToString();
+
+            var valores = vista.ToTable()
+                .AsEnumerable()
+                .Select(r => r[columna]?.ToString())
+                .Where(s => !string.IsNullOrWhiteSpace(s))
+                .Distinct()
+                .OrderBy(s => s)
+                .ToList();
+
+            combo.SelectedIndexChanged -= ComboFiltro_Changed;
+
+            combo.Items.Clear();
+            combo.Items.Add("Todos");
+            combo.Items.AddRange(valores.ToArray());
+
+            if (!string.IsNullOrWhiteSpace(valorSeleccionado) &&
+                combo.Items.Contains(valorSeleccionado))
+            {
+                combo.SelectedItem = valorSeleccionado;
             }
             else
             {
-                view.RowFilter = "";
+                combo.SelectedIndex = 0;
             }
 
-            dgvResultados.DataSource = view;
+            combo.SelectedIndexChanged += ComboFiltro_Changed;
         }
 
 
-        // Botón para exportar a Excel
+
         private void btnExportar_Click(object sender, EventArgs e)
         {
             if (dgvResultados.DataSource == null)
             {
-                MessageBox.Show("No hay datos para exportar.", "Atención", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("No hay datos para exportar.");
                 return;
             }
 
@@ -235,12 +308,12 @@ namespace ComparaVentasExcel
                     {
                         using (var wb = new XLWorkbook())
                         {
-                            DataTable dt = ((DataTable)dgvResultados.DataSource).Copy();
+                            DataTable dt = ((DataView)dgvResultados.DataSource).ToTable();
                             wb.Worksheets.Add(dt, "Resultados");
                             wb.SaveAs(sfd.FileName);
                         }
 
-                        MessageBox.Show("✅ Archivo exportado correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Exportado correctamente.");
                     }
                 }
             }
@@ -251,14 +324,13 @@ namespace ComparaVentasExcel
             }
         }
 
-        // Con estos metodos controlo que no se puedan activar varios checks a la vez
         private void chkMostrarTodos_CheckedChanged(object sender, EventArgs e)
         {
             if (chkMostrarTodos.Checked)
             {
                 chkSoloExistentes.Checked = false;
                 chkSoloNoExistentes.Checked = false;
-                AplicarFiltro();
+                AplicarFiltros();
             }
         }
 
@@ -268,7 +340,7 @@ namespace ComparaVentasExcel
             {
                 chkMostrarTodos.Checked = false;
                 chkSoloNoExistentes.Checked = false;
-                AplicarFiltro();
+                AplicarFiltros();
             }
         }
 
@@ -278,13 +350,12 @@ namespace ComparaVentasExcel
             {
                 chkMostrarTodos.Checked = false;
                 chkSoloExistentes.Checked = false;
-                AplicarFiltro();
+                AplicarFiltros();
             }
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
         }
@@ -292,6 +363,36 @@ namespace ComparaVentasExcel
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private void LimpiarFiltros()
+        {
+            
+            if (cbSucursal.Items.Count > 0) cbSucursal.SelectedIndex = 0;
+            if (cbLocal.Items.Count > 0) cbLocal.SelectedIndex = 0;
+
+            
+            chkMostrarTodos.Checked = true;
+            chkSoloExistentes.Checked = false;
+            chkSoloNoExistentes.Checked = false;
+
+            
+            if (dtOriginal != null)
+            {
+                dgvResultados.DataSource = dtOriginal;
+
+                
+                CargarComboDesdeTabla(dtOriginal, cbSucursal, "Sucursal");
+                CargarComboDesdeTabla(dtOriginal, cbLocal, "Local");
+            }
+
+            lblEstado.Text = "Filtros limpiados.";
+        }
+
+
+        private void btnLimpiarFiltros_Click(object sender, EventArgs e)
+        {
+            LimpiarFiltros();
         }
     }
 }

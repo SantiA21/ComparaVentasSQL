@@ -10,7 +10,7 @@ namespace ComparaVentasExcel
 
         public DataAccess()
         {
-            // Aquí definís tus dos conexiones
+            
             connectionStrings = new Dictionary<string, string>()
             {
                 { "MOSTAZA_ERP", "Server=172.16.0.34;Database=MOSTAZA_ERP;User Id=sa;Password=Cinet1212;" },
@@ -18,13 +18,13 @@ namespace ComparaVentasExcel
             };
         }
 
-        // Devuelve los keys disponibles (MOSTAZA_ERP, GMG_ERP)
+        
         public string[] GetKeys()
         {
             return connectionStrings.Keys.ToArray();
         }
 
-        // Devuelve la conexión correspondiente
+        
         public SqlConnection GetConnection(string dbKey)
         {
             if (!connectionStrings.ContainsKey(dbKey))

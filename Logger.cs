@@ -9,14 +9,11 @@ namespace ComparaVentasExcel
 
         static Logger()
         {
-            // Crea la carpeta Logs si no existe
+            // Creo la carpeta Logs si no existe
             if (!Directory.Exists(logDir))
                 Directory.CreateDirectory(logDir);
         }
 
-        // ------------------------------------------
-        // LOG DE ERRORES
-        // ------------------------------------------
         public static void LogError(Exception ex)
         {
             try
@@ -28,13 +25,11 @@ namespace ComparaVentasExcel
             }
             catch
             {
-                // Si falla el log, no hacer nada para no romper la app
+
             }
         }
 
-        // ------------------------------------------
-        // LOG DE QUERYS
-        // ------------------------------------------
+
         public static void LogQuery(string query)
         {
             try
@@ -46,7 +41,7 @@ namespace ComparaVentasExcel
             }
             catch
             {
-                // No romper si falla el log
+               
             }
         }
     }
