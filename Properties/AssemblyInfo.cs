@@ -12,8 +12,8 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCulture("")]
 
 // Versión principal, secundaria, revisión
-[assembly: AssemblyVersion("1.3.2")]
-[assembly: AssemblyFileVersion("1.3.2")]
+[assembly: AssemblyVersion("1.4.0")]
+[assembly: AssemblyFileVersion("1.4.0")]
 
 // Opcional: para compatibilidad COM (normalmente false)
 [assembly: ComVisible(false)]

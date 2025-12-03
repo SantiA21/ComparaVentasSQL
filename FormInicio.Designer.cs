@@ -33,9 +33,10 @@
             ventasToolStripMenuItem = new ToolStripMenuItem();
             importarExcelToolStripMenuItem = new ToolStripMenuItem();
             consultarVentaToolStripMenuItem = new ToolStripMenuItem();
-            lblVersion = new Label();
             sucursalesToolStripMenuItem = new ToolStripMenuItem();
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
+            lblVersion = new Label();
+            ventasConCAEAToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -50,7 +51,7 @@
             // 
             // ventasToolStripMenuItem
             // 
-            ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem });
+            ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem, ventasConCAEAToolStripMenuItem });
             ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
             ventasToolStripMenuItem.Size = new Size(53, 20);
             ventasToolStripMenuItem.Text = "Ventas";
@@ -69,15 +70,6 @@
             consultarVentaToolStripMenuItem.Text = "Consultar venta";
             consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
             // 
-            // lblVersion
-            // 
-            lblVersion.AutoSize = true;
-            lblVersion.Location = new Point(215, 281);
-            lblVersion.Name = "lblVersion";
-            lblVersion.Size = new Size(38, 15);
-            lblVersion.TabIndex = 14;
-            lblVersion.Text = "label3";
-            // 
             // sucursalesToolStripMenuItem
             // 
             sucursalesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { verSucursalesToolStripMenuItem });
@@ -88,9 +80,25 @@
             // verSucursalesToolStripMenuItem
             // 
             verSucursalesToolStripMenuItem.Name = "verSucursalesToolStripMenuItem";
-            verSucursalesToolStripMenuItem.Size = new Size(180, 22);
+            verSucursalesToolStripMenuItem.Size = new Size(147, 22);
             verSucursalesToolStripMenuItem.Text = "Ver sucursales";
             verSucursalesToolStripMenuItem.Click += verSucursalesToolStripMenuItem_Click;
+            // 
+            // lblVersion
+            // 
+            lblVersion.AutoSize = true;
+            lblVersion.Location = new Point(215, 281);
+            lblVersion.Name = "lblVersion";
+            lblVersion.Size = new Size(38, 15);
+            lblVersion.TabIndex = 14;
+            lblVersion.Text = "label3";
+            // 
+            // ventasConCAEAToolStripMenuItem
+            // 
+            ventasConCAEAToolStripMenuItem.Name = "ventasConCAEAToolStripMenuItem";
+            ventasConCAEAToolStripMenuItem.Size = new Size(180, 22);
+            ventasConCAEAToolStripMenuItem.Text = "Ventas con CAEA";
+            ventasConCAEAToolStripMenuItem.Click += ventasConCAEAToolStripMenuItem_Click;
             // 
             // FormInicio
             // 
@@ -121,5 +129,6 @@
         private Label lblVersion;
         private ToolStripMenuItem sucursalesToolStripMenuItem;
         private ToolStripMenuItem verSucursalesToolStripMenuItem;
+        private ToolStripMenuItem ventasConCAEAToolStripMenuItem;
     }
 }

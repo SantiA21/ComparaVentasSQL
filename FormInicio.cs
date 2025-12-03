@@ -53,13 +53,21 @@ namespace ComparaVentasExcel
 
         private void FormInicio_Load(object sender, EventArgs e)
         {
-            
+
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
-            
+
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
         }
 
-
+        private void ventasConCAEAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormLinkedServer mainForm = new FormLinkedServer())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
     }
 }
