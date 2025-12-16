@@ -37,6 +37,7 @@
             label1 = new Label();
             label2 = new Label();
             lblVersion = new Label();
+            btnSucursales = new Button();
             SuspendLayout();
             // 
             // txtServidorMadre
@@ -60,7 +61,7 @@
             // cbEquipos
             // 
             cbEquipos.FormattingEnabled = true;
-            cbEquipos.Location = new Point(112, 145);
+            cbEquipos.Location = new Point(112, 182);
             cbEquipos.Name = "cbEquipos";
             cbEquipos.Size = new Size(121, 23);
             cbEquipos.TabIndex = 2;
@@ -68,7 +69,7 @@
             // btnConsultarEquipo
             // 
             btnConsultarEquipo.BackColor = SystemColors.ButtonFace;
-            btnConsultarEquipo.Location = new Point(112, 174);
+            btnConsultarEquipo.Location = new Point(112, 211);
             btnConsultarEquipo.Name = "btnConsultarEquipo";
             btnConsultarEquipo.Size = new Size(75, 23);
             btnConsultarEquipo.TabIndex = 3;
@@ -99,7 +100,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(112, 127);
+            label2.Location = new Point(112, 164);
             label2.Name = "label2";
             label2.Size = new Size(74, 15);
             label2.TabIndex = 14;
@@ -113,7 +114,16 @@
             lblVersion.Size = new Size(38, 15);
             lblVersion.TabIndex = 15;
             lblVersion.Text = "label3";
-            lblVersion.Click += lblVersion_Click;
+            // 
+            // btnSucursales
+            // 
+            btnSucursales.Location = new Point(112, 138);
+            btnSucursales.Name = "btnSucursales";
+            btnSucursales.Size = new Size(121, 23);
+            btnSucursales.TabIndex = 16;
+            btnSucursales.Text = "Sucursales";
+            btnSucursales.UseVisualStyleBackColor = true;
+            btnSucursales.Click += btnSucursales_Click;
             // 
             // FormLinkedServer
             // 
@@ -121,6 +131,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(365, 315);
+            Controls.Add(btnSucursales);
             Controls.Add(lblVersion);
             Controls.Add(label2);
             Controls.Add(label1);
@@ -147,5 +158,6 @@
         private Label label1;
         private Label label2;
         private Label lblVersion;
+        private Button btnSucursales;
     }
 }

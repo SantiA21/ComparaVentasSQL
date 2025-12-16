@@ -1,21 +1,20 @@
 ﻿using System;
 using System.Data;
 using System.Data.SqlClient;
-using System.Windows.Forms;
+using System.Linq;
 using System.Reflection;
+using System.Windows.Forms;
 
 namespace ComparaVentasExcel
 {
     public partial class FormLinkedServer : Form
     {
-        private DataAccess dataAccess;
-        private string selectedDbKey;
+        private string connectionToMotherServer = "";
+
         public FormLinkedServer()
         {
             InitializeComponent();
         }
-
-        private string connectionToMotherServer = "";
 
         private void btnCargarEquipos_Click(object sender, EventArgs e)
         {
@@ -25,8 +24,8 @@ namespace ComparaVentasExcel
                 return;
             }
 
-
-            connectionToMotherServer = $"Server={txtServidorMadre.Text};Database=BACKOFFICE;User Id=sa;Password=cinettorcel;";
+            connectionToMotherServer =
+                $"Server={txtServidorMadre.Text};Database=BACKOFFICE;User Id=sa;Password=cinettorcel;";
 
             try
             {
@@ -89,44 +88,45 @@ ORDER BY equipo;
             }
         }
 
-        private string ResolverHost(string host)
-        {
-            try
-            {
-                var entry = System.Net.Dns.GetHostEntry(host);
-                var ip = entry.AddressList.FirstOrDefault(a => a.AddressFamily == System.Net.Sockets.AddressFamily.InterNetwork);
-                return ip?.ToString() ?? host;
-            }
-            catch
-            {
-                return host; // fallback
-            }
-        }
-
         private string LimpiarHostname(string host)
         {
             if (string.IsNullOrWhiteSpace(host))
                 return null;
 
-            // Quitar espacios y caracteres raros
             host = host.Trim();
 
-            // Caso: "POS2 # POS2"
             if (host.Contains("#"))
                 host = host.Split('#')[0].Trim();
 
-            // Quitar posibles puertos erróneos
             if (host.Contains(","))
                 host = host.Split(',')[0].Trim();
 
-            // Quitar posibles dominios no deseados
             if (host.Contains(" "))
                 host = host.Split(' ')[0].Trim();
 
             return host;
         }
 
+        private string ResolverBasePDV(SqlConnection conn, string linkedServerName)
+        {
+            string query = $@"
+SELECT TOP 1 name
+FROM {linkedServerName}.master.sys.databases
+WHERE name IN ('cinet_pdv', 'cinet_pdv_totem', 'cinet_pdv_auto')
+ORDER BY 
+    CASE name
+        WHEN 'cinet_pdv' THEN 1
+        WHEN 'cinet_pdv_totem' THEN 2
+        WHEN 'cinet_pdv_auto' THEN 3
+    END
+";
 
+            using (var cmd = new SqlCommand(query, conn))
+            {
+                object result = cmd.ExecuteScalar();
+                return result?.ToString();
+            }
+        }
 
         private void btnConsultarEquipo_Click(object sender, EventArgs e)
         {
@@ -136,17 +136,13 @@ ORDER BY equipo;
                 return;
             }
 
-            string equipo = cbEquipos.SelectedItem?.ToString();
-
+            string equipo = cbEquipos.SelectedItem.ToString();
             string hostLimpio = LimpiarHostname(equipo);
 
-            // Mostrar para pruebas
-            MessageBox.Show("Consultando ventas en el: " + hostLimpio);
-
+            MessageBox.Show("Consultando ventas en: " + hostLimpio);
 
             string linkedServerName = $"[{hostLimpio},1433]";
-
-
+            string linkedServerRawName = $"{hostLimpio},1433";
 
             try
             {
@@ -154,33 +150,41 @@ ORDER BY equipo;
                 {
                     conn.Open();
 
+                    // Verificar si existe el linked server
                     string checkLS = @"SELECT COUNT(*) FROM sys.servers WHERE name = @ls";
                     using (var cmdCheck = new SqlCommand(checkLS, conn))
                     {
-                        cmdCheck.Parameters.AddWithValue("@ls", $"{hostLimpio},1433");
+                        cmdCheck.Parameters.AddWithValue("@ls", linkedServerRawName);
                         int exists = (int)cmdCheck.ExecuteScalar();
 
                         if (exists == 0)
                         {
-                            string nombreLinkedServer = "LS_" + hostLimpio;
                             string addLS = $@"
 EXEC master.dbo.sp_addlinkedserver 
-    @server = '{nombreLinkedServer},1433',
+    @server = '{linkedServerRawName}',
     @srvproduct = '',
     @provider = 'SQLNCLI',
-    @datasrc = '{hostLimpio},1433';
+    @datasrc = '{linkedServerRawName}';
 
 EXEC master.dbo.sp_addlinkedsrvlogin 
-    @rmtsrvname = '{nombreLinkedServer},1433',
+    @rmtsrvname = '{linkedServerRawName}',
     @useself = 'FALSE',
     @locallogin = NULL,
     @rmtuser = 'sa',
     @rmtpassword = 'cinettorcel';
 ";
-
                             using (var cmdAdd = new SqlCommand(addLS, conn))
                                 cmdAdd.ExecuteNonQuery();
                         }
+                    }
+
+                    // 🔥 Resolver base PDV dinámica
+                    string basePDV = ResolverBasePDV(conn, linkedServerName);
+
+                    if (string.IsNullOrEmpty(basePDV))
+                    {
+                        MessageBox.Show("No se encontró una base PDV válida en el equipo.");
+                        return;
                     }
 
                     string query = $@"
@@ -192,7 +196,7 @@ SELECT
     CBTEE_CODIGO AS TipoComprobante,
     VENE_CAE AS CAE,
     CAEA_INFORMADO
-FROM {linkedServerName}.cinet_pdv.dbo.VENTAS_E
+FROM {linkedServerName}.{basePDV}.dbo.VENTAS_E
 WHERE USA_CAEA = 'S'
 ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
 ";
@@ -210,25 +214,46 @@ ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
             {
                 MessageBox.Show("Error consultando equipo: " + ex.Message);
             }
-
         }
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
-            this.Close();
+            Close();
         }
 
         private void FormLinkedServer_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-
-
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
         }
 
-        private void lblVersion_Click(object sender, EventArgs e)
-        {
+        private FormVerSucursalesV2 _formSucursales;
 
+        private void btnSucursales_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(connectionToMotherServer))
+            {
+                MessageBox.Show("Debe cargar primero el servidor madre.");
+                return;
+            }
+
+            if (_formSucursales == null || _formSucursales.IsDisposed)
+            {
+                txtServidorMadre.Enabled = false;
+
+                _formSucursales = new FormVerSucursalesV2(connectionToMotherServer);
+
+                _formSucursales.FormClosed += (s, args) =>
+                {
+                    txtServidorMadre.Enabled = true;
+                };
+
+                _formSucursales.Show();
+            }
+            else
+            {
+                _formSucursales.BringToFront();
+            }
         }
     }
 }
