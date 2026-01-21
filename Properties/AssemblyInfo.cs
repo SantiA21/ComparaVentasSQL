@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("CINET")]
 [assembly: AssemblyProduct("ComparaVentasExcel")]
 
-[assembly: AssemblyCopyright("© 2025 CINET")]
+[assembly: AssemblyCopyright("© 2026 CINET")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 // Versión principal, secundaria, revisión
-[assembly: AssemblyVersion("1.5.0")]
-[assembly: AssemblyFileVersion("1.5.0")]
+[assembly: AssemblyVersion("1.7.0")]
+[assembly: AssemblyFileVersion("1.7.0")]
 
 // Opcional: para compatibilidad COM (normalmente false)
 [assembly: ComVisible(false)]

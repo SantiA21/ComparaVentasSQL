@@ -33,10 +33,11 @@
             ventasToolStripMenuItem = new ToolStripMenuItem();
             importarExcelToolStripMenuItem = new ToolStripMenuItem();
             consultarVentaToolStripMenuItem = new ToolStripMenuItem();
+            ventasConCAEAToolStripMenuItem = new ToolStripMenuItem();
+            modificarImporteToolStripMenuItem = new ToolStripMenuItem();
             sucursalesToolStripMenuItem = new ToolStripMenuItem();
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
-            ventasConCAEAToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -51,7 +52,7 @@
             // 
             // ventasToolStripMenuItem
             // 
-            ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem, ventasConCAEAToolStripMenuItem });
+            ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem, ventasConCAEAToolStripMenuItem, modificarImporteToolStripMenuItem });
             ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
             ventasToolStripMenuItem.Size = new Size(53, 20);
             ventasToolStripMenuItem.Text = "Ventas";
@@ -59,16 +60,30 @@
             // importarExcelToolStripMenuItem
             // 
             importarExcelToolStripMenuItem.Name = "importarExcelToolStripMenuItem";
-            importarExcelToolStripMenuItem.Size = new Size(180, 22);
+            importarExcelToolStripMenuItem.Size = new Size(170, 22);
             importarExcelToolStripMenuItem.Text = "Importar excel";
             importarExcelToolStripMenuItem.Click += importarExcelToolStripMenuItem_Click;
             // 
             // consultarVentaToolStripMenuItem
             // 
             consultarVentaToolStripMenuItem.Name = "consultarVentaToolStripMenuItem";
-            consultarVentaToolStripMenuItem.Size = new Size(180, 22);
+            consultarVentaToolStripMenuItem.Size = new Size(170, 22);
             consultarVentaToolStripMenuItem.Text = "Consultar venta";
             consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
+            // 
+            // ventasConCAEAToolStripMenuItem
+            // 
+            ventasConCAEAToolStripMenuItem.Name = "ventasConCAEAToolStripMenuItem";
+            ventasConCAEAToolStripMenuItem.Size = new Size(170, 22);
+            ventasConCAEAToolStripMenuItem.Text = "Ventas con CAEA";
+            ventasConCAEAToolStripMenuItem.Click += ventasConCAEAToolStripMenuItem_Click;
+            // 
+            // modificarImporteToolStripMenuItem
+            // 
+            modificarImporteToolStripMenuItem.Name = "modificarImporteToolStripMenuItem";
+            modificarImporteToolStripMenuItem.Size = new Size(170, 22);
+            modificarImporteToolStripMenuItem.Text = "Modificar Importe";
+            modificarImporteToolStripMenuItem.Click += modificarImporteToolStripMenuItem_Click;
             // 
             // sucursalesToolStripMenuItem
             // 
@@ -87,18 +102,12 @@
             // lblVersion
             // 
             lblVersion.AutoSize = true;
+            lblVersion.FlatStyle = FlatStyle.Popup;
             lblVersion.Location = new Point(215, 281);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(38, 15);
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
-            // 
-            // ventasConCAEAToolStripMenuItem
-            // 
-            ventasConCAEAToolStripMenuItem.Name = "ventasConCAEAToolStripMenuItem";
-            ventasConCAEAToolStripMenuItem.Size = new Size(180, 22);
-            ventasConCAEAToolStripMenuItem.Text = "Ventas con CAEA";
-            ventasConCAEAToolStripMenuItem.Click += ventasConCAEAToolStripMenuItem_Click;
             // 
             // FormInicio
             // 
@@ -108,8 +117,10 @@
             ClientSize = new Size(302, 305);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip1);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
+            MaximizeBox = false;
             Name = "FormInicio";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inicio";
@@ -130,5 +141,6 @@
         private ToolStripMenuItem sucursalesToolStripMenuItem;
         private ToolStripMenuItem verSucursalesToolStripMenuItem;
         private ToolStripMenuItem ventasConCAEAToolStripMenuItem;
+        private ToolStripMenuItem modificarImporteToolStripMenuItem;
     }
 }

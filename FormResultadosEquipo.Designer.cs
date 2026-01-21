@@ -45,10 +45,12 @@
             // 
             // btnVolver
             // 
-            btnVolver.BackColor = SystemColors.ButtonFace;
-            btnVolver.Location = new Point(79, 325);
+            btnVolver.BackColor = Color.FromArgb(43, 108, 176);
+            btnVolver.FlatStyle = FlatStyle.Flat;
+            btnVolver.ForeColor = SystemColors.Window;
+            btnVolver.Location = new Point(79, 322);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(116, 23);
+            btnVolver.Size = new Size(116, 26);
             btnVolver.TabIndex = 13;
             btnVolver.Text = "Regresar";
             btnVolver.UseVisualStyleBackColor = false;
@@ -72,7 +74,9 @@
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
             Controls.Add(dgvDatos);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "FormResultadosEquipo";
             Text = "ResultadosCAEA";
             Load += FormResultadosEquipo_Load;

@@ -69,5 +69,15 @@ namespace ComparaVentasExcel
             }
             this.Show();
         }
+
+        private void modificarImporteToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormModifImporte mainForm = new FormModifImporte())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
     }
 }

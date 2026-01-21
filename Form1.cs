@@ -20,6 +20,7 @@ namespace ComparaVentasExcel
         {
             InitializeComponent();
             dataAccess = new DataAccess();
+            dgvResultados.RowHeadersVisible = false;
 
             var keys = dataAccess.GetKeys();
             cbBaseDatos.Items.AddRange(keys);
@@ -75,6 +76,9 @@ namespace ComparaVentasExcel
                 dtResultados.Columns.Add("Sucursal");
                 dtResultados.Columns.Add("Número");
                 dtResultados.Columns.Add("Comprobante");
+                dtResultados.Columns.Add("ImporteARCA");
+                dtResultados.Columns.Add("Fecha");
+                dtResultados.Columns.Add("CAE");
                 dtResultados.Columns.Add("Existe");
 
                 using (var conexion = dataAccess.GetConnection(selectedDbKey))
@@ -100,6 +104,10 @@ namespace ComparaVentasExcel
                         while (!hoja.Cell(fila, colIndex).IsEmpty())
                         {
                             string dato = hoja.Cell(fila, colIndex).GetString()?.Trim();
+                            string excelCol2 = hoja.Cell(fila, 2).GetString().Trim();
+                            string excelCol6 = hoja.Cell(fila, 6).GetString().Trim();
+                            string excelCol7 = hoja.Cell(fila, 7).GetString().Trim();
+
 
                             if (string.IsNullOrWhiteSpace(dato))
                             {
@@ -158,7 +166,7 @@ namespace ComparaVentasExcel
                                     }
                                 }
 
-                                dtResultados.Rows.Add(dato, peri_codigo, suc_codigo, vene_numero, cbtee_codigo, resultado);
+                                dtResultados.Rows.Add(dato, peri_codigo, suc_codigo, vene_numero, cbtee_codigo, excelCol2, excelCol7, excelCol6, resultado);
                             }
 
                             procesadas++;
@@ -167,6 +175,13 @@ namespace ComparaVentasExcel
 
                         dtOriginal = dtResultados;
                         dgvResultados.DataSource = dtOriginal;
+
+
+                        AgregarColumnaCheck();
+                        foreach (DataGridViewColumn col in dgvResultados.Columns)
+                            col.ReadOnly = true;
+
+                        dgvResultados.Columns["Seleccionado"].ReadOnly = false;
 
                         CargarComboDesdeTabla(dtOriginal, cbSucursal, "Sucursal");
                         CargarComboDesdeTabla(dtOriginal, cbLocal, "Local");
@@ -185,6 +200,39 @@ namespace ComparaVentasExcel
                 btnProcesar.Enabled = true;
             }
         }
+
+        private void AgregarColumnaCheck()
+        {
+            // Evitar duplicarla si ya existe
+            if (dgvResultados.Columns.Contains("Seleccionado"))
+                return;
+
+            DataGridViewCheckBoxColumn chk = new DataGridViewCheckBoxColumn();
+            chk.Name = "Seleccionado";
+            chk.HeaderText = "";
+            chk.Width = 40;
+            chk.ReadOnly = false; // IMPORTANTE
+            chk.FalseValue = false;
+            chk.TrueValue = true;
+
+
+            // La insertamos como primera columna
+            dgvResultados.Columns.Insert(0, chk);
+
+        }
+
+        private void dgvResultados_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex < 0)
+                return;
+
+            if (dgvResultados.Columns[e.ColumnIndex].Name == "Seleccionado")
+            {
+                dgvResultados.CommitEdit(DataGridViewDataErrorContexts.Commit);
+            }
+        }
+
+
 
         private void ComboFiltro_Changed(object sender, EventArgs e)
         {

@@ -49,7 +49,10 @@
             // 
             // btnCargarEquipos
             // 
-            btnCargarEquipos.BackColor = SystemColors.ButtonFace;
+            btnCargarEquipos.BackColor = Color.FromArgb(43, 108, 176);
+            btnCargarEquipos.Cursor = Cursors.Hand;
+            btnCargarEquipos.FlatStyle = FlatStyle.Flat;
+            btnCargarEquipos.ForeColor = SystemColors.Window;
             btnCargarEquipos.Location = new Point(112, 92);
             btnCargarEquipos.Name = "btnCargarEquipos";
             btnCargarEquipos.Size = new Size(75, 23);
@@ -68,7 +71,10 @@
             // 
             // btnConsultarEquipo
             // 
-            btnConsultarEquipo.BackColor = SystemColors.ButtonFace;
+            btnConsultarEquipo.BackColor = Color.FromArgb(43, 108, 176);
+            btnConsultarEquipo.Cursor = Cursors.Hand;
+            btnConsultarEquipo.FlatStyle = FlatStyle.Flat;
+            btnConsultarEquipo.ForeColor = SystemColors.Window;
             btnConsultarEquipo.Location = new Point(112, 211);
             btnConsultarEquipo.Name = "btnConsultarEquipo";
             btnConsultarEquipo.Size = new Size(75, 23);
@@ -79,7 +85,9 @@
             // 
             // btnVolver
             // 
-            btnVolver.BackColor = SystemColors.ButtonFace;
+            btnVolver.BackColor = Color.FromArgb(43, 108, 176);
+            btnVolver.FlatStyle = FlatStyle.Flat;
+            btnVolver.ForeColor = SystemColors.Window;
             btnVolver.Location = new Point(24, 280);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(116, 23);
@@ -117,19 +125,23 @@
             // 
             // btnSucursales
             // 
+            btnSucursales.BackColor = Color.FromArgb(43, 108, 176);
+            btnSucursales.Cursor = Cursors.Hand;
+            btnSucursales.FlatStyle = FlatStyle.Flat;
+            btnSucursales.ForeColor = SystemColors.Window;
             btnSucursales.Location = new Point(112, 138);
             btnSucursales.Name = "btnSucursales";
             btnSucursales.Size = new Size(121, 23);
             btnSucursales.TabIndex = 16;
             btnSucursales.Text = "Sucursales";
-            btnSucursales.UseVisualStyleBackColor = true;
+            btnSucursales.UseVisualStyleBackColor = false;
             btnSucursales.Click += btnSucursales_Click;
             // 
             // FormLinkedServer
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.LightGray;
             ClientSize = new Size(365, 315);
             Controls.Add(btnSucursales);
             Controls.Add(lblVersion);
@@ -140,7 +152,9 @@
             Controls.Add(cbEquipos);
             Controls.Add(btnCargarEquipos);
             Controls.Add(txtServidorMadre);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "FormLinkedServer";
             Text = "Ventas con CAEA";
             Load += FormLinkedServer_Load;

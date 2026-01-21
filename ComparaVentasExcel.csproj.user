@@ -14,6 +14,9 @@
     <Compile Update="FormLinkedServer.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Update="FormModifImporte.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Update="FormResultadosEquipo.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -21,6 +24,9 @@
       <SubType>Form</SubType>
     </Compile>
     <Compile Update="FormVerSucursalesV2.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Update="FrmClave.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>

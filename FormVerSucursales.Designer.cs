@@ -41,12 +41,16 @@
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(12, 398);
+            btnVolver.BackColor = Color.FromArgb(43, 108, 176);
+            btnVolver.Cursor = Cursors.Hand;
+            btnVolver.FlatStyle = FlatStyle.Flat;
+            btnVolver.ForeColor = SystemColors.Window;
+            btnVolver.Location = new Point(12, 394);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(116, 23);
+            btnVolver.Size = new Size(116, 27);
             btnVolver.TabIndex = 13;
             btnVolver.Text = "Regresar al inicio";
-            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.UseVisualStyleBackColor = false;
             btnVolver.Click += btnVolver_Click;
             // 
             // lblVersion
@@ -68,6 +72,7 @@
             // 
             // txtBuscar
             // 
+            txtBuscar.Cursor = Cursors.IBeam;
             txtBuscar.Location = new Point(280, 30);
             txtBuscar.Name = "txtBuscar";
             txtBuscar.Size = new Size(102, 23);
@@ -94,6 +99,9 @@
             // 
             // cbBaseDatos
             // 
+            cbBaseDatos.Cursor = Cursors.Hand;
+            cbBaseDatos.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbBaseDatos.FlatStyle = FlatStyle.Popup;
             cbBaseDatos.FormattingEnabled = true;
             cbBaseDatos.Location = new Point(142, 27);
             cbBaseDatos.Name = "cbBaseDatos";
@@ -113,7 +121,9 @@
             Controls.Add(dgvSucursales);
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "FormVerSucursales";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Sucursales";

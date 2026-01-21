@@ -49,12 +49,16 @@
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(61, 317);
+            btnVolver.BackColor = Color.FromArgb(43, 108, 176);
+            btnVolver.Cursor = Cursors.Hand;
+            btnVolver.FlatStyle = FlatStyle.Flat;
+            btnVolver.ForeColor = SystemColors.Window;
+            btnVolver.Location = new Point(61, 306);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(116, 23);
+            btnVolver.Size = new Size(116, 34);
             btnVolver.TabIndex = 12;
             btnVolver.Text = "Regresar al inicio";
-            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.UseVisualStyleBackColor = false;
             btnVolver.Click += btnVolver_Click;
             // 
             // lblVersion
@@ -86,6 +90,7 @@
             // 
             // txtSucursal
             // 
+            txtSucursal.Cursor = Cursors.IBeam;
             txtSucursal.Location = new Point(135, 43);
             txtSucursal.Name = "txtSucursal";
             txtSucursal.Size = new Size(121, 23);
@@ -93,6 +98,7 @@
             // 
             // txtComprobante
             // 
+            txtComprobante.Cursor = Cursors.IBeam;
             txtComprobante.Location = new Point(135, 97);
             txtComprobante.Name = "txtComprobante";
             txtComprobante.Size = new Size(121, 23);
@@ -100,6 +106,9 @@
             // 
             // cbTipo
             // 
+            cbTipo.Cursor = Cursors.Hand;
+            cbTipo.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbTipo.FlatStyle = FlatStyle.Flat;
             cbTipo.FormattingEnabled = true;
             cbTipo.Items.AddRange(new object[] { "FAB", "FAA" });
             cbTipo.Location = new Point(135, 151);
@@ -109,7 +118,10 @@
             // 
             // btnConsultar
             // 
-            btnConsultar.BackColor = SystemColors.ButtonFace;
+            btnConsultar.BackColor = Color.FromArgb(43, 108, 176);
+            btnConsultar.Cursor = Cursors.Hand;
+            btnConsultar.FlatStyle = FlatStyle.Flat;
+            btnConsultar.ForeColor = SystemColors.Window;
             btnConsultar.Location = new Point(135, 180);
             btnConsultar.Name = "btnConsultar";
             btnConsultar.Size = new Size(121, 23);
@@ -177,6 +189,8 @@
             // 
             // cbBaseDatos
             // 
+            cbBaseDatos.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbBaseDatos.FlatStyle = FlatStyle.Flat;
             cbBaseDatos.FormattingEnabled = true;
             cbBaseDatos.Location = new Point(12, 43);
             cbBaseDatos.Name = "cbBaseDatos";
@@ -187,7 +201,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.LightGray;
             ClientSize = new Size(397, 358);
             Controls.Add(label5);
             Controls.Add(cbBaseDatos);
@@ -202,7 +216,9 @@
             Controls.Add(label2);
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
+            MaximizeBox = false;
             Name = "FormConsultaVenta";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ConsultarVenta";

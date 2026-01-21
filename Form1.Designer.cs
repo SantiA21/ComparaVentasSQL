@@ -66,12 +66,16 @@
             txtArchivo.Location = new Point(148, 38);
             txtArchivo.Margin = new Padding(4, 3, 4, 3);
             txtArchivo.Name = "txtArchivo";
+            txtArchivo.ReadOnly = true;
             txtArchivo.Size = new Size(116, 23);
             txtArchivo.TabIndex = 1;
             // 
             // btnExaminar
             // 
-            btnExaminar.BackColor = SystemColors.ButtonFace;
+            btnExaminar.BackColor = Color.FromArgb(43, 108, 176);
+            btnExaminar.Cursor = Cursors.Hand;
+            btnExaminar.FlatStyle = FlatStyle.Flat;
+            btnExaminar.ForeColor = SystemColors.Window;
             btnExaminar.Location = new Point(272, 35);
             btnExaminar.Margin = new Padding(4, 3, 4, 3);
             btnExaminar.Name = "btnExaminar";
@@ -83,7 +87,10 @@
             // 
             // btnProcesar
             // 
-            btnProcesar.BackColor = SystemColors.ButtonFace;
+            btnProcesar.BackColor = Color.FromArgb(43, 108, 176);
+            btnProcesar.Cursor = Cursors.Hand;
+            btnProcesar.FlatStyle = FlatStyle.Flat;
+            btnProcesar.ForeColor = SystemColors.Window;
             btnProcesar.Location = new Point(368, 35);
             btnProcesar.Margin = new Padding(4, 3, 4, 3);
             btnProcesar.Name = "btnProcesar";
@@ -113,11 +120,14 @@
             // 
             // btnExportar
             // 
-            btnExportar.BackColor = SystemColors.ButtonFace;
+            btnExportar.BackColor = Color.FromArgb(43, 108, 176);
+            btnExportar.Cursor = Cursors.Hand;
+            btnExportar.FlatStyle = FlatStyle.Flat;
+            btnExportar.ForeColor = SystemColors.Window;
             btnExportar.Location = new Point(739, 426);
             btnExportar.Margin = new Padding(4, 3, 4, 3);
             btnExportar.Name = "btnExportar";
-            btnExportar.Size = new Size(88, 27);
+            btnExportar.Size = new Size(88, 33);
             btnExportar.TabIndex = 6;
             btnExportar.Text = "Exportar";
             btnExportar.UseVisualStyleBackColor = false;
@@ -130,9 +140,9 @@
             chkMostrarTodos.CheckState = CheckState.Checked;
             chkMostrarTodos.Location = new Point(13, 107);
             chkMostrarTodos.Name = "chkMostrarTodos";
-            chkMostrarTodos.Size = new Size(100, 19);
+            chkMostrarTodos.Size = new Size(115, 19);
             chkMostrarTodos.TabIndex = 7;
-            chkMostrarTodos.Text = "Mostrar todos";
+            chkMostrarTodos.Text = "⚠ Mostrar todos";
             chkMostrarTodos.UseVisualStyleBackColor = true;
             chkMostrarTodos.CheckedChanged += chkMostrarTodos_CheckedChanged;
             // 
@@ -141,9 +151,9 @@
             chkSoloExistentes.AutoSize = true;
             chkSoloExistentes.Location = new Point(12, 132);
             chkSoloExistentes.Name = "chkSoloExistentes";
-            chkSoloExistentes.Size = new Size(56, 19);
+            chkSoloExistentes.Size = new Size(71, 19);
             chkSoloExistentes.TabIndex = 8;
-            chkSoloExistentes.Text = "Existe";
+            chkSoloExistentes.Text = "✔ Existe";
             chkSoloExistentes.UseVisualStyleBackColor = true;
             chkSoloExistentes.CheckedChanged += chkSoloExistentes_CheckedChanged;
             // 
@@ -152,15 +162,16 @@
             chkSoloNoExistentes.AutoSize = true;
             chkSoloNoExistentes.Location = new Point(12, 157);
             chkSoloNoExistentes.Name = "chkSoloNoExistentes";
-            chkSoloNoExistentes.Size = new Size(75, 19);
+            chkSoloNoExistentes.Size = new Size(90, 19);
             chkSoloNoExistentes.TabIndex = 9;
-            chkSoloNoExistentes.Text = "No existe";
+            chkSoloNoExistentes.Text = "❌ No existe";
             chkSoloNoExistentes.UseVisualStyleBackColor = true;
             chkSoloNoExistentes.CheckedChanged += chkSoloNoExistentes_CheckedChanged;
             // 
             // lblVersion
             // 
             lblVersion.AutoSize = true;
+            lblVersion.Cursor = Cursors.Help;
             lblVersion.Location = new Point(760, 462);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(38, 15);
@@ -169,16 +180,23 @@
             // 
             // btnVolver
             // 
-            btnVolver.Location = new Point(148, 454);
+            btnVolver.BackColor = Color.FromArgb(43, 108, 176);
+            btnVolver.Cursor = Cursors.Hand;
+            btnVolver.FlatStyle = FlatStyle.Flat;
+            btnVolver.ForeColor = SystemColors.Window;
+            btnVolver.Location = new Point(148, 426);
             btnVolver.Name = "btnVolver";
-            btnVolver.Size = new Size(116, 23);
+            btnVolver.Size = new Size(116, 31);
             btnVolver.TabIndex = 11;
             btnVolver.Text = "Regresar al inicio";
-            btnVolver.UseVisualStyleBackColor = true;
+            btnVolver.UseVisualStyleBackColor = false;
             btnVolver.Click += btnVolver_Click;
             // 
             // cbBaseDatos
             // 
+            cbBaseDatos.Cursor = Cursors.Hand;
+            cbBaseDatos.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbBaseDatos.FlatStyle = FlatStyle.Flat;
             cbBaseDatos.FormattingEnabled = true;
             cbBaseDatos.Location = new Point(13, 38);
             cbBaseDatos.Name = "cbBaseDatos";
@@ -197,6 +215,9 @@
             // 
             // cbLocal
             // 
+            cbLocal.Cursor = Cursors.Hand;
+            cbLocal.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbLocal.FlatStyle = FlatStyle.Flat;
             cbLocal.FormattingEnabled = true;
             cbLocal.Location = new Point(12, 208);
             cbLocal.Name = "cbLocal";
@@ -205,6 +226,10 @@
             // 
             // cbSucursal
             // 
+            cbSucursal.BackColor = SystemColors.Window;
+            cbSucursal.Cursor = Cursors.Hand;
+            cbSucursal.DropDownStyle = ComboBoxStyle.DropDownList;
+            cbSucursal.FlatStyle = FlatStyle.Flat;
             cbSucursal.FormattingEnabled = true;
             cbSucursal.Location = new Point(12, 254);
             cbSucursal.Name = "cbSucursal";
@@ -231,19 +256,23 @@
             // 
             // btnLimpiarFiltros
             // 
+            btnLimpiarFiltros.BackColor = Color.FromArgb(43, 108, 176);
+            btnLimpiarFiltros.Cursor = Cursors.Hand;
+            btnLimpiarFiltros.FlatStyle = FlatStyle.Flat;
+            btnLimpiarFiltros.ForeColor = SystemColors.Window;
             btnLimpiarFiltros.Location = new Point(12, 298);
             btnLimpiarFiltros.Name = "btnLimpiarFiltros";
-            btnLimpiarFiltros.Size = new Size(121, 23);
+            btnLimpiarFiltros.Size = new Size(121, 28);
             btnLimpiarFiltros.TabIndex = 19;
             btnLimpiarFiltros.Text = "Limpiar filtros";
-            btnLimpiarFiltros.UseVisualStyleBackColor = true;
+            btnLimpiarFiltros.UseVisualStyleBackColor = false;
             btnLimpiarFiltros.Click += btnLimpiarFiltros_Click;
             // 
             // Form1
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            BackColor = SystemColors.ActiveCaption;
+            BackColor = Color.LightGray;
             ClientSize = new Size(859, 497);
             Controls.Add(btnLimpiarFiltros);
             Controls.Add(label3);
@@ -264,8 +293,10 @@
             Controls.Add(btnExaminar);
             Controls.Add(txtArchivo);
             Controls.Add(lblArchivo);
+            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "Form1";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "ComparaVentas";

@@ -68,6 +68,7 @@ ORDER BY equipo;
                     using (var cmd = new SqlCommand(query, conn))
                     using (var reader = cmd.ExecuteReader())
                     {
+                        Logger.LogQuery(cmd.CommandText);
                         while (reader.Read())
                         {
                             string equipo = reader["equipo"].ToString();
@@ -123,6 +124,7 @@ ORDER BY
 
             using (var cmd = new SqlCommand(query, conn))
             {
+                Logger.LogQuery(cmd.CommandText);
                 object result = cmd.ExecuteScalar();
                 return result?.ToString();
             }
@@ -130,16 +132,17 @@ ORDER BY
 
         private void btnConsultarEquipo_Click(object sender, EventArgs e)
         {
-            if (cbEquipos.SelectedItem == null)
+            string equipoIngresado = cbEquipos.Text;
+
+            if (string.IsNullOrWhiteSpace(equipoIngresado))
             {
-                MessageBox.Show("Debe seleccionar un equipo.");
+                MessageBox.Show("Debe ingresar o seleccionar un equipo.");
                 return;
             }
 
-            string equipo = cbEquipos.SelectedItem.ToString();
-            string hostLimpio = LimpiarHostname(equipo);
+            string hostLimpio = LimpiarHostname(equipoIngresado);
 
-            MessageBox.Show("Consultando ventas en: " + hostLimpio);
+      
 
             string linkedServerName = $"[{hostLimpio},1433]";
             string linkedServerRawName = $"{hostLimpio},1433";
@@ -189,13 +192,14 @@ EXEC master.dbo.sp_addlinkedsrvlogin
 
                     string query = $@"
 SELECT 
+    CAEA_INFORMADO,
+    VENE_CAE AS CAE,
+    VENE_LEYENDACAE AS LeyendaCAE,
     VENE_FECHA AS Fecha,
     VENE_HORA AS Hora,
     SUC_CODIGO AS Sucursal,
     VENE_NUMERO AS NumComprobante,
-    CBTEE_CODIGO AS TipoComprobante,
-    VENE_CAE AS CAE,
-    CAEA_INFORMADO
+    CBTEE_CODIGO AS TipoComprobante
 FROM {linkedServerName}.{basePDV}.dbo.VENTAS_E
 WHERE USA_CAEA = 'S'
 ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
@@ -212,6 +216,7 @@ ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 MessageBox.Show("Error consultando equipo: " + ex.Message);
             }
         }

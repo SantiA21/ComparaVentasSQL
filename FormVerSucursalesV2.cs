@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DocumentFormat.OpenXml.Office.Word;
+using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -61,7 +62,8 @@ ORDER BY equipo;
                     DataTable dt = new DataTable();
                     using (var cmd = new SqlCommand(query, conn))
                     using (var da = new SqlDataAdapter(cmd))
-                        da.Fill(dt);
+                    da.Fill(dt);
+
 
                     dgvSucursales.DataSource = dt;
                 }
