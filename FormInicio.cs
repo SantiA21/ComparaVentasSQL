@@ -66,31 +66,38 @@ namespace ComparaVentasExcel
 
         private async void FormInicio_Load(object sender, EventArgs e)
         {
-            string localVersion = VersionHelper.GetLocalVersion();
-            lblVersion.Text = $"Versión {localVersion}";
-
-            var updateService = new UpdateService();
-
             try
             {
-                var remote = await updateService.GetRemoteVersionAsync();
-
-                if (remote != null &&
-                    updateService.IsNewer(remote.version, localVersion))
+                if (UpdateChecker.HayActualizacion(out string versionNueva))
                 {
-                    MessageBox.Show(
-                        $"Hay una nueva versión disponible ({remote.version})\n\n{remote.notes}",
+                    var r = MessageBox.Show(
+                        $"Hay una nueva versión ({versionNueva}). ¿Actualizar ahora?",
                         "Actualización disponible",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
+                        MessageBoxButtons.YesNo);
+
+                    if (r == DialogResult.Yes)
+                    {
+                        IniciarUpdater();
+                    }
                 }
             }
             catch
             {
-                // Fallo de internet → seguimos normal
+                // Si no hay internet o GitHub no responde, no pasa nada
             }
         }
+
+        private void IniciarUpdater()
+        {
+            string updaterPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Updater.exe"
+            );
+
+            Process.Start(updaterPath);
+            Application.Exit();
+        }
+
 
         private void ventasConCAEAToolStripMenuItem_Click(object sender, EventArgs e)
         {
