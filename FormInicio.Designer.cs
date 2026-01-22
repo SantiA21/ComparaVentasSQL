@@ -39,6 +39,7 @@
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
             pruebaToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
+            label1 = new Label();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -61,28 +62,28 @@
             // importarExcelToolStripMenuItem
             // 
             importarExcelToolStripMenuItem.Name = "importarExcelToolStripMenuItem";
-            importarExcelToolStripMenuItem.Size = new Size(180, 22);
+            importarExcelToolStripMenuItem.Size = new Size(170, 22);
             importarExcelToolStripMenuItem.Text = "Importar excel";
             importarExcelToolStripMenuItem.Click += importarExcelToolStripMenuItem_Click;
             // 
             // consultarVentaToolStripMenuItem
             // 
             consultarVentaToolStripMenuItem.Name = "consultarVentaToolStripMenuItem";
-            consultarVentaToolStripMenuItem.Size = new Size(180, 22);
+            consultarVentaToolStripMenuItem.Size = new Size(170, 22);
             consultarVentaToolStripMenuItem.Text = "Consultar venta";
             consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
             // 
             // ventasConCAEAToolStripMenuItem
             // 
             ventasConCAEAToolStripMenuItem.Name = "ventasConCAEAToolStripMenuItem";
-            ventasConCAEAToolStripMenuItem.Size = new Size(180, 22);
+            ventasConCAEAToolStripMenuItem.Size = new Size(170, 22);
             ventasConCAEAToolStripMenuItem.Text = "Ventas con CAEA";
             ventasConCAEAToolStripMenuItem.Click += ventasConCAEAToolStripMenuItem_Click;
             // 
             // modificarImporteToolStripMenuItem
             // 
             modificarImporteToolStripMenuItem.Name = "modificarImporteToolStripMenuItem";
-            modificarImporteToolStripMenuItem.Size = new Size(180, 22);
+            modificarImporteToolStripMenuItem.Size = new Size(170, 22);
             modificarImporteToolStripMenuItem.Text = "Modificar Importe";
             modificarImporteToolStripMenuItem.Click += modificarImporteToolStripMenuItem_Click;
             // 
@@ -115,12 +116,22 @@
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
+            // label1
+            // 
+            label1.AutoSize = true;
+            label1.Location = new Point(104, 135);
+            label1.Name = "label1";
+            label1.Size = new Size(66, 15);
+            label1.TabIndex = 15;
+            label1.Text = "HOLA TOBI";
+            // 
             // FormInicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(302, 305);
+            Controls.Add(label1);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -149,5 +160,6 @@
         private ToolStripMenuItem ventasConCAEAToolStripMenuItem;
         private ToolStripMenuItem modificarImporteToolStripMenuItem;
         private ToolStripMenuItem pruebaToolStripMenuItem;
+        private Label label1;
     }
 }
