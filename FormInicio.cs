@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
+using System.Diagnostics;
 using System.Drawing;
 using System.Linq;
 using System.Reflection;
@@ -66,37 +67,38 @@ namespace ComparaVentasExcel
 
         private async void FormInicio_Load(object sender, EventArgs e)
         {
-            try
-            {
-                if (UpdateChecker.HayActualizacion(out string versionNueva))
-                {
-                    var r = MessageBox.Show(
-                        $"Hay una nueva versión ({versionNueva}). ¿Actualizar ahora?",
-                        "Actualización disponible",
-                        MessageBoxButtons.YesNo);
+            // Mostrar versión (opcional)
+            Version v = Assembly.GetExecutingAssembly().GetName().Version;
+            lblVersion.Text = $"Versión {v}";
 
-                    if (r == DialogResult.Yes)
-                    {
-                        IniciarUpdater();
-                    }
-                }
-            }
-            catch
+            // Chequear actualización
+            if (UpdateChecker.HayActualizacion(out Version versionNueva))
             {
-                // Si no hay internet o GitHub no responde, no pasa nada
+                var r = MessageBox.Show(
+                    $"Hay una nueva versión ({versionNueva}).\n¿Desea actualizar ahora?",
+                    "Actualización disponible",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Information
+                );
+
+                if (r == DialogResult.Yes)
+                {
+                    LanzarUpdater();
+                }
             }
         }
 
-        private void IniciarUpdater()
+        private void LanzarUpdater()
         {
             string updaterPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
                 "Updater.exe"
             );
 
-            Process.Start(updaterPath);
+            Process.Start(updaterPath, Process.GetCurrentProcess().Id.ToString());
             Application.Exit();
         }
+
 
 
         private void ventasConCAEAToolStripMenuItem_Click(object sender, EventArgs e)

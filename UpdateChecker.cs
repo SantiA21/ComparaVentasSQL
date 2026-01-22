@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using System;
+using System.Net;
 using System.Reflection;
 
 public static class UpdateChecker
@@ -6,18 +7,27 @@ public static class UpdateChecker
     private static string versionUrl =
         "https://raw.githubusercontent.com/SantiA21/ComparaVentasSQL/refs/heads/main/version.txt";
 
-    public static bool HayActualizacion(out string versionRemota)
+    public static bool HayActualizacion(out Version versionRemota)
     {
-        versionRemota = "";
+        versionRemota = null;
 
-        using (WebClient client = new WebClient())
+        try
         {
-            versionRemota = client.DownloadString(versionUrl).Trim();
+            using (WebClient wc = new WebClient())
+            {
+                string texto = wc.DownloadString(versionUrl).Trim();
+                versionRemota = new Version(texto);
+            }
+
+            Version versionLocal =
+                Assembly.GetExecutingAssembly().GetName().Version;
+
+            return versionRemota > versionLocal;
         }
-
-        Version local = Assembly.GetExecutingAssembly().GetName().Version;
-        Version remota = new Version(versionRemota);
-
-        return remota > local;
+        catch
+        {
+            // Sin internet, GitHub caído, etc
+            return false;
+        }
     }
 }
