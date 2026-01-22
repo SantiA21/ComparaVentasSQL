@@ -39,7 +39,6 @@
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
             pruebaToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
-            label1 = new Label();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
@@ -116,22 +115,12 @@
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(104, 135);
-            label1.Name = "label1";
-            label1.Size = new Size(66, 15);
-            label1.TabIndex = 15;
-            label1.Text = "HOLA TOBI";
-            // 
             // FormInicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(302, 305);
-            Controls.Add(label1);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip1);
             FormBorderStyle = FormBorderStyle.FixedDialog;
@@ -160,6 +149,5 @@
         private ToolStripMenuItem ventasConCAEAToolStripMenuItem;
         private ToolStripMenuItem modificarImporteToolStripMenuItem;
         private ToolStripMenuItem pruebaToolStripMenuItem;
-        private Label label1;
     }
 }

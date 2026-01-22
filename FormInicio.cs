@@ -73,17 +73,15 @@ namespace ComparaVentasExcel
             // Chequear actualización
             if (UpdateChecker.HayActualizacion(out Version versionNueva))
             {
-                var r = MessageBox.Show(
-                    $"Hay una nueva versión ({versionNueva}).\n¿Desea actualizar ahora?",
-                    "Actualización disponible",
-                    MessageBoxButtons.YesNo,
+                MessageBox.Show(
+                    $"Se encontró una nueva versión ({versionNueva}).\nLa aplicación se actualizará automáticamente.",
+                    "Actualización",
+                    MessageBoxButtons.OK,
                     MessageBoxIcon.Information
                 );
 
-                if (r == DialogResult.Yes)
-                {
-                    LanzarUpdater();
-                }
+                LanzarUpdater();
+                Application.Exit(); // MUY IMPORTANTE
             }
         }
 
