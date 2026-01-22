@@ -92,7 +92,7 @@ namespace ComparaVentasExcel
         {
             string updaterPath = Path.Combine(
                 AppDomain.CurrentDomain.BaseDirectory,
-                "Updater.exe"
+                "ComparadorVentas.Updater.exe"
             );
 
             Process.Start(updaterPath, Process.GetCurrentProcess().Id.ToString());
