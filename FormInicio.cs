@@ -1,13 +1,15 @@
-﻿using System;
+﻿using ComparaVentasExcel.Update;
+using ComparaVentasExcel.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Reflection;
 
 namespace ComparaVentasExcel
 {
@@ -17,6 +19,17 @@ namespace ComparaVentasExcel
         {
             InitializeComponent();
         }
+
+        string GetLocalVersion()
+        {
+            var path = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "version.txt"
+            );
+
+            return File.ReadAllText(path).Trim();
+        }
+
 
         private void importarExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -51,13 +64,32 @@ namespace ComparaVentasExcel
 
         }
 
-        private void FormInicio_Load(object sender, EventArgs e)
+        private async void FormInicio_Load(object sender, EventArgs e)
         {
+            string localVersion = VersionHelper.GetLocalVersion();
+            lblVersion.Text = $"Versión {localVersion}";
 
-            Version version = Assembly.GetExecutingAssembly().GetName().Version;
+            var updateService = new UpdateService();
 
+            try
+            {
+                var remote = await updateService.GetRemoteVersionAsync();
 
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+                if (remote != null &&
+                    updateService.IsNewer(remote.version, localVersion))
+                {
+                    MessageBox.Show(
+                        $"Hay una nueva versión disponible ({remote.version})\n\n{remote.notes}",
+                        "Actualización disponible",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+                }
+            }
+            catch
+            {
+                // Fallo de internet → seguimos normal
+            }
         }
 
         private void ventasConCAEAToolStripMenuItem_Click(object sender, EventArgs e)
