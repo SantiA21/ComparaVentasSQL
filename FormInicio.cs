@@ -71,17 +71,20 @@ namespace ComparaVentasExcel
             lblVersion.Text = $"Versión {v}";
 
             // Chequear actualización
-            if (UpdateChecker.HayActualizacion(out Version versionNueva))
+            if (!Program.ArrancoDesdeUpdater)
             {
-                MessageBox.Show(
-                    $"Se encontró una nueva versión ({versionNueva}).\nLa aplicación se actualizará automáticamente.",
-                    "Actualización",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Information
-                );
+                if (UpdateChecker.HayActualizacion(out Version versionNueva))
+                {
+                    MessageBox.Show(
+                        $"Se encontró una nueva versión ({versionNueva}).\nLa aplicación se actualizará automáticamente.",
+                        "Actualización",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
 
-                LanzarUpdater();
-                Application.Exit(); // MUY IMPORTANTE
+                    LanzarUpdater();
+                    Application.Exit();
+                }
             }
         }
 
