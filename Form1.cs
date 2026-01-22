@@ -89,25 +89,42 @@ namespace ComparaVentasExcel
                     {
                         var hoja = workbook.Worksheet(1);
 
-                        var encabezados = hoja.Row(1).Cells().Select(c => c.GetString()).ToList();
-                        int colIndex = encabezados.FindIndex(c => c.Trim().Equals("ID Unico", StringComparison.OrdinalIgnoreCase)) + 1;
+                        // ============================
+                        // MAPEO DE COLUMNAS POR NOMBRE
+                        // ============================
+                        var colIndexMap = hoja.Row(1)
+                            .CellsUsed()
+                            .ToDictionary(
+                                c => c.GetString().Trim(),
+                                c => c.Address.ColumnNumber
+                            );
 
-                        if (colIndex == 0)
+                        string[] columnasNecesarias =
                         {
-                            MessageBox.Show("No se encontró la columna 'ID Unico' en el archivo.");
-                            return;
+                            "ID Unico",
+                            "ARCA",
+                            "Primera fecha: Fecha de EmisiÃ³n",
+                            "Suma de CÃ³d. AutorizaciÃ³n"
+                        };
+
+                        foreach (var col in columnasNecesarias)
+                        {
+                            if (!colIndexMap.ContainsKey(col))
+                            {
+                                MessageBox.Show($"No se encontró la columna '{col}' en el Excel.");
+                                return;
+                            }
                         }
 
                         int fila = 2;
                         int procesadas = 0;
 
-                        while (!hoja.Cell(fila, colIndex).IsEmpty())
+                        while (!hoja.Cell(fila, colIndexMap["ID Unico"]).IsEmpty())
                         {
-                            string dato = hoja.Cell(fila, colIndex).GetString()?.Trim();
-                            string excelCol2 = hoja.Cell(fila, 2).GetString().Trim();
-                            string excelCol6 = hoja.Cell(fila, 6).GetString().Trim();
-                            string excelCol7 = hoja.Cell(fila, 7).GetString().Trim();
-
+                            string dato = hoja.Cell(fila, colIndexMap["ID Unico"]).GetString().Trim();
+                            string importe = hoja.Cell(fila, colIndexMap["ARCA"]).GetString().Trim();
+                            string fecha = hoja.Cell(fila, colIndexMap["Primera fecha: Fecha de EmisiÃ³n"]).GetString().Trim();
+                            string cae = hoja.Cell(fila, colIndexMap["Suma de CÃ³d. AutorizaciÃ³n"]).GetString().Trim();
 
                             if (string.IsNullOrWhiteSpace(dato))
                             {
@@ -118,56 +135,63 @@ namespace ComparaVentasExcel
                             string[] partes = dato.Split('-');
                             if (partes.Length != 3)
                             {
-                                dtResultados.Rows.Add(dato, "-", "-", "-", "⚠️ Formato inválido");
+                                dtResultados.Rows.Add(dato, "-", "-", "-", "-", importe, fecha, cae, "⚠️ Formato inválido");
                                 fila++;
                                 continue;
                             }
 
                             string suc_codigo = partes[0].PadLeft(4, '0');
                             string vene_numero = partes[1].PadLeft(8, '0');
-                            string cbtee_codigo = (partes[2] == "1") ? "FAA" :
-                                                  (partes[2] == "6") ? "FAB" : "DESCONOCIDO";
+                            string cbtee_codigo =
+                                partes[2] == "1" ? "FAA" :
+                                partes[2] == "6" ? "FAB" : "DESCONOCIDO";
 
                             string query = @"
                                 SELECT TOP 1 PERI_CODIGO 
                                 FROM ventas_e 
-                                WHERE suc_codigo = @suc_codigo 
-                                  AND vene_numero = @vene_numero 
-                                  AND cbtee_codigo = @cbtee_codigo;
+                                WHERE suc_codigo = @suc 
+                                  AND vene_numero = @num 
+                                  AND cbtee_codigo = @tipo;
 
                                 SELECT TOP 1 PERI_CODIGO 
                                 FROM ventas_e 
-                                WHERE suc_codigo = @suc_codigo;";
+                                WHERE suc_codigo = @suc;
+                            ";
+
+                            string peri = "-";
+                            string resultado = "❌ No existe";
 
                             using (var cmd = new SqlCommand(query, conexion))
                             {
-                                Logger.LogQuery(cmd.CommandText);
-                                cmd.Parameters.AddWithValue("@suc_codigo", suc_codigo);
-                                cmd.Parameters.AddWithValue("@vene_numero", vene_numero);
-                                cmd.Parameters.AddWithValue("@cbtee_codigo", cbtee_codigo);
-
-                                string peri_codigo = "-";
-                                string resultado = "❌ No existe";
+                                cmd.Parameters.AddWithValue("@suc", suc_codigo);
+                                cmd.Parameters.AddWithValue("@num", vene_numero);
+                                cmd.Parameters.AddWithValue("@tipo", cbtee_codigo);
 
                                 using (var reader = cmd.ExecuteReader())
                                 {
                                     if (reader.Read() && reader[0] != DBNull.Value)
                                     {
-                                        peri_codigo = reader[0].ToString();
+                                        peri = reader[0].ToString();
                                         resultado = "✅ Existe";
                                     }
-                                    else
+                                    else if (reader.NextResult() && reader.Read() && reader[0] != DBNull.Value)
                                     {
-                                        if (reader.NextResult() && reader.Read() && reader[0] != DBNull.Value)
-                                        {
-                                            peri_codigo = reader[0].ToString();
-                                            resultado = "❌ No existe";
-                                        }
+                                        peri = reader[0].ToString();
                                     }
                                 }
-
-                                dtResultados.Rows.Add(dato, peri_codigo, suc_codigo, vene_numero, cbtee_codigo, excelCol2, excelCol7, excelCol6, resultado);
                             }
+
+                            dtResultados.Rows.Add(
+                                dato,
+                                peri,
+                                suc_codigo,
+                                vene_numero,
+                                cbtee_codigo,
+                                importe,
+                                fecha,
+                                cae,
+                                resultado
+                            );
 
                             procesadas++;
                             fila++;
@@ -175,7 +199,6 @@ namespace ComparaVentasExcel
 
                         dtOriginal = dtResultados;
                         dgvResultados.DataSource = dtOriginal;
-
 
                         AgregarColumnaCheck();
                         foreach (DataGridViewColumn col in dgvResultados.Columns)

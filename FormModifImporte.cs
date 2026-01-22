@@ -81,7 +81,7 @@ namespace ComparaVentasExcel
                 if (frmClave.ClaveIngresada != "Cinet2026@")
                 {
                     MessageBox.Show(
-                        "❌ Clave incorrecta. Operación cancelada.",
+                        "Clave incorrecta.",
                         "Acceso denegado",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Error
@@ -180,7 +180,7 @@ WHERE CBTEINSUC_CODIGO = @SUCURSAL
                         tran.Commit();
 
                         MessageBox.Show(
-                            "✅ Modificación realizada correctamente.",
+                            "Modificación realizada correctamente.",
                             "Éxito",
                             MessageBoxButtons.OK,
                             MessageBoxIcon.Information
