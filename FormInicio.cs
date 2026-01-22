@@ -20,18 +20,6 @@ namespace ComparaVentasExcel
         {
             InitializeComponent();
         }
-
-        string GetLocalVersion()
-        {
-            var path = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "version.txt"
-            );
-
-            return File.ReadAllText(path).Trim();
-        }
-
-
         private void importarExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -65,6 +53,17 @@ namespace ComparaVentasExcel
 
         }
 
+        private void LanzarUpdater()
+        {
+            string updaterPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "Updater.exe"
+            );
+
+            Process.Start(updaterPath, Process.GetCurrentProcess().Id.ToString());
+            Application.Exit();
+        }
+
         private async void FormInicio_Load(object sender, EventArgs e)
         {
             // Mostrar versión (opcional)
@@ -87,19 +86,6 @@ namespace ComparaVentasExcel
                 }
             }
         }
-
-        private void LanzarUpdater()
-        {
-            string updaterPath = Path.Combine(
-                AppDomain.CurrentDomain.BaseDirectory,
-                "ComparadorVentas.Updater.exe"
-            );
-
-            Process.Start(updaterPath, Process.GetCurrentProcess().Id.ToString());
-            Application.Exit();
-        }
-
-
 
         private void ventasConCAEAToolStripMenuItem_Click(object sender, EventArgs e)
         {
