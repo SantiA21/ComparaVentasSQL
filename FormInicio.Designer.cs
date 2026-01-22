@@ -37,14 +37,15 @@
             modificarImporteToolStripMenuItem = new ToolStripMenuItem();
             sucursalesToolStripMenuItem = new ToolStripMenuItem();
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
-            lblVersion = new Label();
             pruebaToolStripMenuItem = new ToolStripMenuItem();
+            lblVersion = new Label();
+            prueba123ToolStripMenuItem = new ToolStripMenuItem();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, pruebaToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, pruebaToolStripMenuItem, prueba123ToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(302, 24);
@@ -100,6 +101,11 @@
             verSucursalesToolStripMenuItem.Text = "Ver sucursales";
             verSucursalesToolStripMenuItem.Click += verSucursalesToolStripMenuItem_Click;
             // 
+            // pruebaToolStripMenuItem
+            // 
+            pruebaToolStripMenuItem.Name = "pruebaToolStripMenuItem";
+            pruebaToolStripMenuItem.Size = new Size(12, 20);
+            // 
             // lblVersion
             // 
             lblVersion.AutoSize = true;
@@ -110,11 +116,11 @@
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
-            // pruebaToolStripMenuItem
+            // prueba123ToolStripMenuItem
             // 
-            pruebaToolStripMenuItem.Name = "pruebaToolStripMenuItem";
-            pruebaToolStripMenuItem.Size = new Size(56, 20);
-            pruebaToolStripMenuItem.Text = "prueba";
+            prueba123ToolStripMenuItem.Name = "prueba123ToolStripMenuItem";
+            prueba123ToolStripMenuItem.Size = new Size(74, 20);
+            prueba123ToolStripMenuItem.Text = "prueba123";
             // 
             // FormInicio
             // 
@@ -150,5 +156,6 @@
         private ToolStripMenuItem ventasConCAEAToolStripMenuItem;
         private ToolStripMenuItem modificarImporteToolStripMenuItem;
         private ToolStripMenuItem pruebaToolStripMenuItem;
+        private ToolStripMenuItem prueba123ToolStripMenuItem;
     }
 }
