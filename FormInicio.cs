@@ -68,7 +68,7 @@ namespace ComparaVentasExcel
         {
             // Mostrar versión (opcional)
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {v}";
+            lblVersion.Text = $"Versión {v.Major}.{v.Minor}.{v.Build}";
 
             // Chequear actualización
             if (!Program.ArrancoDesdeUpdater)

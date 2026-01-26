@@ -293,7 +293,6 @@
             Controls.Add(btnExaminar);
             Controls.Add(txtArchivo);
             Controls.Add(lblArchivo);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             Margin = new Padding(4, 3, 4, 3);
             MaximizeBox = false;

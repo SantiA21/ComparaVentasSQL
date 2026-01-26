@@ -152,7 +152,6 @@
             Controls.Add(cbEquipos);
             Controls.Add(btnCargarEquipos);
             Controls.Add(txtServidorMadre);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "FormLinkedServer";

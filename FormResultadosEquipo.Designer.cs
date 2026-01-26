@@ -74,7 +74,6 @@
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
             Controls.Add(dgvDatos);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "FormResultadosEquipo";

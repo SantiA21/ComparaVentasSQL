@@ -51,7 +51,6 @@
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(365, 315);
             Controls.Add(dgvSucursales);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "FormVerSucursalesV2";

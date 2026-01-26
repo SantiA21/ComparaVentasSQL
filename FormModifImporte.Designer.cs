@@ -192,7 +192,6 @@
             Controls.Add(label3);
             Controls.Add(label2);
             Controls.Add(btnVolver);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "FormModifImporte";

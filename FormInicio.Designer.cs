@@ -123,10 +123,8 @@
             ClientSize = new Size(302, 305);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip1);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MainMenuStrip = menuStrip1;
-            MaximizeBox = false;
             Name = "FormInicio";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Inicio";

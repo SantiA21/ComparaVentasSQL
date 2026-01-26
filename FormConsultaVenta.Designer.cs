@@ -216,7 +216,6 @@
             Controls.Add(label2);
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
-            FormBorderStyle = FormBorderStyle.FixedDialog;
             Icon = (Icon)resources.GetObject("$this.Icon");
             MaximizeBox = false;
             Name = "FormConsultaVenta";
