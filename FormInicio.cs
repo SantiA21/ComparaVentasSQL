@@ -75,9 +75,20 @@ namespace ComparaVentasExcel
             {
                 if (UpdateChecker.HayActualizacion(out Version versionNueva))
                 {
+                    string changelog = "";
+
+                    try
+                    {
+                        changelog = ChangelogService.ObtenerChangelog();
+                    }
+                    catch
+                    {
+                        changelog = "No se pudieron cargar las notas de la versión.";
+                    }
+
                     MessageBox.Show(
-                        $"Se encontró una nueva versión ({versionNueva}).\nLa aplicación se actualizará automáticamente.",
-                        "Actualización",
+                        $"Nueva versión disponible ({versionNueva})\n\nCambios:\n{changelog}",
+                        "Actualización disponible",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information
                     );
@@ -85,6 +96,7 @@ namespace ComparaVentasExcel
                     LanzarUpdater();
                     Application.Exit();
                 }
+
             }
         }
 
