@@ -32,13 +32,14 @@
             dgvDatos = new DataGridView();
             btnVolver = new Button();
             lblVersion = new Label();
+            btoActualizar = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvDatos).BeginInit();
             SuspendLayout();
             // 
             // dgvDatos
             // 
             dgvDatos.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dgvDatos.Location = new Point(79, 33);
+            dgvDatos.Location = new Point(79, 46);
             dgvDatos.Name = "dgvDatos";
             dgvDatos.Size = new Size(627, 262);
             dgvDatos.TabIndex = 0;
@@ -65,12 +66,26 @@
             lblVersion.TabIndex = 16;
             lblVersion.Text = "label3";
             // 
+            // btoActualizar
+            // 
+            btoActualizar.BackColor = Color.FromArgb(43, 108, 176);
+            btoActualizar.FlatStyle = FlatStyle.Flat;
+            btoActualizar.ForeColor = SystemColors.Window;
+            btoActualizar.Location = new Point(79, 12);
+            btoActualizar.Name = "btoActualizar";
+            btoActualizar.Size = new Size(116, 26);
+            btoActualizar.TabIndex = 18;
+            btoActualizar.Text = "Actualizar";
+            btoActualizar.UseVisualStyleBackColor = false;
+            btoActualizar.Click += btoActualizar_Click;
+            // 
             // FormResultadosEquipo
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(800, 361);
+            Controls.Add(btoActualizar);
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
             Controls.Add(dgvDatos);
@@ -89,5 +104,6 @@
         private DataGridView dgvDatos;
         private Button btnVolver;
         private Label lblVersion;
+        private Button btoActualizar;
     }
 }

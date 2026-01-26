@@ -205,13 +205,11 @@ WHERE USA_CAEA = 'S'
 ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
 ";
 
-                    DataTable dt = new DataTable();
-                    using (var cmd = new SqlCommand(query, conn))
-                    using (var da = new SqlDataAdapter(cmd))
-                        da.Fill(dt);
+                    FormResultadosEquipo fr =
+                        new FormResultadosEquipo(connectionToMotherServer, query);
 
-                    FormResultadosEquipo fr = new FormResultadosEquipo(dt);
                     fr.ShowDialog();
+
                 }
             }
             catch (Exception ex)
