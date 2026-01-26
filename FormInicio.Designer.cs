@@ -37,14 +37,15 @@
             modificarImporteToolStripMenuItem = new ToolStripMenuItem();
             sucursalesToolStripMenuItem = new ToolStripMenuItem();
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
-            pruebaToolStripMenuItem = new ToolStripMenuItem();
+            ayudaToolStripMenuItem = new ToolStripMenuItem();
+            novedadesToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
             menuStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip1
             // 
-            menuStrip1.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, pruebaToolStripMenuItem });
+            menuStrip1.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, ayudaToolStripMenuItem });
             menuStrip1.Location = new Point(0, 0);
             menuStrip1.Name = "menuStrip1";
             menuStrip1.Size = new Size(302, 24);
@@ -100,10 +101,19 @@
             verSucursalesToolStripMenuItem.Text = "Ver sucursales";
             verSucursalesToolStripMenuItem.Click += verSucursalesToolStripMenuItem_Click;
             // 
-            // pruebaToolStripMenuItem
+            // ayudaToolStripMenuItem
             // 
-            pruebaToolStripMenuItem.Name = "pruebaToolStripMenuItem";
-            pruebaToolStripMenuItem.Size = new Size(12, 20);
+            ayudaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novedadesToolStripMenuItem });
+            ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
+            ayudaToolStripMenuItem.Size = new Size(53, 20);
+            ayudaToolStripMenuItem.Text = "Ayuda";
+            // 
+            // novedadesToolStripMenuItem
+            // 
+            novedadesToolStripMenuItem.Name = "novedadesToolStripMenuItem";
+            novedadesToolStripMenuItem.Size = new Size(180, 22);
+            novedadesToolStripMenuItem.Text = "Novedades";
+            novedadesToolStripMenuItem.Click += novedadesToolStripMenuItem_Click;
             // 
             // lblVersion
             // 
@@ -127,7 +137,7 @@
             MainMenuStrip = menuStrip1;
             Name = "FormInicio";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Inicio";
+            Text = "ComparaVentas";
             Load += FormInicio_Load;
             menuStrip1.ResumeLayout(false);
             menuStrip1.PerformLayout();
@@ -146,6 +156,7 @@
         private ToolStripMenuItem verSucursalesToolStripMenuItem;
         private ToolStripMenuItem ventasConCAEAToolStripMenuItem;
         private ToolStripMenuItem modificarImporteToolStripMenuItem;
-        private ToolStripMenuItem pruebaToolStripMenuItem;
+        private ToolStripMenuItem ayudaToolStripMenuItem;
+        private ToolStripMenuItem novedadesToolStripMenuItem;
     }
 }

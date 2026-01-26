@@ -1,11 +1,14 @@
 [1.9.0]
 - Se agregan notas de parche para la app
 
+
 [1.8.6]
 - Se agregó botón de refrescar en resultadosCAEA
 
+
 [1.8.5]
 - Las ventanas son redimensionables por el usuario
+
 
 [1.8.4]
 - Ya no me acuerdo que hice...

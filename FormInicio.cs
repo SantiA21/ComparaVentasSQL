@@ -64,39 +64,56 @@ namespace ComparaVentasExcel
             Application.Exit();
         }
 
-        private async void FormInicio_Load(object sender, EventArgs e)
+        private void MostrarVersion()
         {
-            // Mostrar versión (opcional)
             Version v = Assembly.GetExecutingAssembly().GetName().Version;
             lblVersion.Text = $"Versión {v.Major}.{v.Minor}.{v.Build}";
+        }
 
-            // Chequear actualización
+        private bool VengoDeActualizar()
+        {
+            string flagPath = Path.Combine(
+                AppDomain.CurrentDomain.BaseDirectory,
+                "updated.flag"
+            );
+
+            if (File.Exists(flagPath))
+            {
+                File.Delete(flagPath);
+                return true;
+            }
+
+            return false;
+        }
+
+        private void MostrarChangelog()
+        {
+            using (var frm = new FormChangelog())
+            {
+                frm.ShowDialog();
+            }
+        }
+
+
+        private async void FormInicio_Load(object sender, EventArgs e)
+        {
+            MostrarVersion();
+
+            // 1️⃣ Si vengo de una actualización → mostrar changelog
+            if (VengoDeActualizar())
+            {
+                MostrarChangelog();
+                return;
+            }
+
+            // 2️⃣ Si NO vengo del updater → chequear si hay update
             if (!Program.ArrancoDesdeUpdater)
             {
                 if (UpdateChecker.HayActualizacion(out Version versionNueva))
                 {
-                    string changelog = "";
-
-                    try
-                    {
-                        changelog = ChangelogService.ObtenerChangelog();
-                    }
-                    catch
-                    {
-                        changelog = "No se pudieron cargar las notas de la versión.";
-                    }
-
-                    MessageBox.Show(
-                        $"Nueva versión disponible ({versionNueva})\n\nCambios:\n{changelog}",
-                        "Actualización disponible",
-                        MessageBoxButtons.OK,
-                        MessageBoxIcon.Information
-                    );
-
                     LanzarUpdater();
                     Application.Exit();
                 }
-
             }
         }
 
@@ -120,5 +137,12 @@ namespace ComparaVentasExcel
             this.Show();
         }
 
+        private void novedadesToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var frm = new FormChangelog())
+            {
+                frm.ShowDialog();
+            }
+        }
     }
 }
