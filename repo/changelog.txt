@@ -1,8 +1,5 @@
-[1.9.2]
-- Se corrigen errores del changelog
-
-[1.9.1]
-- Se corrigen errores del changelog
+[1.9.1/1.9.2/1.9.3]
+- Se corrigen errores en el form del changelog
 
 [1.9.0]
 - Se implementan notas de parche para la app
