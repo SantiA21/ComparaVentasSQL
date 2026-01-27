@@ -1,4 +1,5 @@
 ﻿using ComparaVentasExcel.Data;
+using ComparaVentasExcel.Infrastructure;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -24,14 +25,24 @@ ORDER BY usuario
 
             DataAccess daAccess = new DataAccess();
 
-            using (SqlConnection conn = daAccess.GetConnection(DB_KEY))
-            using (SqlCommand cmd = new SqlCommand(query, conn))
-            using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+            try
             {
-                DataTable dt = new DataTable();
-                conn.Open();
-                da.Fill(dt);
-                return dt;
+                using (SqlConnection conn = daAccess.GetConnection(DB_KEY))
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                using (SqlDataAdapter da = new SqlDataAdapter(cmd))
+                {
+                    Logger.LogQuery(query);
+
+                    DataTable dt = new DataTable();
+                    conn.Open();
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                throw;
             }
         }
     }

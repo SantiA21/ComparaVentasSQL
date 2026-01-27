@@ -122,6 +122,7 @@
             usuariosGMGERPToolStripMenuItem.Name = "usuariosGMGERPToolStripMenuItem";
             usuariosGMGERPToolStripMenuItem.Size = new Size(201, 22);
             usuariosGMGERPToolStripMenuItem.Text = "Usuarios GMG_ERP";
+            usuariosGMGERPToolStripMenuItem.Click += usuariosGMGERPToolStripMenuItem_Click;
             // 
             // ayudaToolStripMenuItem
             // 
@@ -133,7 +134,7 @@
             // novToolStripMenuItem
             // 
             novToolStripMenuItem.Name = "novToolStripMenuItem";
-            novToolStripMenuItem.Size = new Size(180, 22);
+            novToolStripMenuItem.Size = new Size(133, 22);
             novToolStripMenuItem.Text = "Novedades";
             novToolStripMenuItem.Click += novToolStripMenuItem_Click;
             // 

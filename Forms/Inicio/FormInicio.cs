@@ -159,5 +159,15 @@ namespace ComparaVentasExcel
             }
             this.Show();
         }
+
+        private void usuariosGMGERPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormUsuariosGmgERP mainForm = new FormUsuariosGmgERP())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
     }
 }

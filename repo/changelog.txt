@@ -1,3 +1,6 @@
+[1.11.3]
+- Se agrega mas log en los formularios
+
 [1.11.2]
 - Se fixea un error al filtrar usuarios
 
