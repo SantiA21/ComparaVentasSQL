@@ -6,7 +6,7 @@
 - Limpieza de codigo
 
 [1.10.0]
-- Se agrega la funcionalidad para consultar usuarios en MOSTAZA_ERP y GMG_ERP
+- Se agrega la funcionalidad para consultar usuarios en MOSTAZA_ERP y GMG_ERP con filtros
 
 [1.9.1/1.9.2/1.9.3]
 - Se corrigen errores en el form del changelog

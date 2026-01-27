@@ -13,16 +13,16 @@ using System.Windows.Forms;
 
 namespace ComparaVentasExcel
 {
-    public partial class FormUsuariosMostazaERP : Form
+    public partial class FormUsuariosGmgERP : Form
     {
         private DataAccess dataAccess;
         private DataTable dtUsuarios;
-        public FormUsuariosMostazaERP()
+        public FormUsuariosGmgERP()
         {
             InitializeComponent();
         }
 
-        private void FormUsuariosMostazaERP_Load(object sender, EventArgs e)
+        private void FormUsuariosGmgERP_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
@@ -39,7 +39,7 @@ namespace ComparaVentasExcel
         {
             try
             {
-                dtUsuarios = UsuarioMostazaERPService.ObtenerUsuarios();
+                dtUsuarios = UsuarioGmgERPService.ObtenerUsuarios();
                 dgvUsuarios.DataSource = dtUsuarios;
 
                 CargarCombosFiltros();

@@ -1,6 +1,6 @@
 ﻿namespace ComparaVentasExcel
 {
-    partial class FormUsuariosMostazaERP
+    partial class FormUsuariosGmgERP
     {
         /// <summary>
         /// Required designer variable.
@@ -137,7 +137,7 @@
             Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "FormUsuariosMostazaERP";
             Text = "Usuarios Mostaza_ERP";
-            Load += FormUsuariosMostazaERP_Load;
+            Load += FormUsuariosGmgERP_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
             ResumeLayout(false);
             PerformLayout();
