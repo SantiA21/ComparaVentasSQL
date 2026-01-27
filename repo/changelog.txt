@@ -1,3 +1,6 @@
+[1.11.2]
+- Se fixea un error al filtrar usuarios
+
 [1.11.1]
 - Se fixea un error al filtrar en el form ComparaExcel
 
