@@ -202,14 +202,14 @@ namespace ComparaVentasExcel
             if (chkSoloExistentes.Checked)
             {
                 if (filtro != "") filtro += " AND ";
-                filtro += "[Existe] = '✅ Existe'";
+                filtro += "[Resultado] = '✅ Existe'";
             }
 
             // Filtro "No existe"
             if (chkSoloNoExistentes.Checked)
             {
                 if (filtro != "") filtro += " AND ";
-                filtro += "[Existe] = '❌ No existe'";
+                filtro += "[Resultado] = '❌ No existe'";
             }
 
             dv.RowFilter = filtro;

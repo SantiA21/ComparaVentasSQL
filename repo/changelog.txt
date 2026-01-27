@@ -1,3 +1,6 @@
+[1.11.1]
+- Se fixea un error al filtrar en el form ComparaExcel
+
 [1.11.0]
 - Se reestructuro el proyecto
 - Limpieza de codigo
