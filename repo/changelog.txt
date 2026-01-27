@@ -1,3 +1,10 @@
+[1.11.0]
+- Se reestructuro el proyecto
+- Limpieza de codigo
+
+[1.10.0]
+- Se agrega la funcionalidad para consultar usuarios en MOSTAZA_ERP y GMG_ERP
+
 [1.9.1/1.9.2/1.9.3]
 - Se corrigen errores en el form del changelog
 
