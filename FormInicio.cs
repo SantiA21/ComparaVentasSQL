@@ -99,18 +99,25 @@ namespace ComparaVentasExcel
         {
             MostrarVersion();
 
-            // 1️⃣ Si vengo de una actualización → mostrar changelog
+            
             if (VengoDeActualizar())
             {
                 MostrarChangelog();
                 return;
             }
 
-            // 2️⃣ Si NO vengo del updater → chequear si hay update
+            
             if (!Program.ArrancoDesdeUpdater)
             {
-                if (UpdateChecker.HayActualizacion(out Version versionNueva))
+                if (UpdateChecker.HayActualizacion(out _))
                 {
+                    MessageBox.Show(
+                        "Hay una nueva versión disponible.\nLa aplicación se actualizará automáticamente.",
+                        "Actualización",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information
+                    );
+
                     LanzarUpdater();
                     Application.Exit();
                 }
