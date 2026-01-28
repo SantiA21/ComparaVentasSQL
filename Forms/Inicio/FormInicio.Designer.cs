@@ -43,6 +43,7 @@
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             novToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
+            usuariosBackofficeToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -64,28 +65,28 @@
             // importarExcelToolStripMenuItem
             // 
             importarExcelToolStripMenuItem.Name = "importarExcelToolStripMenuItem";
-            importarExcelToolStripMenuItem.Size = new Size(170, 22);
+            importarExcelToolStripMenuItem.Size = new Size(180, 22);
             importarExcelToolStripMenuItem.Text = "Importar excel";
             importarExcelToolStripMenuItem.Click += importarExcelToolStripMenuItem_Click;
             // 
             // consultarVentaToolStripMenuItem
             // 
             consultarVentaToolStripMenuItem.Name = "consultarVentaToolStripMenuItem";
-            consultarVentaToolStripMenuItem.Size = new Size(170, 22);
+            consultarVentaToolStripMenuItem.Size = new Size(180, 22);
             consultarVentaToolStripMenuItem.Text = "Consultar venta";
             consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
             // 
             // ventasConCAEAToolStripMenuItem
             // 
             ventasConCAEAToolStripMenuItem.Name = "ventasConCAEAToolStripMenuItem";
-            ventasConCAEAToolStripMenuItem.Size = new Size(170, 22);
+            ventasConCAEAToolStripMenuItem.Size = new Size(180, 22);
             ventasConCAEAToolStripMenuItem.Text = "Ventas con CAEA";
             ventasConCAEAToolStripMenuItem.Click += ventasConCAEAToolStripMenuItem_Click;
             // 
             // modificarImporteToolStripMenuItem
             // 
             modificarImporteToolStripMenuItem.Name = "modificarImporteToolStripMenuItem";
-            modificarImporteToolStripMenuItem.Size = new Size(170, 22);
+            modificarImporteToolStripMenuItem.Size = new Size(180, 22);
             modificarImporteToolStripMenuItem.Text = "Modificar importe";
             modificarImporteToolStripMenuItem.Click += modificarImporteToolStripMenuItem_Click;
             // 
@@ -105,7 +106,7 @@
             // 
             // usuariosToolStripMenuItem
             // 
-            usuariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosMOSTAZAERPToolStripMenuItem, usuariosGMGERPToolStripMenuItem });
+            usuariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosMOSTAZAERPToolStripMenuItem, usuariosGMGERPToolStripMenuItem, usuariosBackofficeToolStripMenuItem });
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
             usuariosToolStripMenuItem.Size = new Size(64, 20);
             usuariosToolStripMenuItem.Text = "Usuarios";
@@ -134,7 +135,7 @@
             // novToolStripMenuItem
             // 
             novToolStripMenuItem.Name = "novToolStripMenuItem";
-            novToolStripMenuItem.Size = new Size(133, 22);
+            novToolStripMenuItem.Size = new Size(180, 22);
             novToolStripMenuItem.Text = "Novedades";
             novToolStripMenuItem.Click += novToolStripMenuItem_Click;
             // 
@@ -147,6 +148,13 @@
             lblVersion.Size = new Size(38, 15);
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
+            // 
+            // usuariosBackofficeToolStripMenuItem
+            // 
+            usuariosBackofficeToolStripMenuItem.Name = "usuariosBackofficeToolStripMenuItem";
+            usuariosBackofficeToolStripMenuItem.Size = new Size(201, 22);
+            usuariosBackofficeToolStripMenuItem.Text = "Usuarios backoffice";
+            usuariosBackofficeToolStripMenuItem.Click += usuariosBackofficeToolStripMenuItem_Click;
             // 
             // FormInicio
             // 
@@ -184,5 +192,6 @@
         private ToolStripMenuItem usuariosGMGERPToolStripMenuItem;
         private ToolStripMenuItem ayudaToolStripMenuItem;
         private ToolStripMenuItem novToolStripMenuItem;
+        private ToolStripMenuItem usuariosBackofficeToolStripMenuItem;
     }
 }

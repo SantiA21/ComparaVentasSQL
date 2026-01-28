@@ -91,7 +91,6 @@ namespace ComparaVentasExcel
 
             string filtro = "";
 
-            // 🔍 Texto (usuario / nombre / apellido / nombre cinet)
             if (!string.IsNullOrWhiteSpace(txtBuscar.Text))
             {
                 string texto = txtBuscar.Text.Replace("'", "''");
@@ -103,14 +102,12 @@ namespace ComparaVentasExcel
                     $"OR NombreCinet LIKE '%{texto}%')";
             }
 
-            // 📂 Categoría
             if (cbCategoria.SelectedItem != null && cbCategoria.Text != "Todas")
             {
                 if (filtro != "") filtro += " AND ";
                 filtro += $"Categoria = '{cbCategoria.Text.Replace("'", "''")}'";
             }
 
-            // ⚡ Estado
             if (cbEstado.SelectedItem != null && cbEstado.Text != "Todos")
             {
                 if (filtro != "") filtro += " AND ";

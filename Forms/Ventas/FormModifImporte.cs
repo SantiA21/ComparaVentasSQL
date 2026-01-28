@@ -71,7 +71,7 @@ namespace ComparaVentasExcel
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show("❌ Error al modificar: " + ex.Message);
+                MessageBox.Show("Error al modificar: " + ex.Message);
             }
             finally
             {

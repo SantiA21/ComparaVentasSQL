@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ComparaVentasExcel.Models;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 
@@ -31,6 +32,14 @@ namespace ComparaVentasExcel.Data
                 throw new ArgumentException("Base de datos no encontrada");
 
             return new SqlConnection(connectionStrings[dbKey]);
+        }
+
+        public SqlConnection GetRemoteConnection(ConexionBackOffice config)
+        {
+            var connectionString =
+                $"Server={config.Ip};Database={config.Database};User Id={config.Usuario};Password={config.Password};TrustServerCertificate=True;";
+
+            return new SqlConnection(connectionString);
         }
     }
 }

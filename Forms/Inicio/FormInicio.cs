@@ -1,4 +1,5 @@
-﻿using ComparaVentasExcel.Utils;
+﻿using ComparaVentasExcel.Forms.Usuarios;
+using ComparaVentasExcel.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -164,6 +165,16 @@ namespace ComparaVentasExcel
         {
             this.Hide();
             using (FormUsuariosGmgERP mainForm = new FormUsuariosGmgERP())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
+
+        private void usuariosBackofficeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormConexionRemota mainForm = new FormConexionRemota())
             {
                 mainForm.ShowDialog();
             }
