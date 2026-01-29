@@ -1,5 +1,6 @@
-﻿using ComparaVentasExcel.Data;
+using ComparaVentasExcel.Data;
 using ComparaVentasExcel.Infrastructure;
+using ComparaVentasExcel.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -128,14 +129,19 @@ namespace ComparaVentasExcel
                 dgvVenta.DataSource = dtVenta;
 
                 if (dtVenta.Rows.Count > 0)
-                    MessageBox.Show("✅ Venta encontrada en la base de datos.");
+                    MessageBox.Show("Venta encontrada en la base de datos.");
                 else
-                    MessageBox.Show("❌ No existe la venta en la base de datos.");
+                    MessageBox.Show("No existe la venta en la base de datos.");
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show("Error durante la consulta: " + ex.Message);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al consultar la venta en la base de datos", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             finally
             {

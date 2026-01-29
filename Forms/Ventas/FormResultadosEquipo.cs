@@ -1,8 +1,9 @@
-﻿using System;
+using System;
 using System.Data;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Data.SqlClient;
+using ComparaVentasExcel.Utils;
 
 namespace ComparaVentasExcel
 {
@@ -41,7 +42,12 @@ namespace ComparaVentasExcel
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error al actualizar datos: " + ex.Message);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al consultar las ventas con CAEA del equipo seleccionado", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 

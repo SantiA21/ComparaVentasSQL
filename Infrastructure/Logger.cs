@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 
 namespace ComparaVentasExcel.Infrastructure
@@ -28,7 +28,16 @@ STACKTRACE:
 
                 File.AppendAllText(file, msg);
             }
-            catch { }
+            catch (Exception logEx)
+            {
+                // Si falla el logging, intentar escribir a un archivo de emergencia
+                try
+                {
+                    string emergencyFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logger_error.txt");
+                    File.AppendAllText(emergencyFile, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Error al escribir log: {logEx.Message}\n");
+                }
+                catch { /* Si incluso esto falla, ignorar silenciosamente */ }
+            }
         }
 
         public static void LogQuery(string query)
@@ -44,7 +53,16 @@ $@"--------------------
 
                 File.AppendAllText(file, msg);
             }
-            catch { }
+            catch (Exception logEx)
+            {
+                // Si falla el logging, intentar escribir a un archivo de emergencia
+                try
+                {
+                    string emergencyFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logger_error.txt");
+                    File.AppendAllText(emergencyFile, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Error al escribir log de query: {logEx.Message}\n");
+                }
+                catch { /* Si incluso esto falla, ignorar silenciosamente */ }
+            }
         }
 
         // 👉 NUEVO
@@ -60,7 +78,16 @@ $@"--------------------
 
                 File.AppendAllText(file, msg);
             }
-            catch { }
+            catch (Exception logEx)
+            {
+                // Si falla el logging, intentar escribir a un archivo de emergencia
+                try
+                {
+                    string emergencyFile = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "logger_error.txt");
+                    File.AppendAllText(emergencyFile, $"[{DateTime.Now:yyyy-MM-dd HH:mm:ss}] Error al escribir log de info: {logEx.Message}\n");
+                }
+                catch { /* Si incluso esto falla, ignorar silenciosamente */ }
+            }
         }
     }
 }

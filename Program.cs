@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -16,16 +16,16 @@ namespace ComparaVentasExcel
         [STAThread]
         static void Main(string[] args)
         {
-            ApplicationConfiguration.Initialize(); // recomendado para .NET 8+
-            Application.Run(new FormInicio());
-
+            // Verificar argumentos antes de inicializar la aplicación
             if (args.Length > 0 && args[0] == "--updated")
             {
                 ArrancoDesdeUpdater = true;
             }
 
-            Application.EnableVisualStyles();
-            Application.SetCompatibleTextRenderingDefault(false);
+            // Configuración de la aplicación (recomendado para .NET 8+)
+            ApplicationConfiguration.Initialize();
+            
+            // Ejecutar la aplicación principal
             Application.Run(new FormInicio());
         }
     }

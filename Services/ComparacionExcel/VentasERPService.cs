@@ -1,4 +1,4 @@
-﻿using ComparaVentasExcel.Data;
+using ComparaVentasExcel.Data;
 using ComparaVentasExcel.Models;
 using System;
 using System.Collections.Generic;
@@ -47,8 +47,8 @@ namespace ComparaVentasExcel.Services.ComparacionExcel
 
             using var reader = cmd.ExecuteReader();
 
-            // 1️⃣ Match exacto
-            if (reader.Read() && reader[0] != DBNull.Value)
+            // 1️⃣ Match exacto (primer resultado set)
+            if (reader.HasRows && reader.Read() && reader[0] != DBNull.Value)
             {
                 return new VentaResultado
                 {
@@ -57,8 +57,8 @@ namespace ComparaVentasExcel.Services.ComparacionExcel
                 };
             }
 
-            // 2️⃣ Fallback por sucursal
-            if (reader.NextResult() && reader.Read() && reader[0] != DBNull.Value)
+            // 2️⃣ Fallback por sucursal (segundo resultado set)
+            if (reader.NextResult() && reader.HasRows && reader.Read() && reader[0] != DBNull.Value)
             {
                 return new VentaResultado
                 {

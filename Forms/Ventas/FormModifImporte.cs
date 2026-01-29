@@ -1,4 +1,4 @@
-﻿using ComparaVentasExcel.Data;
+using ComparaVentasExcel.Data;
 using ComparaVentasExcel.Infrastructure;
 using ComparaVentasExcel.Models;
 using ComparaVentasExcel.Services.Importes;
@@ -71,7 +71,12 @@ namespace ComparaVentasExcel
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show("Error al modificar: " + ex.Message);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al modificar el importe del comprobante", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
             finally
             {

@@ -1,4 +1,4 @@
-﻿using ClosedXML.Excel;
+using ClosedXML.Excel;
 using ComparaVentasExcel.Data;
 using ComparaVentasExcel.Infrastructure;
 using ComparaVentasExcel.Services.ComparacionExcel;
@@ -34,12 +34,6 @@ namespace ComparaVentasExcel
                 cbBaseDatos.SelectedIndex = 0;
                 selectedDbKey = cbBaseDatos.SelectedItem.ToString();
             }
-
-            cbBaseDatos.SelectedIndexChanged += (s, e) =>
-            {
-                if (cbBaseDatos.SelectedItem != null)
-                    selectedDbKey = cbBaseDatos.SelectedItem.ToString();
-            };
         }
 
         private void CbBaseDatos_SelectedIndexChanged(object sender, EventArgs e)
@@ -136,7 +130,12 @@ namespace ComparaVentasExcel
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show("Error durante el proceso: " + ex.Message);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al comparar las ventas con la base de datos", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 

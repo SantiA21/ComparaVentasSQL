@@ -1,7 +1,8 @@
-﻿using ComparaVentasExcel.Data;
+using ComparaVentasExcel.Data;
 using ComparaVentasExcel.Infrastructure;
 using ComparaVentasExcel.Models;
 using ComparaVentasExcel.Services.Usuarios;
+using ComparaVentasExcel.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -48,7 +49,12 @@ namespace ComparaVentasExcel.Forms.Usuarios
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show("❌ No se pudo conectar o ejecutar la consulta");
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al conectarse al Backoffice remoto o ejecutar la consulta de usuarios", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }

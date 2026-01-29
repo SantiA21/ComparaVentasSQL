@@ -1,0 +1,244 @@
+ComparaVentasExcel – Manual de usuario
+
+1. ¿Para qué sirve esta aplicación?
+-----------------------------------
+
+ComparaVentasExcel es un programa de escritorio para Windows que te ayuda a:
+
+- Ver si las ventas de un archivo Excel existen en el sistema.
+- Buscar una venta puntual en la base de datos.
+- Ver ventas con CAEA de distintos equipos/cajas.
+- Modificar importes de comprobantes (solo usuarios autorizados).
+- Ver sucursales y locales activos.
+- Consultar usuarios de los sistemas (MOSTAZA_ERP, GMG_ERP y Backoffice remoto).
+- Ver las novedades de cada versión y actualizarse automáticamente.
+
+No necesitás conocimientos técnicos de bases de datos: la aplicación se encarga de conectarse al servidor.
+
+
+2. Cómo abrir la aplicación
+---------------------------
+
+1) Buscá la carpeta que recibiste (por ejemplo en el Escritorio o en el Disco C).
+2) Dentro vas a ver al menos estos archivos:
+   - ComparaVentasExcel.exe
+   - Updater.exe
+3) Hacé doble clic en ComparaVentasExcel.exe.
+
+En la parte inferior de la ventana principal vas a ver siempre la versión actual del programa.
+
+
+3. Actualizaciones automáticas
+------------------------------
+
+Cada vez que abrís la aplicación:
+
+- Se revisa en internet si existe una versión nueva.
+- Si hay una actualización:
+  - Aparece un mensaje avisando que se va a actualizar.
+  - Se cierra la aplicación y se ejecuta Updater.exe.
+  - Al terminar, volvés a abrir ComparaVentasExcel.exe normalmente.
+
+Al reiniciar, la aplicación puede mostrar una ventana con las novedades de la nueva versión.
+
+Tu única acción como usuario es aceptar el mensaje y esperar a que finalice el proceso.
+
+
+4. Pantalla principal
+---------------------
+
+Al abrir el programa, aparece una ventana principal con un menú superior.
+
+Desde ahí podés acceder a las principales funciones:
+
+- Importar Excel
+- Consultar venta
+- Ventas con CAEA
+- Modificar importe
+- Ver sucursales
+- Usuarios MOSTAZA ERP
+- Usuarios GMG ERP
+- Usuarios Backoffice remoto
+- Novedades / Changelog
+
+En todas las pantallas verás, en la parte inferior, la versión actual del sistema.
+
+
+5. Importar Excel (comparar ventas)
+-----------------------------------
+
+Para usar esta función:
+
+1) En el menú, elegí “Importar Excel”.
+2) Arriba a la izquierda, elegí la base de datos:
+   - MOSTAZA_ERP o GMG_ERP.
+3) Hacé clic en el botón “Examinar” y seleccioná el archivo Excel con las ventas.
+4) Hacé clic en “Procesar”.
+
+La aplicación:
+
+- Lee las filas del Excel.
+- Interpreta los datos de cada venta.
+- Consulta en la base de datos si esa venta existe.
+
+En la grilla de resultados vas a ver, para cada fila:
+
+- Sucursal
+- Local
+- Número de comprobante
+- Tipo de comprobante
+- Importe
+- Fecha
+- CAE
+- Resultado (si la venta existe o no en la base)
+
+Filtros útiles:
+
+- Filtrar por Sucursal.
+- Filtrar por Local.
+- Ver solo ventas que existen.
+- Ver solo ventas que no existen.
+
+Exportar:
+
+- Podés exportar lo que ves en pantalla a un nuevo archivo Excel usando el botón “Exportar”.
+
+
+6. Consultar una venta puntual
+------------------------------
+
+Para buscar una venta específica:
+
+1) En el menú, elegí “Consultar venta”.
+2) Seleccioná la base de datos (MOSTAZA o GMG).
+3) Completá los campos:
+   - Sucursal (solo números).
+   - Número de comprobante.
+   - Tipo de comprobante (elegir en el combo).
+4) Hacé clic en “Consultar”.
+
+Resultados:
+
+- Si la venta existe:
+  - Se muestran los datos en una tabla (local, fecha, hora, sucursal, comprobante, CAE, importe, etc.).
+  - Aparece un mensaje: “✅ Venta encontrada en la base de datos.”
+- Si no existe:
+  - La tabla aparece vacía.
+  - Aparece un mensaje: “❌ No existe la venta en la base de datos.”
+
+
+7. Ventas con CAEA (Linked Server)
+----------------------------------
+
+Esta opción sirve para ver ventas con CAEA en equipos/cajas remotos.
+
+Pasos básicos:
+
+1) En el menú, elegí “Ventas con CAEA”.
+2) Ingresá la IP o nombre del “servidor madre” (BACKOFFICE).
+3) Hacé clic en “Cargar equipos” para obtener la lista de equipos/cajas.
+4) Seleccioná un equipo y seguí las opciones de la pantalla para ver las ventas con CAEA.
+
+La aplicación se encarga de conectarse y mostrar una tabla con esas ventas.
+
+
+8. Modificar importe de un comprobante
+--------------------------------------
+
+ATENCIÓN: Esta función modifica importes en la base de datos. Usarla solo si estás autorizado.
+
+Para modificar un importe:
+
+1) En el menú, elegí “Modificar importe”.
+2) Seleccioná la base de datos.
+3) Completá:
+   - Sucursal.
+   - Número de comprobante.
+   - Tipo de comprobante.
+   - Importe nuevo.
+4) Al confirmar, la aplicación te pedirá una clave de seguridad.
+5) Si la clave es correcta, se aplican los cambios y aparece un mensaje de éxito.
+
+Si la clave es incorrecta o se cancela, no se realiza ninguna modificación.
+
+
+9. Ver sucursales y locales
+---------------------------
+
+Para ver sucursales y locales activos:
+
+1) En el menú, elegí “Ver sucursales”.
+2) Seleccioná la base de datos.
+3) La aplicación mostrará una tabla con:
+   - Caja
+   - Sucursal
+   - Local
+
+Podés escribir en el cuadro de búsqueda para filtrar por sucursal o local.
+
+
+10. Usuarios MOSTAZA, GMG y Backoffice remoto
+---------------------------------------------
+
+Hay tres opciones para ver usuarios:
+
+- Usuarios MOSTAZA ERP
+- Usuarios GMG ERP
+- Usuarios Backoffice remoto
+
+En todas verás una tabla con información del usuario, como:
+
+- DNI
+- Nombre
+- Apellido
+- Nombre Cinet
+- Categoría
+- Estado
+
+Herramientas de filtrado:
+
+- Búsqueda por texto (DNI, nombre, apellido, nombre Cinet).
+- Filtro por Categoría.
+- Filtro por Estado.
+
+En el caso de Backoffice remoto:
+
+1) Ingresás la IP del servidor Backoffice.
+2) Hacés clic en “Conectar”.
+3) Si la conexión y la consulta funcionan, se abre una ventana con el listado de usuarios y los mismos filtros.
+
+
+11. Novedades (changelog)
+-------------------------
+
+Para ver qué cambió entre versiones:
+
+1) En el menú, elegí la opción de “Novedades” o “Changelog”.
+2) La aplicación descargará el archivo de novedades y lo mostrará en pantalla.
+
+Si no hay conexión a internet, se mostrará un mensaje indicando que no se pudieron cargar las novedades.
+
+
+12. Qué hacer si aparece un error
+---------------------------------
+
+Si la aplicación muestra un mensaje de error o algo no funciona como esperabas:
+
+1) Anotá:
+   - Qué estabas haciendo.
+   - En qué pantalla.
+   - La hora aproximada.
+2) Avisale al soporte técnico del sistema.
+3) Si te lo piden, enviá la carpeta “Logs” que está al lado del archivo ComparaVentasExcel.exe.
+
+En esa carpeta se guardan archivos de texto con información técnica que ayuda a encontrar el problema.
+
+
+13. Recomendaciones generales
+-----------------------------
+
+- No borres ni cambies archivos de la carpeta donde está ComparaVentasExcel.exe.
+- No compartas la carpeta de la aplicación con personas no autorizadas.
+- Usá la opción de “Modificar importe” solo si tenés la autorización correspondiente.
+- Ante cualquier duda, consultá con el área técnica o con la persona que te entregó el sistema.
+

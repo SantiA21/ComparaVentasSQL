@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office.Word;
+using DocumentFormat.OpenXml.Office.Word;
+using ComparaVentasExcel.Utils;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -70,7 +71,12 @@ ORDER BY equipo;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error cargando sucursales: " + ex.Message);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al cargar las sucursales desde el servidor madre", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
     }

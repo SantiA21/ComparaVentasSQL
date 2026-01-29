@@ -1,3 +1,6 @@
+[1.12.1]
+- Se reordeno el codigo, se fixearon bugs menores y se mejoraron los mensajes de error para el usuario
+
 [1.12.0]
 - Se agrego la consulta de usuarios al backoffice de los locales con filtros
 

@@ -1,5 +1,7 @@
-﻿using ComparaVentasExcel.Data;
+using ComparaVentasExcel.Data;
 using ComparaVentasExcel.Services.Usuarios;
+using ComparaVentasExcel.Utils;
+using ComparaVentasExcel.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,8 +49,9 @@ namespace ComparaVentasExcel
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 MessageBox.Show(
-                    "Error al consultar usuarios de Mostaza ERP:\n" + ex.Message,
+                    UserMessageHelper.GetFriendlyMessage("al consultar usuarios de GMG_ERP", ex),
                     "Error",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error

@@ -1,4 +1,5 @@
-﻿using ComparaVentasExcel.Infrastructure;
+using ComparaVentasExcel.Infrastructure;
+using ComparaVentasExcel.Utils;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -25,8 +26,20 @@ namespace ComparaVentasExcel
                 return;
             }
 
+            // NOTA DE SEGURIDAD: Las credenciales están hardcodeadas por simplicidad.
+            // En producción, deberían estar en un archivo de configuración encriptado.
+            // El servidor madre debe ser validado antes de usar.
+            string servidor = txtServidorMadre.Text.Trim();
+            
+            // Validación básica del servidor
+            if (servidor.Contains(";") || servidor.Contains("'") || servidor.Contains("\""))
+            {
+                MessageBox.Show("El nombre del servidor contiene caracteres no permitidos.");
+                return;
+            }
+
             connectionToMotherServer =
-                $"Server={txtServidorMadre.Text};Database=BACKOFFICE;User Id=sa;Password=cinettorcel;";
+                $"Server={servidor};Database=BACKOFFICE;User Id=sa;Password=cinettorcel;";
 
             try
             {
@@ -86,7 +99,13 @@ ORDER BY equipo;
             }
             catch (Exception ex)
             {
-                MessageBox.Show("Error cargando equipos: " + ex.Message);
+                Logger.LogError(ex);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al cargar los equipos desde el servidor BACKOFFICE", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
@@ -97,6 +116,7 @@ ORDER BY equipo;
 
             host = host.Trim();
 
+            // Remover caracteres peligrosos para prevenir SQL injection
             if (host.Contains("#"))
                 host = host.Split('#')[0].Trim();
 
@@ -105,6 +125,16 @@ ORDER BY equipo;
 
             if (host.Contains(" "))
                 host = host.Split(' ')[0].Trim();
+
+            // Validar que solo contenga caracteres alfanuméricos, puntos, guiones y guiones bajos
+            // Esto previene inyección SQL adicional
+            foreach (char c in host)
+            {
+                if (!char.IsLetterOrDigit(c) && c != '.' && c != '-' && c != '_')
+                {
+                    throw new ArgumentException("El hostname contiene caracteres no permitidos.");
+                }
+            }
 
             return host;
         }
@@ -141,9 +171,21 @@ ORDER BY
                 return;
             }
 
-            string hostLimpio = LimpiarHostname(equipoIngresado);
-
-      
+            string hostLimpio;
+            try
+            {
+                hostLimpio = LimpiarHostname(equipoIngresado);
+                if (string.IsNullOrWhiteSpace(hostLimpio))
+                {
+                    MessageBox.Show("No se pudo procesar el nombre del equipo.");
+                    return;
+                }
+            }
+            catch (ArgumentException ex)
+            {
+                MessageBox.Show($"Error en el nombre del equipo: {ex.Message}");
+                return;
+            }
 
             string linkedServerName = $"[{hostLimpio},1433]";
             string linkedServerRawName = $"{hostLimpio},1433";
@@ -216,7 +258,12 @@ ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show("Error consultando equipo: " + ex.Message);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al consultar el equipo seleccionado", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 

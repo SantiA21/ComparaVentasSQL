@@ -1,7 +1,7 @@
-﻿using ComparaVentasExcel.Data;
+using ComparaVentasExcel.Data;
 using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Services;
 using ComparaVentasExcel.Services.Sucursales;
+using ComparaVentasExcel.Utils;
 using System;
 using System.Data;
 using System.Linq;
@@ -74,7 +74,12 @@ namespace ComparaVentasExcel
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show("Error al cargar las sucursales: " + ex.Message);
+                MessageBox.Show(
+                    UserMessageHelper.GetFriendlyMessage("al cargar las sucursales desde la base de datos", ex),
+                    "Error",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Error
+                );
             }
         }
 
