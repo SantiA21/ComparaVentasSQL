@@ -6,6 +6,8 @@
 .vs/
 *.user
 *.suo
+dbconfig.ini
+Data/DataAccess.cs
 
 # Archivos de compilación
 bin/
