@@ -23,8 +23,11 @@ namespace ComparaVentasExcel
         public FormComparaExcel()
         {
             InitializeComponent();
+
             dataAccess = new DataAccess();
             dgvResultados.RowHeadersVisible = false;
+
+            cbBaseDatos.SelectedIndexChanged += CbBaseDatos_SelectedIndexChanged;
 
             var keys = dataAccess.GetKeys();
             cbBaseDatos.Items.AddRange(keys);

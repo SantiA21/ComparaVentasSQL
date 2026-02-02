@@ -1,3 +1,6 @@
+[1.12.2]
+- Se soluciono un error en el combobox al seleccionar la base de datos
+
 [1.12.1]
 - Se reordeno el codigo, se fixearon bugs menores y se mejoraron los mensajes de error para el usuario
 

@@ -38,7 +38,7 @@
     <Compile Update="Forms\Sucursales\FormVerSucursalesV2.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Update="FrmClave.cs">
+    <Compile Update="Forms\FrmClave.cs">
       <SubType>Form</SubType>
     </Compile>
   </ItemGroup>
