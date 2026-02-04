@@ -1,4 +1,5 @@
-﻿using ComparaVentasExcel.Forms.Usuarios;
+﻿using ComparaVentasExcel.Forms.Sucursales;
+using ComparaVentasExcel.Forms.Usuarios;
 using ComparaVentasExcel.Utils;
 using System;
 using System.Collections.Generic;
@@ -175,6 +176,16 @@ namespace ComparaVentasExcel
         {
             this.Hide();
             using (FormConexionRemota mainForm = new FormConexionRemota())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
+
+        private void insertarSucursalToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormInsertarSucursalFE mainForm = new FormInsertarSucursalFE())
             {
                 mainForm.ShowDialog();
             }

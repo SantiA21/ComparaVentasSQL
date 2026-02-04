@@ -40,10 +40,11 @@
             usuariosToolStripMenuItem = new ToolStripMenuItem();
             usuariosMOSTAZAERPToolStripMenuItem = new ToolStripMenuItem();
             usuariosGMGERPToolStripMenuItem = new ToolStripMenuItem();
+            usuariosBackofficeToolStripMenuItem = new ToolStripMenuItem();
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             novToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
-            usuariosBackofficeToolStripMenuItem = new ToolStripMenuItem();
+            insertarSucursalToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -65,34 +66,34 @@
             // importarExcelToolStripMenuItem
             // 
             importarExcelToolStripMenuItem.Name = "importarExcelToolStripMenuItem";
-            importarExcelToolStripMenuItem.Size = new Size(180, 22);
+            importarExcelToolStripMenuItem.Size = new Size(170, 22);
             importarExcelToolStripMenuItem.Text = "Importar excel";
             importarExcelToolStripMenuItem.Click += importarExcelToolStripMenuItem_Click;
             // 
             // consultarVentaToolStripMenuItem
             // 
             consultarVentaToolStripMenuItem.Name = "consultarVentaToolStripMenuItem";
-            consultarVentaToolStripMenuItem.Size = new Size(180, 22);
+            consultarVentaToolStripMenuItem.Size = new Size(170, 22);
             consultarVentaToolStripMenuItem.Text = "Consultar venta";
             consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
             // 
             // ventasConCAEAToolStripMenuItem
             // 
             ventasConCAEAToolStripMenuItem.Name = "ventasConCAEAToolStripMenuItem";
-            ventasConCAEAToolStripMenuItem.Size = new Size(180, 22);
+            ventasConCAEAToolStripMenuItem.Size = new Size(170, 22);
             ventasConCAEAToolStripMenuItem.Text = "Ventas con CAEA";
             ventasConCAEAToolStripMenuItem.Click += ventasConCAEAToolStripMenuItem_Click;
             // 
             // modificarImporteToolStripMenuItem
             // 
             modificarImporteToolStripMenuItem.Name = "modificarImporteToolStripMenuItem";
-            modificarImporteToolStripMenuItem.Size = new Size(180, 22);
+            modificarImporteToolStripMenuItem.Size = new Size(170, 22);
             modificarImporteToolStripMenuItem.Text = "Modificar importe";
             modificarImporteToolStripMenuItem.Click += modificarImporteToolStripMenuItem_Click;
             // 
             // sucursalesToolStripMenuItem
             // 
-            sucursalesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { verSucursalesToolStripMenuItem });
+            sucursalesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { verSucursalesToolStripMenuItem, insertarSucursalToolStripMenuItem });
             sucursalesToolStripMenuItem.Name = "sucursalesToolStripMenuItem";
             sucursalesToolStripMenuItem.Size = new Size(74, 20);
             sucursalesToolStripMenuItem.Text = "Sucursales";
@@ -100,7 +101,7 @@
             // verSucursalesToolStripMenuItem
             // 
             verSucursalesToolStripMenuItem.Name = "verSucursalesToolStripMenuItem";
-            verSucursalesToolStripMenuItem.Size = new Size(147, 22);
+            verSucursalesToolStripMenuItem.Size = new Size(180, 22);
             verSucursalesToolStripMenuItem.Text = "Ver sucursales";
             verSucursalesToolStripMenuItem.Click += verSucursalesToolStripMenuItem_Click;
             // 
@@ -125,6 +126,13 @@
             usuariosGMGERPToolStripMenuItem.Text = "Usuarios GMG_ERP";
             usuariosGMGERPToolStripMenuItem.Click += usuariosGMGERPToolStripMenuItem_Click;
             // 
+            // usuariosBackofficeToolStripMenuItem
+            // 
+            usuariosBackofficeToolStripMenuItem.Name = "usuariosBackofficeToolStripMenuItem";
+            usuariosBackofficeToolStripMenuItem.Size = new Size(201, 22);
+            usuariosBackofficeToolStripMenuItem.Text = "Usuarios backoffice";
+            usuariosBackofficeToolStripMenuItem.Click += usuariosBackofficeToolStripMenuItem_Click;
+            // 
             // ayudaToolStripMenuItem
             // 
             ayudaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novToolStripMenuItem });
@@ -135,7 +143,7 @@
             // novToolStripMenuItem
             // 
             novToolStripMenuItem.Name = "novToolStripMenuItem";
-            novToolStripMenuItem.Size = new Size(180, 22);
+            novToolStripMenuItem.Size = new Size(133, 22);
             novToolStripMenuItem.Text = "Novedades";
             novToolStripMenuItem.Click += novToolStripMenuItem_Click;
             // 
@@ -149,12 +157,12 @@
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
-            // usuariosBackofficeToolStripMenuItem
+            // insertarSucursalToolStripMenuItem
             // 
-            usuariosBackofficeToolStripMenuItem.Name = "usuariosBackofficeToolStripMenuItem";
-            usuariosBackofficeToolStripMenuItem.Size = new Size(201, 22);
-            usuariosBackofficeToolStripMenuItem.Text = "Usuarios backoffice";
-            usuariosBackofficeToolStripMenuItem.Click += usuariosBackofficeToolStripMenuItem_Click;
+            insertarSucursalToolStripMenuItem.Name = "insertarSucursalToolStripMenuItem";
+            insertarSucursalToolStripMenuItem.Size = new Size(180, 22);
+            insertarSucursalToolStripMenuItem.Text = "Insertar sucursal FE";
+            insertarSucursalToolStripMenuItem.Click += insertarSucursalToolStripMenuItem_Click;
             // 
             // FormInicio
             // 
@@ -193,5 +201,6 @@
         private ToolStripMenuItem ayudaToolStripMenuItem;
         private ToolStripMenuItem novToolStripMenuItem;
         private ToolStripMenuItem usuariosBackofficeToolStripMenuItem;
+        private ToolStripMenuItem insertarSucursalToolStripMenuItem;
     }
 }

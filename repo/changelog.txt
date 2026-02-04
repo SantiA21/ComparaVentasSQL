@@ -1,3 +1,6 @@
+[1.13.0]
+- Se agrego la funcionalidad para insertar sucursales de FE en Central(MOSTAZA_ERP o GMG_ERP)
+
 [1.12.2]
 - Se soluciono un error en el combobox al seleccionar la base de datos
 

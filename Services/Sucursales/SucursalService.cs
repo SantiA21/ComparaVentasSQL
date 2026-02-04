@@ -8,11 +8,11 @@ namespace ComparaVentasExcel.Services.Sucursales
 {
     public class SucursalService
     {
-        private readonly DataAccess dataAccess;
+        private readonly DataAccess _dataAccess;
 
         public SucursalService(DataAccess dataAccess)
         {
-            this.dataAccess = dataAccess;
+            _dataAccess = dataAccess;
         }
 
         public DataTable ObtenerSucursales(string dbKey)
@@ -20,7 +20,7 @@ namespace ComparaVentasExcel.Services.Sucursales
             DataTable dt = new DataTable();
             string query = GetQueryByDatabase(dbKey);
 
-            using (SqlConnection conexion = dataAccess.GetConnection(dbKey))
+            using (SqlConnection conexion = _dataAccess.GetConnection(dbKey))
             using (SqlCommand cmd = new SqlCommand(query, conexion))
             using (SqlDataAdapter adapter = new SqlDataAdapter(cmd))
             {
@@ -32,6 +32,30 @@ namespace ComparaVentasExcel.Services.Sucursales
             return dt;
         }
 
+        public void InsertarSucursal(string dbKey, string pdv)
+        {
+            string sql = @"
+                INSERT INTO SUCURSALES
+                VALUES (
+                    @pdv,
+                    @descripcion,
+                    NULL, NULL, NULL, NULL, NULL,
+                    'FE',
+                    'FE',
+                    NULL, NULL
+                )";
+
+            using (SqlConnection conn = _dataAccess.GetConnection(dbKey))
+            using (SqlCommand cmd = new SqlCommand(sql, conn))
+            {
+                cmd.Parameters.Add("@pdv", SqlDbType.VarChar).Value = pdv;
+                cmd.Parameters.Add("@descripcion", SqlDbType.VarChar)
+                               .Value = $"{pdv}.DL.";
+
+                conn.Open();
+                cmd.ExecuteNonQuery();
+            }
+        }
         private string GetQueryByDatabase(string dbKey)
         {
             if (dbKey.Equals("MOSTAZA_ERP", StringComparison.OrdinalIgnoreCase))
