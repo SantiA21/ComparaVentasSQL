@@ -42,11 +42,11 @@
             usuariosMOSTAZAERPToolStripMenuItem = new ToolStripMenuItem();
             usuariosGMGERPToolStripMenuItem = new ToolStripMenuItem();
             usuariosBackofficeToolStripMenuItem = new ToolStripMenuItem();
+            preciosToolStripMenuItem = new ToolStripMenuItem();
+            consultarPreciosToolStripMenuItem = new ToolStripMenuItem();
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             novToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
-            preciosToolStripMenuItem = new ToolStripMenuItem();
-            consultarPreciosToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -55,7 +55,7 @@
             menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, ayudaToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(399, 24);
+            menuStrip.Size = new Size(349, 24);
             menuStrip.TabIndex = 15;
             // 
             // ventasToolStripMenuItem
@@ -142,6 +142,21 @@
             usuariosBackofficeToolStripMenuItem.Text = "Usuarios backoffice";
             usuariosBackofficeToolStripMenuItem.Click += usuariosBackofficeToolStripMenuItem_Click;
             // 
+            // preciosToolStripMenuItem
+            // 
+            preciosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consultarPreciosToolStripMenuItem });
+            preciosToolStripMenuItem.Name = "preciosToolStripMenuItem";
+            preciosToolStripMenuItem.Size = new Size(57, 20);
+            preciosToolStripMenuItem.Text = "Precios";
+            preciosToolStripMenuItem.Click += preciosToolStripMenuItem_Click;
+            // 
+            // consultarPreciosToolStripMenuItem
+            // 
+            consultarPreciosToolStripMenuItem.Name = "consultarPreciosToolStripMenuItem";
+            consultarPreciosToolStripMenuItem.Size = new Size(166, 22);
+            consultarPreciosToolStripMenuItem.Text = "Consultar precios";
+            consultarPreciosToolStripMenuItem.Click += consultarPreciosToolStripMenuItem_Click;
+            // 
             // ayudaToolStripMenuItem
             // 
             ayudaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novToolStripMenuItem });
@@ -152,7 +167,7 @@
             // novToolStripMenuItem
             // 
             novToolStripMenuItem.Name = "novToolStripMenuItem";
-            novToolStripMenuItem.Size = new Size(180, 22);
+            novToolStripMenuItem.Size = new Size(133, 22);
             novToolStripMenuItem.Text = "Novedades";
             novToolStripMenuItem.Click += novToolStripMenuItem_Click;
             // 
@@ -166,27 +181,12 @@
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
-            // preciosToolStripMenuItem
-            // 
-            preciosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consultarPreciosToolStripMenuItem });
-            preciosToolStripMenuItem.Name = "preciosToolStripMenuItem";
-            preciosToolStripMenuItem.Size = new Size(57, 20);
-            preciosToolStripMenuItem.Text = "Precios";
-            preciosToolStripMenuItem.Click += preciosToolStripMenuItem_Click;
-            // 
-            // consultarPreciosToolStripMenuItem
-            // 
-            consultarPreciosToolStripMenuItem.Name = "consultarPreciosToolStripMenuItem";
-            consultarPreciosToolStripMenuItem.Size = new Size(180, 22);
-            consultarPreciosToolStripMenuItem.Text = "Consultar precios";
-            consultarPreciosToolStripMenuItem.Click += consultarPreciosToolStripMenuItem_Click;
-            // 
             // FormInicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(399, 305);
+            ClientSize = new Size(349, 305);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip);
             Icon = (Icon)resources.GetObject("$this.Icon");
