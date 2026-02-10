@@ -358,21 +358,21 @@ namespace ComparaVentasExcel
 
         private void LimpiarFiltros()
         {
-            
+
             if (cbSucursal.Items.Count > 0) cbSucursal.SelectedIndex = 0;
             if (cbLocal.Items.Count > 0) cbLocal.SelectedIndex = 0;
 
-            
+
             chkMostrarTodos.Checked = true;
             chkSoloExistentes.Checked = false;
             chkSoloNoExistentes.Checked = false;
 
-            
+
             if (dtOriginal != null)
             {
                 dgvResultados.DataSource = dtOriginal;
 
-                
+
                 CargarComboDesdeTabla(dtOriginal, cbSucursal, "Sucursal");
                 CargarComboDesdeTabla(dtOriginal, cbLocal, "Local");
             }
@@ -384,6 +384,11 @@ namespace ComparaVentasExcel
         private void btnLimpiarFiltros_Click(object sender, EventArgs e)
         {
             LimpiarFiltros();
+        }
+
+        private void lblVersion_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

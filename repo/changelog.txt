@@ -1,3 +1,6 @@
+[1.14.0]
+- Se agrego un formulario para consultar precios en MOSTAZA_ERP unicamente. Se conecta a una API para hacerlo.
+
 [1.13.0]
 - Se agrego la funcionalidad para insertar sucursales de FE en Central(MOSTAZA_ERP o GMG_ERP)
 

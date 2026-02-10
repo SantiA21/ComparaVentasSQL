@@ -1,4 +1,5 @@
-﻿using ComparaVentasExcel.Forms.Sucursales;
+﻿using ComparaVentasExcel.Forms.Precios;
+using ComparaVentasExcel.Forms.Sucursales;
 using ComparaVentasExcel.Forms.Usuarios;
 using ComparaVentasExcel.Utils;
 using System;
@@ -186,6 +187,21 @@ namespace ComparaVentasExcel
         {
             this.Hide();
             using (FormInsertarSucursalFE mainForm = new FormInsertarSucursalFE())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
+
+        private void preciosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void consultarPreciosToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormPrecios mainForm = new FormPrecios())
             {
                 mainForm.ShowDialog();
             }

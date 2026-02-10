@@ -37,6 +37,7 @@
             modificarImporteToolStripMenuItem = new ToolStripMenuItem();
             sucursalesToolStripMenuItem = new ToolStripMenuItem();
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
+            insertarSucursalToolStripMenuItem = new ToolStripMenuItem();
             usuariosToolStripMenuItem = new ToolStripMenuItem();
             usuariosMOSTAZAERPToolStripMenuItem = new ToolStripMenuItem();
             usuariosGMGERPToolStripMenuItem = new ToolStripMenuItem();
@@ -44,16 +45,17 @@
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             novToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
-            insertarSucursalToolStripMenuItem = new ToolStripMenuItem();
+            preciosToolStripMenuItem = new ToolStripMenuItem();
+            consultarPreciosToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
             // 
-            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, ayudaToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, ayudaToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(345, 24);
+            menuStrip.Size = new Size(399, 24);
             menuStrip.TabIndex = 15;
             // 
             // ventasToolStripMenuItem
@@ -101,9 +103,16 @@
             // verSucursalesToolStripMenuItem
             // 
             verSucursalesToolStripMenuItem.Name = "verSucursalesToolStripMenuItem";
-            verSucursalesToolStripMenuItem.Size = new Size(180, 22);
+            verSucursalesToolStripMenuItem.Size = new Size(174, 22);
             verSucursalesToolStripMenuItem.Text = "Ver sucursales";
             verSucursalesToolStripMenuItem.Click += verSucursalesToolStripMenuItem_Click;
+            // 
+            // insertarSucursalToolStripMenuItem
+            // 
+            insertarSucursalToolStripMenuItem.Name = "insertarSucursalToolStripMenuItem";
+            insertarSucursalToolStripMenuItem.Size = new Size(174, 22);
+            insertarSucursalToolStripMenuItem.Text = "Insertar sucursal FE";
+            insertarSucursalToolStripMenuItem.Click += insertarSucursalToolStripMenuItem_Click;
             // 
             // usuariosToolStripMenuItem
             // 
@@ -143,7 +152,7 @@
             // novToolStripMenuItem
             // 
             novToolStripMenuItem.Name = "novToolStripMenuItem";
-            novToolStripMenuItem.Size = new Size(133, 22);
+            novToolStripMenuItem.Size = new Size(180, 22);
             novToolStripMenuItem.Text = "Novedades";
             novToolStripMenuItem.Click += novToolStripMenuItem_Click;
             // 
@@ -157,19 +166,27 @@
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
-            // insertarSucursalToolStripMenuItem
+            // preciosToolStripMenuItem
             // 
-            insertarSucursalToolStripMenuItem.Name = "insertarSucursalToolStripMenuItem";
-            insertarSucursalToolStripMenuItem.Size = new Size(180, 22);
-            insertarSucursalToolStripMenuItem.Text = "Insertar sucursal FE";
-            insertarSucursalToolStripMenuItem.Click += insertarSucursalToolStripMenuItem_Click;
+            preciosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consultarPreciosToolStripMenuItem });
+            preciosToolStripMenuItem.Name = "preciosToolStripMenuItem";
+            preciosToolStripMenuItem.Size = new Size(57, 20);
+            preciosToolStripMenuItem.Text = "Precios";
+            preciosToolStripMenuItem.Click += preciosToolStripMenuItem_Click;
+            // 
+            // consultarPreciosToolStripMenuItem
+            // 
+            consultarPreciosToolStripMenuItem.Name = "consultarPreciosToolStripMenuItem";
+            consultarPreciosToolStripMenuItem.Size = new Size(180, 22);
+            consultarPreciosToolStripMenuItem.Text = "Consultar precios";
+            consultarPreciosToolStripMenuItem.Click += consultarPreciosToolStripMenuItem_Click;
             // 
             // FormInicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(345, 305);
+            ClientSize = new Size(399, 305);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -202,5 +219,7 @@
         private ToolStripMenuItem novToolStripMenuItem;
         private ToolStripMenuItem usuariosBackofficeToolStripMenuItem;
         private ToolStripMenuItem insertarSucursalToolStripMenuItem;
+        private ToolStripMenuItem preciosToolStripMenuItem;
+        private ToolStripMenuItem consultarPreciosToolStripMenuItem;
     }
 }

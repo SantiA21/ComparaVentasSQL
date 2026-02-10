@@ -177,6 +177,7 @@
             lblVersion.Size = new Size(38, 15);
             lblVersion.TabIndex = 10;
             lblVersion.Text = "label3";
+            lblVersion.Click += lblVersion_Click;
             // 
             // btnVolver
             // 
