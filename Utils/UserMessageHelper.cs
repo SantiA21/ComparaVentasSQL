@@ -3,7 +3,7 @@ using System.Data.SqlClient;
 using System.Net.Http;
 using System.Threading.Tasks;
 
-namespace ComparaVentasExcel.Utils
+namespace CinetCore.Utils
 {
     public static class UserMessageHelper
     {

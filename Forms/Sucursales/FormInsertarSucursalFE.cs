@@ -1,12 +1,12 @@
-﻿using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Services.Sucursales;
-using ComparaVentasExcel.Utils;
+﻿using CinetCore.Infrastructure;
+using CinetCore.Services.Sucursales;
+using CinetCore.Utils;
+using CinetCore.Data;
 using System;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel.Forms.Sucursales
+namespace CinetCore.Forms.Sucursales
 {
     public partial class FormInsertarSucursalFE : Form
     {

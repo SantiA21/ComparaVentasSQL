@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace ComparaVentasExcel.Utils
+namespace CinetCore.Utils
 {
     public static class VersionHelper
     {

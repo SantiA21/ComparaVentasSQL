@@ -1,4 +1,4 @@
-namespace ComparaVentasExcel.Services.Update
+namespace CinetCore.Services.Update
 {
     public class RemoteVersion
     {

@@ -1,14 +1,14 @@
-using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Models;
-using ComparaVentasExcel.Services.Importes;
-using ComparaVentasExcel.Utils;
+using CinetCore.Data;
+using CinetCore.Infrastructure;
+using CinetCore.Models;
+using CinetCore.Utils;
+using CinetCore.Services.Importes;
 using System;
 using System.Globalization;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormModifImporte : Form
     {

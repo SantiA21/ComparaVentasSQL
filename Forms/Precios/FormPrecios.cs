@@ -11,7 +11,7 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel.Forms.Precios
+namespace CinetCore.Forms.Precios
 {
     public partial class FormPrecios : Form
     {

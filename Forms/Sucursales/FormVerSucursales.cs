@@ -1,14 +1,14 @@
-using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Services.Sucursales;
-using ComparaVentasExcel.Utils;
+using CinetCore.Data;
+using CinetCore.Infrastructure;
+using CinetCore.Services.Sucursales;
+using CinetCore.Utils;
 using System;
 using System.Data;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormVerSucursales : Form
     {

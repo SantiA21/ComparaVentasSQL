@@ -1,7 +1,8 @@
-﻿using ComparaVentasExcel.Infrastructure;
+﻿using CinetCore.Infrastructure;
+using CinetCore;
 using Microsoft.VisualBasic;
 
-namespace ComparaVentasExcel.Utils
+namespace CinetCore.Utils
 {
     public static class SeguridadHelper
     {

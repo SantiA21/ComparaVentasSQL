@@ -1,7 +1,7 @@
 using System.Net.Http;
 using System.Text.Json;
 
-namespace ComparaVentasExcel.Services.Update
+namespace CinetCore.Services.Update
 {
     public class UpdateService
     {

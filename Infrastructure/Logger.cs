@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace ComparaVentasExcel.Infrastructure
+namespace CinetCore.Infrastructure
 {
     public static class Logger
     {

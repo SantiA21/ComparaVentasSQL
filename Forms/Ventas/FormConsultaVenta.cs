@@ -1,6 +1,6 @@
-using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Utils;
+using CinetCore.Data;
+using CinetCore.Infrastructure;
+using CinetCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormConsultaVenta : Form
     {

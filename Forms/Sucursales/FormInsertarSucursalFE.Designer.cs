@@ -1,4 +1,4 @@
-﻿namespace ComparaVentasExcel.Forms.Sucursales
+﻿namespace CinetCore.Forms.Sucursales
 {
     partial class FormInsertarSucursalFE
     {

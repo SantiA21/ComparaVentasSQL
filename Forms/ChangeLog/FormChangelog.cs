@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormChangelog : Form
     {

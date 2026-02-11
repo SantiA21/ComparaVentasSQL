@@ -1,4 +1,4 @@
-﻿namespace ComparaVentasExcel.Forms.Precios
+﻿namespace CinetCore.Forms.Precios
 {
     partial class FormPrecios
     {

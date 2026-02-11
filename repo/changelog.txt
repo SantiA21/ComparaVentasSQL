@@ -1,3 +1,6 @@
+[1.14.1]
+- Se renombro el proyecto
+
 [1.14.0]
 - Se agrego un formulario para consultar precios en MOSTAZA_ERP unicamente. Se conecta a una API para hacerlo.
 

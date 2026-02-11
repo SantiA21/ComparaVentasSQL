@@ -1,4 +1,4 @@
-﻿using ComparaVentasExcel.Data;
+﻿using CinetCore.Data;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComparaVentasExcel.Services.ComparacionExcel
+namespace CinetCore.Services.ComparacionExcel
 {
     public class VentasComparacionService
     {

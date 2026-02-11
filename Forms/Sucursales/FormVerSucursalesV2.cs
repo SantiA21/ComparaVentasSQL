@@ -1,11 +1,11 @@
 using DocumentFormat.OpenXml.Office.Word;
-using ComparaVentasExcel.Utils;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using CinetCore.Utils;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormVerSucursalesV2 : Form
     {

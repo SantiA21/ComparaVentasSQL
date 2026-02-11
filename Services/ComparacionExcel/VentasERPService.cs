@@ -1,5 +1,5 @@
-using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Models;
+using CinetCore.Data;
+using CinetCore.Models;
 using System;
 using System.Collections.Generic;
 using System.Data.SqlClient;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComparaVentasExcel.Services.ComparacionExcel
+namespace CinetCore.Services.ComparacionExcel
 {
     public class VentasERPService
     {

@@ -1,7 +1,8 @@
-﻿using ComparaVentasExcel.Forms.Precios;
-using ComparaVentasExcel.Forms.Sucursales;
-using ComparaVentasExcel.Forms.Usuarios;
-using ComparaVentasExcel.Utils;
+﻿using CinetCore;
+using CinetCore.Forms.Precios;
+using CinetCore.Forms.Sucursales;
+using CinetCore.Forms.Usuarios;
+using CinetCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,7 +15,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormInicio : Form
     {

@@ -1,5 +1,5 @@
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Utils;
+using CinetCore.Infrastructure;
+using CinetCore.Utils;
 using System;
 using System.Data;
 using System.Data.SqlClient;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormLinkedServer : Form
     {

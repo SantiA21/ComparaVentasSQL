@@ -1,10 +1,10 @@
-﻿using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Models;
+﻿using CinetCore.Data;
+using CinetCore.Infrastructure;
+using CinetCore.Models;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ComparaVentasExcel.Services.Usuarios
+namespace CinetCore.Services.Usuarios
 {
     public class BackOfficeService
     {

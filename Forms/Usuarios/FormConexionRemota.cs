@@ -1,8 +1,8 @@
-using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Models;
-using ComparaVentasExcel.Services.Usuarios;
-using ComparaVentasExcel.Utils;
+using CinetCore.Infrastructure;
+using CinetCore.Utils;
+using CinetCore.Data;
+using CinetCore.Models;
+using CinetCore.Services.Usuarios;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -13,7 +13,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel.Forms.Usuarios
+namespace CinetCore.Forms.Usuarios
 {
     public partial class FormConexionRemota : Form
     {

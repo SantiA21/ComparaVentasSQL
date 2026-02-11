@@ -1,4 +1,4 @@
-﻿namespace ComparaVentasExcel.Models
+﻿namespace CinetCore.Models
 {
     public class ModificacionImporteRequest
     {

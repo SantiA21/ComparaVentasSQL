@@ -1,7 +1,3 @@
-using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Services.Usuarios;
-using ComparaVentasExcel.Utils;
-using ComparaVentasExcel.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,8 +8,12 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using CinetCore.Services.Usuarios;
+using CinetCore.Infrastructure;
+using CinetCore.Data;
+using CinetCore.Utils;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormUsuariosGmgERP : Form
     {

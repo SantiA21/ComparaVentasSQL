@@ -1,10 +1,10 @@
-﻿using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
+﻿using CinetCore.Data;
+using CinetCore.Infrastructure;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ComparaVentasExcel.Services.Sucursales
+namespace CinetCore.Services.Sucursales
 {
     public class SucursalService
     {

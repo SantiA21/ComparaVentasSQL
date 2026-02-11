@@ -1,4 +1,4 @@
-﻿namespace ComparaVentasExcel.Forms.Usuarios
+﻿namespace CinetCore.Forms.Usuarios
 {
     partial class FormConexionRemota
     {

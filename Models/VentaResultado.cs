@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComparaVentasExcel.Models
+namespace CinetCore.Models
 {
     public class VentaResultado
     {

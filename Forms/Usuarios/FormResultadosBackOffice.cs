@@ -1,5 +1,5 @@
-using ComparaVentasExcel.Services.Usuarios;
-using ComparaVentasExcel.Utils;
+using CinetCore.Services.Usuarios;
+using CinetCore.Utils;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace ComparaVentasExcel.Forms.Usuarios
+namespace CinetCore.Forms.Usuarios
 {
     public partial class FormResultadosBackOffice : Form
     {

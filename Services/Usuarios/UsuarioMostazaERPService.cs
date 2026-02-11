@@ -1,9 +1,9 @@
-﻿using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
+﻿using CinetCore.Data;
+using CinetCore.Infrastructure;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ComparaVentasExcel.Services.Usuarios
+namespace CinetCore.Services.Usuarios
 {
     public static class UsuarioMostazaERPService
     {

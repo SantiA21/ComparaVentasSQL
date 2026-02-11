@@ -1,4 +1,4 @@
-﻿namespace ComparaVentasExcel
+﻿namespace CinetCore
 {
     partial class FormLinkedServer
     {

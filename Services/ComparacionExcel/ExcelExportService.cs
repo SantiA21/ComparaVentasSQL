@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ComparaVentasExcel.Services.ComparacionExcel
+namespace CinetCore.Services.ComparacionExcel
 {
     internal class ExcelExportService
     {

@@ -1,11 +1,11 @@
-﻿using ComparaVentasExcel.Data;
-using ComparaVentasExcel.Infrastructure;
-using ComparaVentasExcel.Models;
+﻿using CinetCore.Data;
+using CinetCore.Infrastructure;
+using CinetCore.Models;
 using System;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace ComparaVentasExcel.Services.Importes
+namespace CinetCore.Services.Importes
 {
     public class ModificacionImporteService
     {

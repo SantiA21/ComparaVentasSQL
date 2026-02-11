@@ -3,9 +3,9 @@ using System.Data;
 using System.Reflection;
 using System.Windows.Forms;
 using System.Data.SqlClient;
-using ComparaVentasExcel.Utils;
+using CinetCore.Utils;
 
-namespace ComparaVentasExcel
+namespace CinetCore
 {
     public partial class FormResultadosEquipo : Form
     {

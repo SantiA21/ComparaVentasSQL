@@ -1,4 +1,4 @@
-﻿namespace ComparaVentasExcel
+﻿namespace CinetCore
 {
     partial class FormInicio
     {
@@ -193,7 +193,7 @@
             MainMenuStrip = menuStrip;
             Name = "FormInicio";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Cinet";
+            Text = "Cinet Core";
             Load += FormInicio_Load;
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();
