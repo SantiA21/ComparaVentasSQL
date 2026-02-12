@@ -199,10 +199,40 @@ namespace CinetCore
 
         }
 
-        private void consultarPreciosToolStripMenuItem_Click(object sender, EventArgs e)
+        private void PreciosMostazaERPToolStripMenuItem(object sender, EventArgs e)
         {
             this.Hide();
-            using (FormPrecios mainForm = new FormPrecios())
+            using (FormPreciosMostaza_ERP mainForm = new FormPreciosMostaza_ERP())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
+
+        private void preciosGmgERPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormPreciosGmg_ERP mainForm = new FormPreciosGmg_ERP())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
+
+        private void preciosMostazaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormPreciosMostaza_ERP mainForm = new FormPreciosMostaza_ERP())
+            {
+                mainForm.ShowDialog();
+            }
+            this.Show();
+        }
+
+        private void preciosGmgToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            using (FormPreciosGmg_ERP mainForm = new FormPreciosGmg_ERP())
             {
                 mainForm.ShowDialog();
             }

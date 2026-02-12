@@ -1,4 +1,5 @@
-﻿namespace CinetCore
+﻿
+namespace CinetCore
 {
     partial class FormInicio
     {
@@ -43,10 +44,11 @@
             usuariosGMGERPToolStripMenuItem = new ToolStripMenuItem();
             usuariosBackofficeToolStripMenuItem = new ToolStripMenuItem();
             preciosToolStripMenuItem = new ToolStripMenuItem();
-            consultarPreciosToolStripMenuItem = new ToolStripMenuItem();
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             novToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
+            preciosMostazaToolStripMenuItem = new ToolStripMenuItem();
+            preciosGmgToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
@@ -144,18 +146,11 @@
             // 
             // preciosToolStripMenuItem
             // 
-            preciosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { consultarPreciosToolStripMenuItem });
+            preciosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { preciosMostazaToolStripMenuItem, preciosGmgToolStripMenuItem });
             preciosToolStripMenuItem.Name = "preciosToolStripMenuItem";
             preciosToolStripMenuItem.Size = new Size(57, 20);
             preciosToolStripMenuItem.Text = "Precios";
             preciosToolStripMenuItem.Click += preciosToolStripMenuItem_Click;
-            // 
-            // consultarPreciosToolStripMenuItem
-            // 
-            consultarPreciosToolStripMenuItem.Name = "consultarPreciosToolStripMenuItem";
-            consultarPreciosToolStripMenuItem.Size = new Size(166, 22);
-            consultarPreciosToolStripMenuItem.Text = "Consultar precios";
-            consultarPreciosToolStripMenuItem.Click += consultarPreciosToolStripMenuItem_Click;
             // 
             // ayudaToolStripMenuItem
             // 
@@ -181,6 +176,20 @@
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
+            // preciosMostazaToolStripMenuItem
+            // 
+            preciosMostazaToolStripMenuItem.Name = "preciosMostazaToolStripMenuItem";
+            preciosMostazaToolStripMenuItem.Size = new Size(180, 22);
+            preciosMostazaToolStripMenuItem.Text = "Precios Mostaza";
+            preciosMostazaToolStripMenuItem.Click += preciosMostazaToolStripMenuItem_Click;
+            // 
+            // preciosGmgToolStripMenuItem
+            // 
+            preciosGmgToolStripMenuItem.Name = "preciosGmgToolStripMenuItem";
+            preciosGmgToolStripMenuItem.Size = new Size(180, 22);
+            preciosGmgToolStripMenuItem.Text = "Precios Gmg";
+            preciosGmgToolStripMenuItem.Click += preciosGmgToolStripMenuItem_Click;
+            // 
             // FormInicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
@@ -199,6 +208,11 @@
             menuStrip.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
+        }
+
+        private void preciosMostazaERPToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -220,6 +234,7 @@
         private ToolStripMenuItem usuariosBackofficeToolStripMenuItem;
         private ToolStripMenuItem insertarSucursalToolStripMenuItem;
         private ToolStripMenuItem preciosToolStripMenuItem;
-        private ToolStripMenuItem consultarPreciosToolStripMenuItem;
+        private ToolStripMenuItem preciosMostazaToolStripMenuItem;
+        private ToolStripMenuItem preciosGmgToolStripMenuItem;
     }
 }

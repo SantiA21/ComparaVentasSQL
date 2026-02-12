@@ -1,35 +1,59 @@
+using CinetCore.Data;
+using CinetCore.Infrastructure;
+using CinetCore.Services.Usuarios;
+using CinetCore.Utils;
+using DocumentFormat.OpenXml.Wordprocessing;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.Drawing.Printing;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using CinetCore.Services.Usuarios;
-using CinetCore.Infrastructure;
-using CinetCore.Data;
-using CinetCore.Utils;
 
 namespace CinetCore
 {
     public partial class FormUsuariosGmgERP : Form
     {
+        private static readonly HttpClient client = new HttpClient();
+
+        private int currentPage = 1;
+        private int pageSize = 50;
+        private int totalRecords = 0;
+
+        private System.Windows.Forms.Timer searchTimer;
+
         private DataAccess dataAccess;
         private DataTable dtUsuarios;
         public FormUsuariosGmgERP()
         {
             InitializeComponent();
+
+            searchTimer = new System.Windows.Forms.Timer();
+            searchTimer.Interval = 500; // medio segundo
+            searchTimer.Tick += async (s, e) =>
+            {
+                searchTimer.Stop();
+                currentPage = 1;
+                await CargarUsuarios();
+            };
+
+            nudPagina.Minimum = 1;
+            nudPagina.Value = 1;
+            nudPagina.Maximum = 1; // después lo actualizamos dinámicamente
         }
 
-        private void FormUsuariosGmgERP_Load(object sender, EventArgs e)
+        private async void FormUsuariosGmgERP_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
 
-            CargarUsuarios();
+            await CargarUsuarios();
         }
 
         private void btnRefrescar_Click(object sender, EventArgs e)
@@ -37,107 +61,66 @@ namespace CinetCore
             CargarUsuarios();
         }
 
-        private void CargarUsuarios()
+        private async Task<PagedResponse<Usuario>> ObtenerUsuariosAsync(string buscar = null)
+        {
+            string url = $"http://localhost:5000/api/usuarios/gmg?page={currentPage}&pageSize={pageSize}";
+
+            if (!string.IsNullOrWhiteSpace(buscar))
+                url += $"&buscar={buscar}";
+
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<PagedResponse<Usuario>>(json,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+        }
+
+        private async Task CargarUsuarios()
         {
             try
             {
-                dtUsuarios = UsuarioGmgERPService.ObtenerUsuarios();
-                dgvUsuarios.DataSource = dtUsuarios;
+                var resultado = await ObtenerUsuariosAsync(txtBuscar.Text);
 
-                CargarCombosFiltros();
-                AplicarFiltros();
+                if (resultado == null) return;
+
+                totalRecords = resultado.Total;
+
+                int totalPaginas = (int)Math.Ceiling((double)totalRecords / pageSize);
+
+                nudPagina.Maximum = totalPaginas == 0 ? 1 : totalPaginas;
+                nudPagina.Value = currentPage;
+
+                dgvUsuarios.DataSource = resultado.Data;
+
+                lblPagina.Text = $"Página {currentPage}";
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex);
-                MessageBox.Show(
-                    UserMessageHelper.GetFriendlyMessage("al consultar usuarios de GMG_ERP", ex),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message);
             }
-        }
-
-        private void CargarCombosFiltros()
-        {
-            // Categoría
-            var categorias = dtUsuarios.AsEnumerable()
-                .Select(r => r["Categoria"]?.ToString())
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct()
-                .OrderBy(s => s)
-                .ToArray();
-
-            cbCategoria.Items.Clear();
-            cbCategoria.Items.Add("Todas");
-            cbCategoria.Items.AddRange(categorias);
-            cbCategoria.SelectedIndex = 0;
-
-            // Estado
-            var estados = dtUsuarios.AsEnumerable()
-                .Select(r => r["Estado"]?.ToString())
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct()
-                .OrderBy(s => s)
-                .ToArray();
-
-            cbEstado.Items.Clear();
-            cbEstado.Items.Add("Todos");
-            cbEstado.Items.AddRange(estados);
-            cbEstado.SelectedIndex = 0;
-        }
-
-        private void AplicarFiltros()
-        {
-            if (dtUsuarios == null) return;
-
-            string filtro = "";
-
-            if (!string.IsNullOrWhiteSpace(txtBuscar.Text))
-            {
-                string texto = txtBuscar.Text.Replace("'", "''");
-
-                filtro +=
-                    $"(Convert(DNI, 'System.String') LIKE '%{texto}%' " +
-                    $"OR Nombre LIKE '%{texto}%' " +
-                    $"OR Apellido LIKE '%{texto}%' " +
-                    $"OR NombreCinet LIKE '%{texto}%')";
-            }
-
-            if (cbCategoria.SelectedItem != null && cbCategoria.Text != "Todas")
-            {
-                if (filtro != "") filtro += " AND ";
-                filtro += $"Categoria = '{cbCategoria.Text.Replace("'", "''")}'";
-            }
-
-            if (cbEstado.SelectedItem != null && cbEstado.Text != "Todos")
-            {
-                if (filtro != "") filtro += " AND ";
-                filtro += $"Estado = '{cbEstado.Text.Replace("'", "''")}'";
-            }
-
-            DataView dv = dtUsuarios.DefaultView;
-            dv.RowFilter = filtro;
-            dgvUsuarios.DataSource = dv;
         }
 
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
-            AplicarFiltros();
+            searchTimer.Stop();
+            searchTimer.Start();
         }
 
-        private void cbCategoria_SelectedIndexChanged(object sender, EventArgs e)
+        private async void nudPagina_ValueChanged(object sender, EventArgs e)
         {
-            AplicarFiltros();
+            if (currentPage == (int)nudPagina.Value)
+                return;
+
+            currentPage = (int)nudPagina.Value;
+            await CargarUsuarios();
         }
-
-        private void cbEstado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            AplicarFiltros();
-        }
-
-
 
         private void btnVolver_Click(object sender, EventArgs e)
         {

@@ -28,16 +28,15 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormUsuariosMostazaERP));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(FormUsuariosGmgERP));
             btnVolver = new Button();
             lblVersion = new Label();
             dgvUsuarios = new DataGridView();
             txtBuscar = new TextBox();
-            cbCategoria = new ComboBox();
-            cbEstado = new ComboBox();
-            label1 = new Label();
-            label2 = new Label();
+            nudPagina = new NumericUpDown();
+            lblPagina = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudPagina).BeginInit();
             SuspendLayout();
             // 
             // btnVolver
@@ -46,7 +45,7 @@
             btnVolver.Cursor = Cursors.Hand;
             btnVolver.FlatStyle = FlatStyle.Flat;
             btnVolver.ForeColor = SystemColors.Window;
-            btnVolver.Location = new Point(37, 407);
+            btnVolver.Location = new Point(36, 397);
             btnVolver.Name = "btnVolver";
             btnVolver.Size = new Size(116, 31);
             btnVolver.TabIndex = 12;
@@ -60,7 +59,7 @@
             lblVersion.Cursor = Cursors.Help;
             lblVersion.FlatStyle = FlatStyle.Popup;
             lblVersion.ForeColor = SystemColors.ControlText;
-            lblVersion.Location = new Point(690, 415);
+            lblVersion.Location = new Point(690, 405);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(38, 15);
             lblVersion.TabIndex = 13;
@@ -83,62 +82,44 @@
             txtBuscar.TabIndex = 15;
             txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
-            // cbCategoria
+            // nudPagina
             // 
-            cbCategoria.FormattingEnabled = true;
-            cbCategoria.Location = new Point(289, 12);
-            cbCategoria.Name = "cbCategoria";
-            cbCategoria.Size = new Size(121, 23);
-            cbCategoria.TabIndex = 16;
-            cbCategoria.SelectedIndexChanged += cbCategoria_SelectedIndexChanged;
+            nudPagina.BorderStyle = BorderStyle.FixedSingle;
+            nudPagina.Location = new Point(384, 403);
+            nudPagina.Name = "nudPagina";
+            nudPagina.Size = new Size(53, 23);
+            nudPagina.TabIndex = 26;
+            nudPagina.TextAlign = HorizontalAlignment.Center;
+            nudPagina.ValueChanged += nudPagina_ValueChanged;
             // 
-            // cbEstado
+            // lblPagina
             // 
-            cbEstado.FormattingEnabled = true;
-            cbEstado.Location = new Point(478, 12);
-            cbEstado.Name = "cbEstado";
-            cbEstado.Size = new Size(73, 23);
-            cbEstado.TabIndex = 17;
-            cbEstado.SelectedIndexChanged += cbEstado_SelectedIndexChanged;
+            lblPagina.AutoSize = true;
+            lblPagina.Location = new Point(335, 405);
+            lblPagina.Name = "lblPagina";
+            lblPagina.Size = new Size(43, 15);
+            lblPagina.TabIndex = 25;
+            lblPagina.Text = "Pagina";
             // 
-            // label1
-            // 
-            label1.AutoSize = true;
-            label1.Location = new Point(222, 15);
-            label1.Name = "label1";
-            label1.Size = new Size(61, 15);
-            label1.TabIndex = 18;
-            label1.Text = "Categoria:";
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(427, 15);
-            label2.Name = "label2";
-            label2.Size = new Size(45, 15);
-            label2.TabIndex = 19;
-            label2.Text = "Estado:";
-            // 
-            // FormUsuariosMostazaERP
+            // FormUsuariosGmgERP
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(800, 450);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(cbEstado);
-            Controls.Add(cbCategoria);
+            ClientSize = new Size(800, 442);
+            Controls.Add(nudPagina);
+            Controls.Add(lblPagina);
             Controls.Add(txtBuscar);
             Controls.Add(dgvUsuarios);
             Controls.Add(lblVersion);
             Controls.Add(btnVolver);
             ForeColor = Color.Black;
             Icon = (Icon)resources.GetObject("$this.Icon");
-            Name = "FormUsuariosMostazaERP";
-            Text = "Usuarios Mostaza_ERP";
+            Name = "FormUsuariosGmgERP";
+            Text = "Usuarios GMG_ERP";
             Load += FormUsuariosGmgERP_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudPagina).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -149,9 +130,7 @@
         private Label lblVersion;
         private DataGridView dgvUsuarios;
         private TextBox txtBuscar;
-        private ComboBox cbCategoria;
-        private ComboBox cbEstado;
-        private Label label1;
-        private Label label2;
+        private NumericUpDown nudPagina;
+        private Label lblPagina;
     }
 }

@@ -33,11 +33,14 @@
             lblVersion = new Label();
             dgvUsuarios = new DataGridView();
             txtBuscar = new TextBox();
-            cbCategoria = new ComboBox();
-            cbEstado = new ComboBox();
-            label1 = new Label();
-            label2 = new Label();
+            lblPagina = new Label();
+            nudPagina = new NumericUpDown();
+            pnlLoading = new Panel();
+            lblLoading = new Label();
+            progressBarLoading = new ProgressBar();
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudPagina).BeginInit();
+            pnlLoading.SuspendLayout();
             SuspendLayout();
             // 
             // btnVolver
@@ -83,41 +86,55 @@
             txtBuscar.TabIndex = 15;
             txtBuscar.TextChanged += txtBuscar_TextChanged;
             // 
-            // cbCategoria
+            // lblPagina
             // 
-            cbCategoria.FormattingEnabled = true;
-            cbCategoria.Location = new Point(289, 12);
-            cbCategoria.Name = "cbCategoria";
-            cbCategoria.Size = new Size(121, 23);
-            cbCategoria.TabIndex = 16;
-            cbCategoria.SelectedIndexChanged += cbCategoria_SelectedIndexChanged;
+            lblPagina.AutoSize = true;
+            lblPagina.Location = new Point(352, 403);
+            lblPagina.Name = "lblPagina";
+            lblPagina.Size = new Size(43, 15);
+            lblPagina.TabIndex = 20;
+            lblPagina.Text = "Pagina";
             // 
-            // cbEstado
+            // nudPagina
             // 
-            cbEstado.FormattingEnabled = true;
-            cbEstado.Location = new Point(478, 12);
-            cbEstado.Name = "cbEstado";
-            cbEstado.Size = new Size(73, 23);
-            cbEstado.TabIndex = 17;
-            cbEstado.SelectedIndexChanged += cbEstado_SelectedIndexChanged;
+            nudPagina.BorderStyle = BorderStyle.FixedSingle;
+            nudPagina.Location = new Point(401, 401);
+            nudPagina.Name = "nudPagina";
+            nudPagina.Size = new Size(53, 23);
+            nudPagina.TabIndex = 24;
+            nudPagina.TextAlign = HorizontalAlignment.Center;
+            nudPagina.ValueChanged += nudPagina_ValueChanged;
             // 
-            // label1
+            // pnlLoading
             // 
-            label1.AutoSize = true;
-            label1.Location = new Point(222, 15);
-            label1.Name = "label1";
-            label1.Size = new Size(61, 15);
-            label1.TabIndex = 18;
-            label1.Text = "Categoria:";
+            pnlLoading.BackColor = Color.White;
+            pnlLoading.Controls.Add(progressBarLoading);
+            pnlLoading.Controls.Add(lblLoading);
+            pnlLoading.Dock = DockStyle.Fill;
+            pnlLoading.Location = new Point(0, 0);
+            pnlLoading.Name = "pnlLoading";
+            pnlLoading.Size = new Size(800, 450);
+            pnlLoading.TabIndex = 25;
+            pnlLoading.Visible = false;
             // 
-            // label2
+            // lblLoading
             // 
-            label2.AutoSize = true;
-            label2.Location = new Point(427, 15);
-            label2.Name = "label2";
-            label2.Size = new Size(45, 15);
-            label2.TabIndex = 19;
-            label2.Text = "Estado:";
+            lblLoading.AutoSize = true;
+            lblLoading.Font = new Font("Segoe UI", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            lblLoading.Location = new Point(290, 171);
+            lblLoading.Name = "lblLoading";
+            lblLoading.Size = new Size(201, 30);
+            lblLoading.TabIndex = 0;
+            lblLoading.Text = "Cargando usuarios...";
+            // 
+            // progressBarLoading
+            // 
+            progressBarLoading.Location = new Point(267, 204);
+            progressBarLoading.MarqueeAnimationSpeed = 30;
+            progressBarLoading.Name = "progressBarLoading";
+            progressBarLoading.Size = new Size(250, 23);
+            progressBarLoading.Style = ProgressBarStyle.Marquee;
+            progressBarLoading.TabIndex = 1;
             // 
             // FormUsuariosMostazaERP
             // 
@@ -125,10 +142,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
             ClientSize = new Size(800, 450);
-            Controls.Add(label2);
-            Controls.Add(label1);
-            Controls.Add(cbEstado);
-            Controls.Add(cbCategoria);
+            Controls.Add(pnlLoading);
+            Controls.Add(nudPagina);
+            Controls.Add(lblPagina);
             Controls.Add(txtBuscar);
             Controls.Add(dgvUsuarios);
             Controls.Add(lblVersion);
@@ -139,6 +155,9 @@
             Text = "Usuarios Mostaza_ERP";
             Load += FormUsuariosMostazaERP_Load;
             ((System.ComponentModel.ISupportInitialize)dgvUsuarios).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudPagina).EndInit();
+            pnlLoading.ResumeLayout(false);
+            pnlLoading.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -149,9 +168,10 @@
         private Label lblVersion;
         private DataGridView dgvUsuarios;
         private TextBox txtBuscar;
-        private ComboBox cbCategoria;
-        private ComboBox cbEstado;
-        private Label label1;
-        private Label label2;
+        private Label lblPagina;
+        private NumericUpDown nudPagina;
+        private Panel pnlLoading;
+        private ProgressBar progressBarLoading;
+        private Label lblLoading;
     }
 }

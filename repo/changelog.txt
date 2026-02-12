@@ -1,3 +1,6 @@
+[1.15.0]
+- Se agrega formulario para consultar precios en GMG_ERP por API. Tambien, la consulta de usuarios a ERP, ahora es por API
+
 [1.14.1]
 - Se renombro el proyecto
 

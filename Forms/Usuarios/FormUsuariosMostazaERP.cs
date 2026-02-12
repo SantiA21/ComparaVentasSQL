@@ -12,24 +12,66 @@ using CinetCore.Services.Usuarios;
 using CinetCore.Infrastructure;
 using CinetCore.Data;
 using CinetCore.Utils;
+using System.Net.Http;
+using System.Text.Json;
 
 namespace CinetCore
 {
     public partial class FormUsuariosMostazaERP : Form
     {
+        private static readonly HttpClient client = new HttpClient();
+
+        private int currentPage = 1;
+        private int pageSize = 50;
+        private int totalRecords = 0;
+        private bool primeraCarga = true;
+
+        private System.Windows.Forms.Timer searchTimer;
+
         private DataAccess dataAccess;
         private DataTable dtUsuarios;
         public FormUsuariosMostazaERP()
         {
             InitializeComponent();
+            searchTimer = new System.Windows.Forms.Timer();
+            searchTimer.Interval = 500; // medio segundo
+            searchTimer.Tick += async (s, e) =>
+            {
+                searchTimer.Stop();
+                currentPage = 1;
+                await CargarUsuarios();
+            };
+
+            nudPagina.Minimum = 1;
+            nudPagina.Value = 1;
+            nudPagina.Maximum = 1; // después lo actualizamos dinámicamente
         }
 
-        private void FormUsuariosMostazaERP_Load(object sender, EventArgs e)
+        private async void FormUsuariosMostazaERP_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
             lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
 
-            CargarUsuarios();
+            lblLoading.Left = (pnlLoading.Width - lblLoading.Width) / 2;
+            lblLoading.Top = (pnlLoading.Height / 2) - 30;
+
+            progressBarLoading.Left = (pnlLoading.Width - progressBarLoading.Width) / 2;
+            progressBarLoading.Top = lblLoading.Bottom + 10;
+
+            await CargarUsuarios();
+        }
+
+        private void MostrarLoading()
+        {
+            pnlLoading.Visible = true;
+            pnlLoading.BringToFront();
+            this.UseWaitCursor = true;
+        }
+
+        private void OcultarLoading()
+        {
+            pnlLoading.Visible = false;
+            this.UseWaitCursor = false;
         }
 
         private void btnRefrescar_Click(object sender, EventArgs e)
@@ -37,114 +79,76 @@ namespace CinetCore
             CargarUsuarios();
         }
 
-        private void CargarUsuarios()
+        private async Task<PagedResponse<Usuario>> ObtenerUsuariosAsync(string buscar = null)
+        {
+            string url = $"http://localhost:5000/api/usuarios/mostaza?page={currentPage}&pageSize={pageSize}";
+
+            if (!string.IsNullOrWhiteSpace(buscar))
+                url += $"&buscar={buscar}";
+
+            var response = await client.GetAsync(url);
+
+            if (!response.IsSuccessStatusCode)
+                return null;
+
+            var json = await response.Content.ReadAsStringAsync();
+
+            return JsonSerializer.Deserialize<PagedResponse<Usuario>>(json,
+                new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+        }
+
+        private async Task CargarUsuarios()
         {
             try
             {
-                dtUsuarios = UsuarioMostazaERPService.ObtenerUsuarios();
-                dgvUsuarios.DataSource = dtUsuarios;
+                if (primeraCarga)
+                    MostrarLoading();
 
-                CargarCombosFiltros();
-                AplicarFiltros();
+                var resultado = await ObtenerUsuariosAsync(txtBuscar.Text);
+
+                if (resultado == null) return;
+
+                totalRecords = resultado.Total;
+
+                dgvUsuarios.DataSource = resultado.Data;
+
+                int totalPaginas = (int)Math.Ceiling((double)totalRecords / pageSize);
+                nudPagina.Maximum = totalPaginas == 0 ? 1 : totalPaginas;
+                nudPagina.Value = currentPage;
+
+                primeraCarga = false;
             }
             catch (Exception ex)
             {
-                Logger.LogError(ex);
-                MessageBox.Show(
-                    UserMessageHelper.GetFriendlyMessage("al consultar usuarios de MOSTAZA_ERP", ex),
-                    "Error",
-                    MessageBoxButtons.OK,
-                    MessageBoxIcon.Error
-                );
+                MessageBox.Show(ex.Message);
             }
-        }
-
-        private void CargarCombosFiltros()
-        {
-            // Categoría
-            var categorias = dtUsuarios.AsEnumerable()
-                .Select(r => r["Categoria"]?.ToString())
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct()
-                .OrderBy(s => s)
-                .ToArray();
-
-            cbCategoria.Items.Clear();
-            cbCategoria.Items.Add("Todas");
-            cbCategoria.Items.AddRange(categorias);
-            cbCategoria.SelectedIndex = 0;
-
-            // Estado
-            var estados = dtUsuarios.AsEnumerable()
-                .Select(r => r["Estado"]?.ToString())
-                .Where(s => !string.IsNullOrWhiteSpace(s))
-                .Distinct()
-                .OrderBy(s => s)
-                .ToArray();
-
-            cbEstado.Items.Clear();
-            cbEstado.Items.Add("Todos");
-            cbEstado.Items.AddRange(estados);
-            cbEstado.SelectedIndex = 0;
-        }
-
-        private void AplicarFiltros()
-        {
-            if (dtUsuarios == null) return;
-
-            string filtro = "";
-
-            // 🔍 Texto (usuario / nombre / apellido / nombre cinet)
-            if (!string.IsNullOrWhiteSpace(txtBuscar.Text))
+            finally
             {
-                string texto = txtBuscar.Text.Replace("'", "''");
-
-                filtro +=
-                    $"(Convert(DNI, 'System.String') LIKE '%{texto}%' " +
-                    $"OR Nombre LIKE '%{texto}%' " +
-                    $"OR Apellido LIKE '%{texto}%' " +
-                    $"OR NombreCinet LIKE '%{texto}%')";
+                if (primeraCarga == false)
+                    OcultarLoading();
             }
-
-            // 📂 Categoría
-            if (cbCategoria.SelectedItem != null && cbCategoria.Text != "Todas")
-            {
-                if (filtro != "") filtro += " AND ";
-                filtro += $"Categoria = '{cbCategoria.Text.Replace("'", "''")}'";
-            }
-
-            // ⚡ Estado
-            if (cbEstado.SelectedItem != null && cbEstado.Text != "Todos")
-            {
-                if (filtro != "") filtro += " AND ";
-                filtro += $"Estado = '{cbEstado.Text.Replace("'", "''")}'";
-            }
-
-            DataView dv = dtUsuarios.DefaultView;
-            dv.RowFilter = filtro;
-            dgvUsuarios.DataSource = dv;
         }
-
-        private void txtBuscar_TextChanged(object sender, EventArgs e)
+        private async void txtBuscar_TextChanged(object sender, EventArgs e)
         {
-            AplicarFiltros();
+            searchTimer.Stop();
+            searchTimer.Start();
         }
-
-        private void cbCategoria_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            AplicarFiltros();
-        }
-
-        private void cbEstado_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            AplicarFiltros();
-        }
-
-
 
         private void btnVolver_Click(object sender, EventArgs e)
         {
             this.Close();
+        }
+
+        private async void nudPagina_ValueChanged(object sender, EventArgs e)
+        {
+            if (currentPage == (int)nudPagina.Value)
+                return;
+
+            currentPage = (int)nudPagina.Value;
+            await CargarUsuarios();
         }
     }
 }
