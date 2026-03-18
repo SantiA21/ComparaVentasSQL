@@ -47,7 +47,7 @@ namespace CinetCore.Services.ComparacionExcel
 
             using var reader = cmd.ExecuteReader();
 
-            // 1️⃣ Match exacto (primer resultado set)
+
             if (reader.HasRows && reader.Read() && reader[0] != DBNull.Value)
             {
                 return new VentaResultado
@@ -57,7 +57,7 @@ namespace CinetCore.Services.ComparacionExcel
                 };
             }
 
-            // 2️⃣ Fallback por sucursal (segundo resultado set)
+
             if (reader.NextResult() && reader.HasRows && reader.Read() && reader[0] != DBNull.Value)
             {
                 return new VentaResultado
@@ -67,7 +67,7 @@ namespace CinetCore.Services.ComparacionExcel
                 };
             }
 
-            // 3️⃣ No hay nada
+
             return new VentaResultado
             {
                 Local = "-",

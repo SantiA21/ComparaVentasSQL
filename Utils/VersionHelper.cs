@@ -6,7 +6,7 @@ namespace CinetCore.Utils
     public static class VersionHelper
     {
         /// <summary>
-        /// Lee la versión local desde el archivo version.txt ubicado junto al ejecutable.
+
         /// </summary>
         public static string GetLocalVersion()
         {
@@ -17,7 +17,7 @@ namespace CinetCore.Utils
 
             if (!File.Exists(path))
             {
-                // En caso de que falte el archivo, devolvemos una marca clara
+
                 return "0.0.0 (sin version.txt)";
             }
 

@@ -7,21 +7,17 @@ namespace CinetCore.Utils
 {
     public static class UserMessageHelper
     {
-        /// <summary>
-        /// Devuelve un mensaje amigable para el usuario según el tipo de error.
-        /// </summary>
-        /// <param name="contexto">Descripción breve de qué se estaba haciendo, por ej. "al consultar la venta".</param>
-        /// <param name="ex">Excepción capturada.</param>
+
         public static string GetFriendlyMessage(string contexto, Exception ex)
         {
-            // Timeouts de SQL Server
+
             if (ex is SqlException sqlEx && sqlEx.Number == -2)
             {
                 return $"La operación {contexto} superó el tiempo de espera.\n\n" +
                        "Verificá la conexión con el servidor SQL y volvé a intentarlo.";
             }
 
-            // Timeouts / cancelaciones en HTTP
+
             if (ex is TaskCanceledException)
             {
                 return $"La operación {contexto} tardó demasiado en responder.\n\n" +

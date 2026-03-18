@@ -11,9 +11,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
-// Versión principal, secundaria, revisión
+
 [assembly: AssemblyVersion("1.15.0")]
 [assembly: AssemblyFileVersion("1.15.0")]
 
-// Opcional: para compatibilidad COM (normalmente false)
+
 [assembly: ComVisible(false)]

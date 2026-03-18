@@ -109,7 +109,7 @@ public partial class FormComparaExcel : Form
 
                 dt.Rows.Add(
                     fila.IdUnico,
-                    resultado.Local,   // PERI_CODIGO
+                    resultado.Local, 
                     sucursal,
                     comprobante,
                     tipo,
@@ -146,7 +146,7 @@ public partial class FormComparaExcel : Form
 
     private void AgregarColumnaCheck()
     {
-        // Evitar duplicarla si ya existe
+
         if (dgvResultados.Columns.Contains("Seleccionado"))
             return;
 
@@ -154,12 +154,12 @@ public partial class FormComparaExcel : Form
         chk.Name = "Seleccionado";
         chk.HeaderText = "";
         chk.Width = 40;
-        chk.ReadOnly = false; // IMPORTANTE
+        chk.ReadOnly = false; 
         chk.FalseValue = false;
         chk.TrueValue = true;
 
 
-        // La insertamos como primera columna
+
         dgvResultados.Columns.Insert(0, chk);
 
     }
@@ -189,25 +189,25 @@ public partial class FormComparaExcel : Form
         DataView dv = dtOriginal.DefaultView;
         string filtro = "";
 
-        // Filtro por sucursal
+
         if (cbSucursal.SelectedItem != null && cbSucursal.Text != "Todos")
             filtro += $"Sucursal = '{cbSucursal.Text.Replace("'", "''")}'";
 
-        // Filtro por local
+
         if (cbLocal.SelectedItem != null && cbLocal.Text != "Todos")
         {
             if (filtro != "") filtro += " AND ";
             filtro += $"Local = '{cbLocal.Text.Replace("'", "''")}'";
         }
 
-        // Filtro "Existe"
+
         if (chkSoloExistentes.Checked)
         {
             if (filtro != "") filtro += " AND ";
             filtro += "[Resultado] = '✅ Existe'";
         }
 
-        // Filtro "No existe"
+
         if (chkSoloNoExistentes.Checked)
         {
             if (filtro != "") filtro += " AND ";
@@ -248,7 +248,7 @@ public partial class FormComparaExcel : Form
         if (vista == null || !vista.Table.Columns.Contains(columna))
             return;
 
-        // Guardamos la selección actual del usuario
+
         string valorSeleccionado = combo.SelectedItem?.ToString();
 
         var valores = vista.ToTable()

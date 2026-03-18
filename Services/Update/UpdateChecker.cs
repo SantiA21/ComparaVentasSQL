@@ -16,8 +16,7 @@ public static class UpdateChecker
 
         try
         {
-            // Usar GetStringAsync de forma síncrona con GetAwaiter().GetResult()
-            // Nota: En un contexto async sería mejor usar await, pero mantenemos la firma síncrona
+
             string texto = httpClient.GetStringAsync(versionUrl).GetAwaiter().GetResult().Trim();
             versionRemota = new Version(texto);
 
@@ -28,7 +27,7 @@ public static class UpdateChecker
         }
         catch (Exception)
         {
-            // Sin internet, GitHub caído, formato incorrecto, etc
+
             return false;
         }
     }
