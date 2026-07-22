@@ -1,4 +1,4 @@
-﻿
+
 namespace CinetCore
 {
     partial class FormInicio
@@ -49,7 +49,17 @@ namespace CinetCore
             lblVersion = new Label();
             preciosMostazaToolStripMenuItem = new ToolStripMenuItem();
             preciosGmgToolStripMenuItem = new ToolStripMenuItem();
+            salvaVentasToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
+            SuspendLayout();
+            // 
+            // menuStrip
+            // 
+            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, ayudaToolStripMenuItem });
+            menuStrip.Location = new Point(0, 0);
+            menuStrip.Name = "menuStrip";
+            menuStrip.Size = new Size(349, 24);
+            menuStrip.TabIndex = 15;
             SuspendLayout();
             // 
             // menuStrip
@@ -62,7 +72,7 @@ namespace CinetCore
             // 
             // ventasToolStripMenuItem
             // 
-            ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem, ventasConCAEAToolStripMenuItem, modificarImporteToolStripMenuItem });
+            ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem, ventasConCAEAToolStripMenuItem, modificarImporteToolStripMenuItem, salvaVentasToolStripMenuItem });
             ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
             ventasToolStripMenuItem.Size = new Size(53, 20);
             ventasToolStripMenuItem.Text = "Ventas";
@@ -94,6 +104,13 @@ namespace CinetCore
             modificarImporteToolStripMenuItem.Size = new Size(170, 22);
             modificarImporteToolStripMenuItem.Text = "Modificar importe";
             modificarImporteToolStripMenuItem.Click += modificarImporteToolStripMenuItem_Click;
+            // 
+            // salvaVentasToolStripMenuItem
+            // 
+            salvaVentasToolStripMenuItem.Name = "salvaVentasToolStripMenuItem";
+            salvaVentasToolStripMenuItem.Size = new Size(170, 22);
+            salvaVentasToolStripMenuItem.Text = "Salva ventas";
+            salvaVentasToolStripMenuItem.Click += salvaVentasToolStripMenuItem_Click;
             // 
             // sucursalesToolStripMenuItem
             // 
@@ -224,6 +241,7 @@ namespace CinetCore
         private ToolStripMenuItem consultarVentaToolStripMenuItem;
         private ToolStripMenuItem ventasConCAEAToolStripMenuItem;
         private ToolStripMenuItem modificarImporteToolStripMenuItem;
+        private ToolStripMenuItem salvaVentasToolStripMenuItem;
         private ToolStripMenuItem sucursalesToolStripMenuItem;
         private ToolStripMenuItem verSucursalesToolStripMenuItem;
         private ToolStripMenuItem usuariosToolStripMenuItem;

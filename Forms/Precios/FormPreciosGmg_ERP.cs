@@ -1,4 +1,5 @@
-﻿using System;
+using CinetCore.Utils;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,6 +24,7 @@ namespace CinetCore.Forms.Precios
         public FormPreciosGmg_ERP()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             searchTimer = new System.Windows.Forms.Timer();
             searchTimer.Interval = 500;
             searchTimer.Tick += async (s, e) =>
@@ -53,7 +55,7 @@ namespace CinetCore.Forms.Precios
         private async void FormPreciosGmg_ERP_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
 
             lblLoading.Left = (pnlLoading.Width - lblLoading.Width) / 2;
             lblLoading.Top = (pnlLoading.Height / 2) - 30;
@@ -89,7 +91,7 @@ namespace CinetCore.Forms.Precios
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CinetCore.Utils.Alert.Show(ex.Message);
             }
             finally
             {
@@ -144,7 +146,7 @@ namespace CinetCore.Forms.Precios
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     ex.Message,
                     "Error",
                     MessageBoxButtons.OK,

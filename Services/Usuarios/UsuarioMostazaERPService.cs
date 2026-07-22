@@ -1,4 +1,4 @@
-﻿using CinetCore.Data;
+using CinetCore.Data;
 using CinetCore.Infrastructure;
 using System.Data;
 using System.Data.SqlClient;
@@ -23,7 +23,7 @@ FROM usuarios
 ORDER BY usuario
             ";
 
-            DataAccess daAccess = new DataAccess();
+            DataAccess daAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
 
             try {
                 using (SqlConnection conn = daAccess.GetConnection(DB_KEY))

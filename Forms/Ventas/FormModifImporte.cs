@@ -18,7 +18,8 @@ namespace CinetCore
         public FormModifImporte()
         {
             InitializeComponent();
-            dataAccess = new DataAccess();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
+            dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
             InicializarBases();
         }
 
@@ -34,7 +35,7 @@ namespace CinetCore
         private void FormModifImporte_Load(object sender, EventArgs e)
         {
             var v = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {v.Major}.{v.Minor}.{v.Build}";
+            lblVersion.Visible = false;
         }
 
         private void btnModificar_Click(object sender, EventArgs e)
@@ -46,7 +47,7 @@ namespace CinetCore
             {
                 Logger.LogInfo("Clave incorrecta al intentar modificar importe");
 
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     "La contraseña ingresada es incorrecta.",
                     "Acceso denegado",
                     MessageBoxButtons.OK,
@@ -66,12 +67,12 @@ namespace CinetCore
 
                 service.ModificarImporte(selectedDbKey, request);
 
-                MessageBox.Show("Modificación realizada correctamente.", "Éxito");
+                CinetCore.Utils.Alert.Show("Modificación realizada correctamente.", "Éxito");
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al modificar el importe del comprobante", ex),
                     "Error",
                     MessageBoxButtons.OK,
@@ -91,14 +92,14 @@ namespace CinetCore
                 string.IsNullOrWhiteSpace(txtImporte.Text) ||
                 cbTipo.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe completar todos los datos.");
+                CinetCore.Utils.Alert.Show("Debe completar todos los datos.");
                 return false;
             }
 
             if (!int.TryParse(txtSucursal.Text, out _) ||
                 !int.TryParse(txtComprobante.Text, out _))
             {
-                MessageBox.Show("Sucursal y Comprobante deben ser numéricos.");
+                CinetCore.Utils.Alert.Show("Sucursal y Comprobante deben ser numéricos.");
                 return false;
             }
 
@@ -108,7 +109,7 @@ namespace CinetCore
                 CultureInfo.InvariantCulture,
                 out _))
             {
-                MessageBox.Show("Importe inválido.");
+                CinetCore.Utils.Alert.Show("Importe inválido.");
                 return false;
             }
 

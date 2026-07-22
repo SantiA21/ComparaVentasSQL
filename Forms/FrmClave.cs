@@ -1,4 +1,5 @@
-﻿using System;
+using CinetCore.Utils;
+using System;
 using System.Windows.Forms;
 
 namespace CinetCore
@@ -10,6 +11,7 @@ namespace CinetCore
         public FrmClave()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
         }
 
         private void btnAceptar_Click(object sender, EventArgs e)

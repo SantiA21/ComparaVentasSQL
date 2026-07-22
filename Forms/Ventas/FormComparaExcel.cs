@@ -23,8 +23,9 @@ public partial class FormComparaExcel : Form
     public FormComparaExcel()
     {
         InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
 
-        dataAccess = new DataAccess();
+        dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
         dgvResultados.RowHeadersVisible = false;
 
         cbBaseDatos.SelectedIndexChanged += CbBaseDatos_SelectedIndexChanged;
@@ -78,7 +79,7 @@ public partial class FormComparaExcel : Form
     {
         if (string.IsNullOrWhiteSpace(txtArchivo.Text))
         {
-            MessageBox.Show("Seleccione un archivo Excel primero.");
+            CinetCore.Utils.Alert.Show("Seleccione un archivo Excel primero.");
             return;
         }
 
@@ -133,7 +134,7 @@ public partial class FormComparaExcel : Form
         catch (Exception ex)
         {
             Logger.LogError(ex);
-            MessageBox.Show(
+            CinetCore.Utils.Alert.Show(
                 UserMessageHelper.GetFriendlyMessage("al comparar las ventas con la base de datos", ex),
                 "Error",
                 MessageBoxButtons.OK,
@@ -284,7 +285,7 @@ public partial class FormComparaExcel : Form
     {
         if (dgvResultados.DataSource == null)
         {
-            MessageBox.Show("No hay datos para exportar.");
+            CinetCore.Utils.Alert.Show("No hay datos para exportar.");
             return;
         }
 
@@ -304,14 +305,14 @@ public partial class FormComparaExcel : Form
                         wb.SaveAs(sfd.FileName);
                     }
 
-                    MessageBox.Show("Exportado correctamente.");
+                    CinetCore.Utils.Alert.Show("Exportado correctamente.");
                 }
             }
         }
         catch (Exception ex)
         {
             Logger.LogError(ex);
-            MessageBox.Show("Error al exportar: " + ex.Message);
+            CinetCore.Utils.Alert.Show("Error al exportar: " + ex.Message);
         }
     }
 
@@ -348,7 +349,7 @@ public partial class FormComparaExcel : Form
     private void Form1_Load(object sender, EventArgs e)
     {
         Version version = Assembly.GetExecutingAssembly().GetName().Version;
-        lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+        lblVersion.Visible = false;
     }
 
     private void btnVolver_Click(object sender, EventArgs e)

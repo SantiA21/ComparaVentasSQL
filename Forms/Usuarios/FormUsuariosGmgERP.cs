@@ -33,6 +33,7 @@ namespace CinetCore
         public FormUsuariosGmgERP()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
 
             searchTimer = new System.Windows.Forms.Timer();
             searchTimer.Interval = 500; // medio segundo
@@ -51,7 +52,7 @@ namespace CinetCore
         private async void FormUsuariosGmgERP_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
 
             await CargarUsuarios();
         }
@@ -103,7 +104,7 @@ namespace CinetCore
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CinetCore.Utils.Alert.Show(ex.Message);
             }
         }
 

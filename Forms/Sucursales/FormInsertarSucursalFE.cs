@@ -1,4 +1,4 @@
-Ôªøusing CinetCore.Infrastructure;
+using CinetCore.Infrastructure;
 using CinetCore.Services.Sucursales;
 using CinetCore.Utils;
 using CinetCore.Data;
@@ -16,8 +16,9 @@ namespace CinetCore.Forms.Sucursales
         public FormInsertarSucursalFE()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
 
-            var dataAccess = new DataAccess();
+            var dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
             _sucursalService = new SucursalService(dataAccess);
 
             cbBaseDatos.SelectedIndexChanged += CbBaseDatos_SelectedIndexChanged;
@@ -42,12 +43,12 @@ namespace CinetCore.Forms.Sucursales
         private void FormInsertarSucursalFE_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versi√≥n {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
         }
 
         private void txtSucursal_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo n√∫meros y Backspace
+            // Permitir solo n˙meros y Backspace
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
@@ -70,7 +71,7 @@ namespace CinetCore.Forms.Sucursales
             // Seguridad extra
             if (!int.TryParse(txtSucursal.Text, out int valor) || valor < 0)
             {
-                MessageBox.Show("Sucursal inv√°lida.");
+                CinetCore.Utils.Alert.Show("Sucursal inv·lida.");
                 txtSucursal.Focus();
                 return;
             }
@@ -82,19 +83,19 @@ namespace CinetCore.Forms.Sucursales
         {
             if (!int.TryParse(txtSucursal.Text, out int suc))
             {
-                MessageBox.Show("La sucursal debe ser num√©rica.");
+                CinetCore.Utils.Alert.Show("La sucursal debe ser numÈrica.");
                 return false;
             }
 
             if (suc < 0)
             {
-                MessageBox.Show("La sucursal no puede ser negativa.");
+                CinetCore.Utils.Alert.Show("La sucursal no puede ser negativa.");
                 return false;
             }
 
             if (txtSucursal.Text.Length > 4)
             {
-                MessageBox.Show("La sucursal no puede tener m√°s de 4 d√≠gitos.");
+                CinetCore.Utils.Alert.Show("La sucursal no puede tener m·s de 4 dÌgitos.");
                 return false;
             }
 
@@ -107,13 +108,13 @@ namespace CinetCore.Forms.Sucursales
         {
             if (cbBaseDatos.SelectedItem == null)
             {
-                MessageBox.Show("Seleccione una base de datos.");
+                CinetCore.Utils.Alert.Show("Seleccione una base de datos.");
                 return;
             }
 
             if (string.IsNullOrWhiteSpace(txtSucursal.Text))
             {
-                MessageBox.Show("Ingrese el PDV.");
+                CinetCore.Utils.Alert.Show("Ingrese el PDV.");
                 return;
             }
 
@@ -124,8 +125,8 @@ namespace CinetCore.Forms.Sucursales
             {
                 Logger.LogInfo("Clave incorrecta al intentar insertar la sucursal");
 
-                MessageBox.Show(
-                    "La contrase√±a ingresada es incorrecta.",
+                CinetCore.Utils.Alert.Show(
+                    "La contraseÒa ingresada es incorrecta.",
                     "Acceso denegado",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -141,7 +142,7 @@ namespace CinetCore.Forms.Sucursales
 
                 _sucursalService.InsertarSucursal(dbKey, pdv);
 
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     "Sucursal insertada correctamente.",
                     "OK",
                     MessageBoxButtons.OK,
@@ -152,7 +153,7 @@ namespace CinetCore.Forms.Sucursales
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     "Error al insertar la sucursal:\n" + ex.Message,
                     "Error",
                     MessageBoxButtons.OK,

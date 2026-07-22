@@ -21,8 +21,9 @@ namespace CinetCore
         public FormVerSucursales()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
 
-            dataAccess = new DataAccess();
+            dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
             sucursalService = new SucursalService(dataAccess);
 
             InicializarComboBases();
@@ -74,7 +75,7 @@ namespace CinetCore
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al cargar las sucursales desde la base de datos", ex),
                     "Error",
                     MessageBoxButtons.OK,
@@ -108,7 +109,7 @@ namespace CinetCore
         private void MostrarVersion()
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
         }
 
         private void btnVolver_Click(object sender, EventArgs e)

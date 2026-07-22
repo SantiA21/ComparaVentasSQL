@@ -1,4 +1,4 @@
-﻿using CinetCore;
+using CinetCore;
 using CinetCore.Forms.Precios;
 using CinetCore.Forms.Sucursales;
 using CinetCore.Forms.Usuarios;
@@ -22,6 +22,7 @@ namespace CinetCore
         public FormInicio()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
         }
 
 
@@ -38,8 +39,9 @@ namespace CinetCore
 
         private void MostrarVersion()
         {
-            Version v = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {v.Major}.{v.Minor}.{v.Build}";
+            string v = AppInfo.Version;
+            lblVersion.Visible = false;
+            this.Text = $"CinetCore (v{v})";
         }
 
         private bool VengoDeActualizar()
@@ -84,7 +86,7 @@ namespace CinetCore
                 if (UpdateChecker.HayActualizacion(out Version versionNueva))
                 {
 
-                    MessageBox.Show(
+                    CinetCore.Utils.Alert.Show(
                 "Hay una nueva versión disponible.\nLa aplicación se actualizará automáticamente.",
                 "Actualización",
                 MessageBoxButtons.OK,
@@ -98,12 +100,17 @@ namespace CinetCore
 
         private void importarExcelToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            this.Hide();
-            using (FormComparaExcel mainForm = new FormComparaExcel())
+            var form = Application.OpenForms.OfType<FormComparaExcel>().FirstOrDefault();
+            if (form != null)
             {
-                mainForm.ShowDialog();
+                form.BringToFront();
+                if (form.WindowState == FormWindowState.Minimized) form.WindowState = FormWindowState.Normal;
             }
-            this.Show();
+            else
+            {
+                FormComparaExcel newForm = new FormComparaExcel();
+                newForm.Show();
+            }
         }
 
         private void consultarVentaToolStripMenuItem_Click(object sender, EventArgs e)
@@ -134,6 +141,28 @@ namespace CinetCore
                 mainForm.ShowDialog();
             }
             this.Show();
+        }
+
+        private void salvaVentasToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            var mainForm = Application.OpenForms.OfType<CinetCore.Forms.Salvaventas.FormMainSalvaventas>().FirstOrDefault();
+            if (mainForm != null)
+            {
+                mainForm.BringToFront();
+                if (mainForm.WindowState == FormWindowState.Minimized) mainForm.WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            var loginForm = Application.OpenForms.OfType<CinetCore.Forms.Salvaventas.FormConexionSalvaventas>().FirstOrDefault();
+            if (loginForm != null)
+            {
+                loginForm.BringToFront();
+                if (loginForm.WindowState == FormWindowState.Minimized) loginForm.WindowState = FormWindowState.Normal;
+                return;
+            }
+
+            var newForm = new CinetCore.Forms.Salvaventas.FormConexionSalvaventas();
+            newForm.Show();
         }
 
         private void verSucursalesToolStripMenuItem_Click(object sender, EventArgs e)

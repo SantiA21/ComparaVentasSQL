@@ -33,6 +33,7 @@ namespace CinetCore
         public FormUsuariosMostazaERP()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             searchTimer = new System.Windows.Forms.Timer();
             searchTimer.Interval = 500; // medio segundo
             searchTimer.Tick += async (s, e) =>
@@ -50,7 +51,7 @@ namespace CinetCore
         private async void FormUsuariosMostazaERP_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
 
             lblLoading.Left = (pnlLoading.Width - lblLoading.Width) / 2;
             lblLoading.Top = (pnlLoading.Height / 2) - 30;
@@ -123,7 +124,7 @@ namespace CinetCore
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message);
+                CinetCore.Utils.Alert.Show(ex.Message);
             }
             finally
             {

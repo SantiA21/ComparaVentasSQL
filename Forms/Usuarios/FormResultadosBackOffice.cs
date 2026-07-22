@@ -18,6 +18,7 @@ namespace CinetCore.Forms.Usuarios
         public FormResultadosBackOffice(DataTable datos)
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             dgvResultados.DataSource = datos;
             if (datos == null)
                 throw new ArgumentNullException(nameof(datos));

@@ -20,12 +20,13 @@ namespace CinetCore.Forms.Usuarios
         public FormConexionRemota()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
         }
         private void btnConectar_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtIp.Text))
             {
-                MessageBox.Show("Ingrese una IP");
+                CinetCore.Utils.Alert.Show("Ingrese una IP");
                 return;
             }
 
@@ -37,7 +38,7 @@ namespace CinetCore.Forms.Usuarios
                 Password = "cinettorcel"
             };
 
-            var service = new BackOfficeService(new DataAccess());
+            var service = new BackOfficeService(CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>());
 
             try
             {
@@ -49,7 +50,7 @@ namespace CinetCore.Forms.Usuarios
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al conectarse al Backoffice remoto o ejecutar la consulta de usuarios", ex),
                     "Error",
                     MessageBoxButtons.OK,

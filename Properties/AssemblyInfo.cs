@@ -7,13 +7,13 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyCompany("CINET")]
 [assembly: AssemblyProduct("Cinet Core")]
 
-[assembly: AssemblyCopyright("© 2026 CINET")]
+[assembly: AssemblyCopyright("ï¿½ 2026 CINET")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
 
-[assembly: AssemblyVersion("1.15.0")]
-[assembly: AssemblyFileVersion("1.15.0")]
+[assembly: AssemblyVersion("1.16.0")]
+[assembly: AssemblyFileVersion("1.16.0")]
 
 
 [assembly: ComVisible(false)]

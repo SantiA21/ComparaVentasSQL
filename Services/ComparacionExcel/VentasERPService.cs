@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace CinetCore.Services.ComparacionExcel
 {
@@ -25,7 +26,7 @@ namespace CinetCore.Services.ComparacionExcel
             string tipo)
         {
             string query = @"
-                SELECT TOP 1 PERI_CODIGO 
+                SELECT TOP 1 PERI_CODIGO, vene_fecha
                 FROM ventas_e 
                 WHERE suc_codigo = @suc 
                   AND vene_numero = @num 
@@ -37,36 +38,30 @@ namespace CinetCore.Services.ComparacionExcel
             ";
 
             using var conn = _dataAccess.GetConnection(dbKey);
-            using var cmd = new SqlCommand(query, conn);
+            using var multi = conn.QueryMultiple(query, new { suc = sucCodigo, num = numero, tipo = tipo });
 
-            cmd.Parameters.AddWithValue("@suc", sucCodigo);
-            cmd.Parameters.AddWithValue("@num", numero);
-            cmd.Parameters.AddWithValue("@tipo", tipo);
-
-            conn.Open();
-
-            using var reader = cmd.ExecuteReader();
-
-
-            if (reader.HasRows && reader.Read() && reader[0] != DBNull.Value)
+            var firstResult = multi.ReadFirstOrDefault();
+            if (firstResult != null && firstResult.PERI_CODIGO != null)
             {
                 return new VentaResultado
                 {
-                    Local = reader[0].ToString(),
-                    Existe = "✅ Existe"
+                    Local = firstResult.PERI_CODIGO.ToString(),
+                    Existe = "✅ Existe",
+                    Fecha = firstResult.vene_fecha != null
+                             ? Convert.ToDateTime(firstResult.vene_fecha).ToString("dd/MM/yyyy")
+                             : ""
                 };
             }
 
-
-            if (reader.NextResult() && reader.HasRows && reader.Read() && reader[0] != DBNull.Value)
+            var secondResult = multi.ReadFirstOrDefault();
+            if (secondResult != null && secondResult.PERI_CODIGO != null)
             {
                 return new VentaResultado
                 {
-                    Local = reader[0].ToString(),
+                    Local = secondResult.PERI_CODIGO.ToString(),
                     Existe = "❌ No existe"
                 };
             }
-
 
             return new VentaResultado
             {

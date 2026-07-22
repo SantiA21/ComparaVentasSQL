@@ -1,4 +1,5 @@
-﻿using System;
+using CinetCore.Utils;
+using System;
 using System.Net.Http;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -14,6 +15,7 @@ namespace CinetCore
         public FormChangelog()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             CargarChangelogAsync();
         }
 
@@ -40,7 +42,7 @@ namespace CinetCore
             {
                 txtChangelog.Text =
                     "No se pudieron cargar las novedades.\r\n" +
-                    "Verifique su conexión a internet.\r\n\r\n" +
+                    "Verifique su conexi�n a internet.\r\n\r\n" +
                     ex.Message;
             }
         }

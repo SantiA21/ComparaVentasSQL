@@ -22,7 +22,8 @@ namespace CinetCore
         public FormConsultaVenta()
         {
             InitializeComponent();
-            dataAccess = new DataAccess();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
+            dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
 
             var keys = dataAccess.GetKeys();
             cbBaseDatos.Items.AddRange(keys);
@@ -57,7 +58,7 @@ namespace CinetCore
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
             
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
         }
 
 
@@ -70,13 +71,13 @@ namespace CinetCore
                 string.IsNullOrWhiteSpace(txtSucursal.Text) ||
                 cbTipo.SelectedIndex == -1)
             {
-                MessageBox.Show("Debe completar los datos");
+                CinetCore.Utils.Alert.Show("Debe completar los datos");
                 return;
             }
             if (!int.TryParse(txtSucursal.Text, out int sucCodigo) ||
                 !int.TryParse(txtComprobante.Text, out int veneNumero))
             {
-                MessageBox.Show("Sucursal y Comprobante deben ser numéricos.");
+                CinetCore.Utils.Alert.Show("Sucursal y Comprobante deben ser numéricos.");
                 return;
             }
 
@@ -90,7 +91,7 @@ namespace CinetCore
             string tipoComprobante = cbTipo.SelectedItem.ToString().Trim();
             if (tipoComprobante.Length > 10 || tipoComprobante.Any(c => !char.IsLetterOrDigit(c)))
             {
-                MessageBox.Show("Tipo de comprobante inválido.");
+                CinetCore.Utils.Alert.Show("Tipo de comprobante inválido.");
                 return;
             }
 
@@ -129,14 +130,14 @@ namespace CinetCore
                 dgvVenta.DataSource = dtVenta;
 
                 if (dtVenta.Rows.Count > 0)
-                    MessageBox.Show("Venta encontrada en la base de datos.");
+                    CinetCore.Utils.Alert.Show("Venta encontrada en la base de datos.");
                 else
-                    MessageBox.Show("No existe la venta en la base de datos.");
+                    CinetCore.Utils.Alert.Show("No existe la venta en la base de datos.");
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al consultar la venta en la base de datos", ex),
                     "Error",
                     MessageBoxButtons.OK,

@@ -10,6 +10,7 @@ namespace CinetCore.Models
     {
         public string Local { get; set; }
         public string Existe { get; set; }
+		public string Fecha { get; set; }
     }
 
 }

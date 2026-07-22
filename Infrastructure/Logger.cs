@@ -89,5 +89,39 @@ $@"--------------------
                 catch { }
             }
         }
+
+        // Backward compatibility aliases for Salvaventas DatabaseService
+        public static void Info(string message) => LogInfo(message);
+        
+        public static void Error(string message)
+        {
+            try
+            {
+                string file = Path.Combine(logDir, $"error_{DateTime.Now:yyyy-MM-dd}.txt");
+                string msg =
+$@"--------------------
+[{DateTime.Now:HH:mm:ss}] ERROR: {message}
+";
+                File.AppendAllText(file, msg);
+            }
+            catch { }
+        }
+
+        public static void Error(string message, Exception ex)
+        {
+            try
+            {
+                string file = Path.Combine(logDir, $"error_{DateTime.Now:yyyy-MM-dd}.txt");
+                string msg =
+$@"--------------------
+[{DateTime.Now:HH:mm:ss}] ERROR: {message}
+EXCEPTION: {ex.Message}
+STACKTRACE:
+{ex.StackTrace}
+";
+                File.AppendAllText(file, msg);
+            }
+            catch { }
+        }
     }
 }

@@ -16,13 +16,14 @@ namespace CinetCore
         public FormLinkedServer()
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
         }
 
         private void btnCargarEquipos_Click(object sender, EventArgs e)
         {
             if (string.IsNullOrWhiteSpace(txtServidorMadre.Text))
             {
-                MessageBox.Show("Debe ingresar la IP / Hostname del servidor.");
+                CinetCore.Utils.Alert.Show("Debe ingresar la IP / Hostname del servidor.");
                 return;
             }
 
@@ -34,7 +35,7 @@ namespace CinetCore
             // Validación básica del servidor
             if (servidor.Contains(";") || servidor.Contains("'") || servidor.Contains("\""))
             {
-                MessageBox.Show("El nombre del servidor contiene caracteres no permitidos.");
+                CinetCore.Utils.Alert.Show("El nombre del servidor contiene caracteres no permitidos.");
                 return;
             }
 
@@ -95,12 +96,12 @@ ORDER BY equipo;
                 if (cbEquipos.Items.Count > 0)
                     cbEquipos.SelectedIndex = 0;
 
-                MessageBox.Show("Equipos cargados correctamente.");
+                CinetCore.Utils.Alert.Show("Equipos cargados correctamente.");
             }
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al cargar los equipos desde el servidor BACKOFFICE", ex),
                     "Error",
                     MessageBoxButtons.OK,
@@ -167,7 +168,7 @@ ORDER BY
 
             if (string.IsNullOrWhiteSpace(equipoIngresado))
             {
-                MessageBox.Show("Debe ingresar o seleccionar un equipo.");
+                CinetCore.Utils.Alert.Show("Debe ingresar o seleccionar un equipo.");
                 return;
             }
 
@@ -177,13 +178,13 @@ ORDER BY
                 hostLimpio = LimpiarHostname(equipoIngresado);
                 if (string.IsNullOrWhiteSpace(hostLimpio))
                 {
-                    MessageBox.Show("No se pudo procesar el nombre del equipo.");
+                    CinetCore.Utils.Alert.Show("No se pudo procesar el nombre del equipo.");
                     return;
                 }
             }
             catch (ArgumentException ex)
             {
-                MessageBox.Show($"Error en el nombre del equipo: {ex.Message}");
+                CinetCore.Utils.Alert.Show($"Error en el nombre del equipo: {ex.Message}");
                 return;
             }
 
@@ -229,7 +230,7 @@ EXEC master.dbo.sp_addlinkedsrvlogin
 
                     if (string.IsNullOrEmpty(basePDV))
                     {
-                        MessageBox.Show("No se encontró una base PDV válida en el equipo.");
+                        CinetCore.Utils.Alert.Show("No se encontró una base PDV válida en el equipo.");
                         return;
                     }
 
@@ -258,7 +259,7 @@ ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
             catch (Exception ex)
             {
                 Logger.LogError(ex);
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al consultar el equipo seleccionado", ex),
                     "Error",
                     MessageBoxButtons.OK,
@@ -275,7 +276,7 @@ ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
         private void FormLinkedServer_Load(object sender, EventArgs e)
         {
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
         }
 
         private FormVerSucursalesV2 _formSucursales;
@@ -284,7 +285,7 @@ ORDER BY VENE_FECHA DESC, VENE_HORA DESC;
         {
             if (string.IsNullOrWhiteSpace(connectionToMotherServer))
             {
-                MessageBox.Show("Debe cargar primero el servidor madre.");
+                CinetCore.Utils.Alert.Show("Debe cargar primero el servidor madre.");
                 return;
             }
 

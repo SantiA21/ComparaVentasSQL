@@ -1,8 +1,9 @@
-﻿using CinetCore.Data;
+using CinetCore.Data;
 using CinetCore.Infrastructure;
 using CinetCore.Models;
 using System.Data;
 using System.Data.SqlClient;
+using Dapper;
 
 namespace CinetCore.Services.Usuarios
 {
@@ -28,12 +29,12 @@ namespace CinetCore.Services.Usuarios
             Logger.LogQuery(query);
 
             using var conn = _dataAccess.GetRemoteConnection(config);
-            using var cmd = new SqlCommand(query, conn);
-            using var da = new SqlDataAdapter(cmd);
-
-            DataTable dt = new DataTable();
             conn.Open();
-            da.Fill(dt);
+            
+            var dt = new DataTable();
+            using var reader = conn.ExecuteReader(query);
+            dt.Load(reader);
+            
             return dt;
         }
 

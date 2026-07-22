@@ -14,6 +14,7 @@ namespace CinetCore
         public FormVerSucursalesV2(string connectionString)
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             _connectionString = connectionString;
         }
 
@@ -71,7 +72,7 @@ ORDER BY equipo;
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al cargar las sucursales desde el servidor madre", ex),
                     "Error",
                     MessageBoxButtons.OK,

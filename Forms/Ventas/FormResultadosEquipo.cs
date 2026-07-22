@@ -16,6 +16,7 @@ namespace CinetCore
         public FormResultadosEquipo(DataTable datos)
         {
             InitializeComponent();
+            CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             dgvDatos.DataSource = datos;
         }
 
@@ -42,7 +43,7 @@ namespace CinetCore
             }
             catch (Exception ex)
             {
-                MessageBox.Show(
+                CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al consultar las ventas con CAEA del equipo seleccionado", ex),
                     "Error",
                     MessageBoxButtons.OK,
@@ -62,7 +63,7 @@ namespace CinetCore
             Version version = Assembly.GetExecutingAssembly().GetName().Version;
 
 
-            lblVersion.Text = $"Versión {version.Major}.{version.Minor}.{version.Build}";
+            lblVersion.Visible = false;
         }
 
         private void btoActualizar_Click(object sender, EventArgs e)
