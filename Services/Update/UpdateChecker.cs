@@ -8,7 +8,17 @@ public static class UpdateChecker
     private static readonly string versionUrl =
         "https://raw.githubusercontent.com/SantiA21/ComparaVentasSQL/refs/heads/main/version.txt";
     
-    private static readonly HttpClient httpClient = new HttpClient();
+    private static readonly string githubToken = "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";
+
+    private static readonly HttpClient httpClient = CreateHttpClient();
+
+    private static HttpClient CreateHttpClient()
+    {
+        var client = new HttpClient();
+        client.DefaultRequestHeaders.Add("Authorization", $"token {githubToken}");
+        client.DefaultRequestHeaders.Add("User-Agent", "CinetCoreApp");
+        return client;
+    }
 
     public static bool HayActualizacion(out Version versionRemota)
     {

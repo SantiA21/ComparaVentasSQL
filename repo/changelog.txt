@@ -1,3 +1,6 @@
+[1.17.0]
+- Fix updater
+
 [1.16.0]
 - Se implementa el Salvaventas en CinetCore, se modifica el front de el proyecto
 
