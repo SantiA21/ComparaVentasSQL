@@ -27,9 +27,6 @@ namespace CinetCore
                 return;
             }
 
-            // NOTA DE SEGURIDAD: Las credenciales están hardcodeadas por simplicidad.
-            // En producción, deberían estar en un archivo de configuración encriptado.
-            // El servidor madre debe ser validado antes de usar.
             string servidor = txtServidorMadre.Text.Trim();
             
             // Validación básica del servidor
@@ -39,8 +36,17 @@ namespace CinetCore
                 return;
             }
 
+            var dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
+            string password = dataAccess.GetSetting("LinkedServerPassword");
+
+            if (string.IsNullOrWhiteSpace(password))
+            {
+                CinetCore.Utils.Alert.Show("No se encontró la configuración 'LinkedServerPassword' en dbconfig.ini.");
+                return;
+            }
+
             connectionToMotherServer =
-                $"Server={servidor};Database=BACKOFFICE;User Id=sa;Password=cinettorcel;";
+                $"Server={servidor};Database=BACKOFFICE;User Id=sa;Password={password};TrustServerCertificate=True;";
 
             try
             {
@@ -193,6 +199,15 @@ ORDER BY
 
             try
             {
+                var dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
+                string password = dataAccess.GetSetting("LinkedServerPassword");
+
+                if (string.IsNullOrWhiteSpace(password))
+                {
+                    CinetCore.Utils.Alert.Show("No se encontró la configuración 'LinkedServerPassword' en dbconfig.ini.");
+                    return;
+                }
+
                 using (var conn = new SqlConnection(connectionToMotherServer))
                 {
                     conn.Open();
@@ -218,7 +233,7 @@ EXEC master.dbo.sp_addlinkedsrvlogin
     @useself = 'FALSE',
     @locallogin = NULL,
     @rmtuser = 'sa',
-    @rmtpassword = 'cinettorcel';
+    @rmtpassword = '{password}';
 ";
                             using (var cmdAdd = new SqlCommand(addLS, conn))
                                 cmdAdd.ExecuteNonQuery();

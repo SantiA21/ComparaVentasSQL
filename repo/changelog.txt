@@ -1,3 +1,6 @@
+[1.18.0]
+- Cambio en conexion a bd. Ahora usa dbconfig.ini y no el dataaccess, es un poco mas seguro
+
 [1.17.0]
 - Fix updater
 
