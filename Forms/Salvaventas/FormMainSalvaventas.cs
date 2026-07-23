@@ -242,7 +242,7 @@ namespace CinetCore.Forms.Salvaventas
                     if (CinetCore.Utils.Alert.Show($"La venta no existe. ¿Desea insertarla manualmente con Val Código: {valCodigo}?", "Insertar", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                     {
                         var window = new FormInsertarVenta(_ip, _password, sucCodigo, veneNumero, cbteeCodigo, valCodigo);
-                        window.ShowDialog();
+                        window.Show();
                     }
                 }
             }
