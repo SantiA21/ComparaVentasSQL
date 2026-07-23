@@ -116,7 +116,7 @@ namespace CinetCore.Forms.Salvaventas
             
             lblEquipoEncontrado = new Label() { Text = "", Location = new Point(20, 10), AutoSize = true, ForeColor = Color.FromArgb(40, 167, 69), Font = new Font("Segoe UI Semibold", 11F, FontStyle.Bold) };
             
-            panelResultados = new FlowLayoutPanel() { Location = new Point(20, 40), Size = new Size(940, 400), AutoScroll = true, Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right, BackColor = Color.White };
+            panelResultados = new FlowLayoutPanel() { Location = new Point(20, 40), Size = new Size(940, 400), AutoScroll = true, Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right, BackColor = Color.White, FlowDirection = FlowDirection.TopDown, WrapContents = false };
 
             panelBottom.Controls.Add(lblEquipoEncontrado);
             panelBottom.Controls.Add(panelResultados);
@@ -275,7 +275,8 @@ namespace CinetCore.Forms.Salvaventas
                     CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
                     EnableHeadersVisualStyles = false,
                     RowHeadersVisible = false,
-                    SelectionMode = DataGridViewSelectionMode.FullRowSelect
+                    SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                    AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.DisplayedCells
                 };
                 dgv.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(245, 246, 248);
                 dgv.ColumnHeadersDefaultCellStyle.ForeColor = Color.Black;
@@ -284,7 +285,9 @@ namespace CinetCore.Forms.Salvaventas
                 dgv.DefaultCellStyle.SelectionForeColor = Color.Black;
                 
                 panelResultados.Controls.Add(lbl);
+                panelResultados.SetFlowBreak(lbl, true);
                 panelResultados.Controls.Add(dgv);
+                panelResultados.SetFlowBreak(dgv, true);
             }
         }
 

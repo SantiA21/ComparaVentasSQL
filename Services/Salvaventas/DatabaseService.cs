@@ -666,5 +666,36 @@ update VAL_MOVIMIENTOS set asi_transmitido = null where CBTEINSUC_CODIGO = @punt
                 throw;
             }
         }
+        public async Task<bool> CheckHNCExistsAsync()
+        {
+            string query = "SELECT COUNT(*) FROM VALORES_TIPOS WHERE VAL_CODIGO = 'HNC'";
+            using var connection = new SqlConnection(GetConnectionString());
+            await connection.OpenAsync();
+            int count = await connection.ExecuteScalarAsync<int>(query);
+            return count > 0;
+        }
+
+        public async Task InsertarHNCAsync()
+        {
+            string query = @"
+                INSERT INTO VALORES_TIPOS (
+                    VAL_CODIGO, VAL_DESCRIPCION, PLAN_CODIGO, VAL_INGRESA, VAL_EGRESA, 
+                    VAL_COTIZA, VAL_COTIZACION, VAL_ESCREDITO, VAL_CASHFLOW, VAL_ENCIERRE, 
+                    VAL_FACRECIBO, VAL_COLEST, VAL_ESMONEDA, VAL_NUMERO, VAL_EXTRANJERA, 
+                    VAL_NUMERACION, VAL_ULT_NUMERO, VAL_ULTNUMERO, val_tranforma, val_trancodigo, 
+                    valm_vencehoy, VAL_USAQUEDAENCAJA, VAL_QUEDAENCAJA, VAL_CTARETIRO, 
+                    val_codigo_ingreso_egreso, ndeja_en_cero_al_cierre
+                ) VALUES (
+                    N'HNC', N'Hacer nota de credito', N'11030119', N'S', N'S', 
+                    N'N', 1.000, N'N', N'N', N'S', N'N', 6, N' ', N' ', N' ', 
+                    NULL, NULL, NULL, N'T         ', N'MA        ', NULL, 
+                    N'S         ', 0.00, N'11030119', N'          ', NULL
+                );";
+
+            using var connection = new SqlConnection(GetConnectionString());
+            await connection.OpenAsync();
+            await connection.ExecuteAsync(query);
+            Logger.Info("Registro HNC insertado en VALORES_TIPOS.");
+        }
     }
 }

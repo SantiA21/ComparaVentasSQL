@@ -128,6 +128,19 @@ namespace CinetCore.Forms.Salvaventas
             {
                 btnInsertar.Enabled = false;
                 var dbService = new DatabaseService(_ip, _password);
+
+                if (valCodigo == "HNC")
+                {
+                    bool existsHnc = await dbService.CheckHNCExistsAsync();
+                    if (!existsHnc)
+                    {
+                        if (CinetCore.Utils.Alert.Show("El registro 'HNC' no existe en VALORES_TIPOS del backoffice.\n¿Desea insertarlo ahora?", "Registro Inexistente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                        {
+                            await dbService.InsertarHNCAsync();
+                        }
+                    }
+                }
+
                 await dbService.InsertarVentaManualAsync(sucCodigo, veneNumero, cbteeCodigo, fecha, importeTotal, cae, int.Parse(numCaja), valCodigo);
 
                 CinetCore.Utils.Alert.Show("La venta se insertó manualmente en el Backoffice de manera exitosa.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);

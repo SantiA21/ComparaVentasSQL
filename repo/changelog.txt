@@ -1,3 +1,6 @@
+[1.18.2]
+- Pregunta si queres insertar el valor de HNC en dbo.valores_tipos en caso de que no exista
+
 [1.18.1]
 - El form del salva ventas bloqueaba toda la app y no se podia usar para buscar datos
 
