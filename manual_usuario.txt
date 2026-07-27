@@ -1,0 +1,234 @@
+================================================================================
+                       MANUAL DE USUARIO - CINETCORE
+     Plataforma Integral de Gestión, Auditoría y Diagnóstico de Ventas
+================================================================================
+
+1. INTRODUCCIÓN
+--------------------------------------------------------------------------------
+CinetCore es una aplicación de escritorio diseñada para centralizar las
+tareas de auditoría, control de ventas, rescate de transacciones, consulta
+de precios y administración de usuarios sobre los sistemas MOSTAZA ERP,
+GMG ERP y servidores Backoffice remotos.
+
+Este manual explica paso a paso el funcionamiento de todos los módulos y 
+proporciona soluciones prácticas ante dudas habituales o problemas técnicos.
+
+================================================================================
+2. REQUISITOS DEL SISTEMA
+--------------------------------------------------------------------------------
+- Sistema Operativo: Windows 10 o Windows 11 (64 bits).
+- Conectividad: Acceso de red a los servidores SQL de MOSTAZA ERP / GMG ERP o 
+  a la red interna/Backoffice según las tareas a realizar.
+- Permisos: Capacidad para ejecutar programas de escritorio (.exe) en la PC.
+- Internet (Recomendado): Necesario para el sistema de actualización automática
+  y para la visualización del changelog/novedades en línea.
+
+*Nota: La aplicación es independiente (self-contained); no requiere instalar
+manualmente paquetes adicionales de .NET en el equipo.*
+
+================================================================================
+3. INSTALACIÓN Y ACTUALIZACIONES AUTOMÁTICAS
+--------------------------------------------------------------------------------
+3.1. Instalación
+   1) Recibirá una carpeta con los archivos de CinetCore (ej: CinetCore.exe,
+      Updater.exe y librerías auxiliares).
+   2) Copie la carpeta completa en su PC (o acceda al acceso directo de red
+      asignado por el departamento de IT).
+   3) NO separe ni elimine los archivos dentro de la carpeta.
+   4) Ejecute "CinetCore.exe" con doble clic.
+
+3.2. Actualización Automática
+   Al abrir la aplicación, el sistema verifica por internet si hay una nueva
+   versión disponible:
+   - Si existe una nueva versión, se mostrará un aviso en pantalla:
+     "Hay una nueva versión disponible. La aplicación se actualizará 
+     automáticamente."
+   - Al presionar Aceptar, CinetCore se cerrará y ejecutará "Updater.exe", el
+     cual descargará e instalará los archivos actualizados en segundos.
+   - Una vez concluida la actualización, la aplicación se abrirá de manera
+     automática y mostrará una ventana con las "Novedades" de la nueva versión.
+
+================================================================================
+4. PANTALLA PRINCIPAL Y BARRA DE VERSIÓN
+--------------------------------------------------------------------------------
+Al iniciar CinetCore visualizará una pantalla limpia con un menú superior
+dividido en las siguientes opciones de trabajo:
+- Importar Excel (Comparación masiva de ventas).
+- Consultar Venta (Búsqueda puntual en base de datos).
+- Ventas con CAEA (Consulta sobre equipos remotos mediante Linked Server).
+- Modificar Importe (Ajuste contable con clave de seguridad).
+- SalvaVentas (Rescate y reparación de transacciones en locales).
+- Ver Sucursales (Listado de locales y cajas).
+- Usuarios MOSTAZA ERP / GMG ERP / Backoffice.
+- Insertar Sucursal FE (Configuración de sucursal para Facturación Electrónica).
+- Precios (Consulta de listas de precios MOSTAZA / GMG).
+- Novedades (Historial de versiones).
+
+> En el pie de la ventana y en la barra de título se visualiza en todo momento
+> la versión activa (por ejemplo: "CinetCore v1.15.0").
+
+================================================================================
+5. GUÍA PASO A PASO POR MÓDULO
+--------------------------------------------------------------------------------
+
+5.1. COMPARAR VENTAS DESDE EXCEL (Menú: "Importar Excel")
+   Permite comparar un archivo Excel con el listado de ventas contra las bases
+   de datos de MOSTAZA_ERP o GMG_ERP para verificar qué comprobantes existen y
+   cuáles presentan diferencias.
+
+   Pasos de uso:
+   1. Seleccione la Base de Datos en el menú desplegable (MOSTAZA_ERP o GMG_ERP).
+   2. Haga clic en el botón "Examinar" y busque su planilla Excel (.xlsx).
+   3. Presione "Procesar".
+   4. CinetCore analizará la columna "ID Unico" separándola en:
+      - Sucursal
+      - Número de Comprobante
+      - Tipo de Comprobante
+   5. En la grilla se mostrarán todas las filas indicando:
+      - ID Unico, Local, Sucursal, Comprobante, Tipo, Importe, Fecha, CAE.
+      - Columna de Estado / Resultado: le confirmará si la venta está OK en
+        base de datos, si falta en SQL o si presenta diferencias.
+   6. Filtros: Puede filtrar la vista por Sucursal, por Local, mostrar solo
+      los comprobantes Existentes o solo los No Existentes.
+   7. Exportar: Presione el botón "Exportar" para generar un nuevo Excel con
+      los resultados y los filtros que haya aplicado.
+
+--------------------------------------------------------------------------------
+5.2. CONSULTAR UNA VENTA PUNTUAL (Menú: "Consultar venta")
+   Sirve para verificar rápidamente si una venta puntual fue registrada en SQL.
+
+   Pasos de uso:
+   1. Seleccione la Base de Datos.
+   2. Ingrese el número de Sucursal (solo dígitos).
+   3. Ingrese el Número de Comprobante.
+   4. Seleccione el Tipo de Comprobante en la lista (ej: FAB, FAA).
+   5. Haga clic en "Consultar".
+   6. Si el registro existe, mostrará:
+      ✅ "Venta encontrada en la base de datos", detallando el Local, Fecha,
+         CAE, Caja emisora e Importe total.
+      ❌ Si no existe, mostrará "No existe la venta en la base de datos".
+
+--------------------------------------------------------------------------------
+5.3. VENTAS CON CAEA - LINKED SERVERS (Menú: "Ventas con CAEA")
+   Permite consultar comprobantes emitidos bajo modalidad CAEA directamente
+   en las cajas o terminales de un local/equipo remoto.
+
+   Pasos de uso:
+   1. Ingrese la dirección IP o el Nombre del Servidor Madre (Backoffice).
+   2. Presione "Cargar equipos". El sistema detectará las terminales de venta.
+   3. Seleccione el equipo de la lista y haga clic en consultar.
+   4. La aplicación creará temporalmente la conexión de servidor vinculado
+      (Linked Server) si no existe y cargará en pantalla todas las ventas con
+      CAEA reportadas por dicho terminal.
+   5. También puede abrir el botón de "Sucursales / Equipos" para examinar el
+      mapa de cajas y hostnames vinculados.
+
+--------------------------------------------------------------------------------
+5.4. MODIFICAR IMPORTE DE COMPROBANTE (Menú: "Modificar importe")
+   [!] ATENCIÓN: Esta función impacta directamente en datos contables de SQL.
+   Requiere autorización y una clave de seguridad asignada por auditoría.
+
+   Pasos de uso:
+   1. Seleccione la Base de Datos.
+   2. Indique la Sucursal, Número y Tipo de comprobante.
+   3. Ingrese el Nuevo Importe correcto.
+   4. Al presionar en Guardar/Confirmar, se abrirá una ventana de seguridad.
+   5. Introduzca la clave de autorización. Si es válida, el sistema ajustará
+      el monto en las tablas de ventas (VENTAS_T, VAL_MOVIMIENTOS) recalcuando
+      subtotales e impuestos automáticamente.
+
+--------------------------------------------------------------------------------
+5.5. SALVAVENTAS - RESCATE Y DIAGNÓSTICO (Menú: "SalvaVentas")
+   Herramienta avanzada para diagnosticar transacciones truncadas, comprobar
+   comprobantes faltantes y reinsertar ventas en locales.
+
+   Pasos de uso:
+   1. Ingrese las credenciales o seleccione la conexión al local a auditar.
+   2. En la pantalla principal de Salvaventas, ingrese los parámetros:
+      - Sucursal y Número de Comprobante.
+      - Hostname (opcional, para focalizar la caja).
+      - Tipo de Comprobante (FAB / FAA) y Código de Valor (EFECTIVO, MERPAGO, HNC).
+   3. Presione "BUSCAR VENTA":
+      - Se visualizarán las tablas encontradas y el estado general.
+   4. Operaciones disponibles:
+      - "AGREGAR VAL_MOV": Si una venta no tiene registro de cobro asociado,
+        permite generar la inserción del movimiento de valor correspondiente.
+      - "RE-INSERTAR VENTA": Permite copiar o restaurar la transacción en la
+        base principal cuando se detecta en la caja emisora.
+
+--------------------------------------------------------------------------------
+5.6. VER SUCURSALES Y LOCALES (Menú: "Ver sucursales")
+   Permite listar en una grilla todas las sucursales, terminales de caja y
+   nombres de local activos en la base de datos seleccionada.
+   - Puede utilizar el cuadro de búsqueda rápida para encontrar un local
+     escribiendo su nombre o número.
+
+--------------------------------------------------------------------------------
+5.7. USUARIOS MOSTAZA ERP / GMG ERP / BACKOFFICE REMOTO
+   (Menú: "Usuarios MOSTAZA ERP", "Usuarios GMG ERP", "Usuarios Backoffice")
+   Permite administrar y consultar la lista de usuarios y cajeros registrados:
+   - Campos mostrados: DNI, Nombre, Apellido, Nombre Cinet, Categoría, Estado.
+   - Herramientas de filtrado:
+     * Búsqueda por texto libre (por nombre, apellido, DNI o usuario).
+     * Filtro por Categoría (cajeros, supervisores, gerentes, etc.).
+     * Filtro por Estado (Activo / Inactivo).
+   - Para consultar un Backoffice Remoto, indique la IP del servidor en el
+     cuadro de conexión y presione "Conectar".
+
+--------------------------------------------------------------------------------
+5.8. INSERTAR SUCURSAL FE (Menú: "Insertar Sucursal")
+   Módulo especial para registrar o vincular parámetros de sucursales en los
+   módulos de Facturación Electrónica (FE) de CinetCore.
+
+--------------------------------------------------------------------------------
+5.9. PRECIOS MOSTAZA ERP Y GMG ERP (Menú: "Precios")
+   Permite consultar listas de precios de artículos en tiempo real conectándose
+   a los servicios web y bases del sistema.
+   - Cuenta con filtros por Nombre/Código de Artículo y por Lista de Precios.
+   - Dispone de navegación paginada para facilitar la lectura en catálogos de
+     gran tamaño sin sobrecargar la red.
+
+--------------------------------------------------------------------------------
+5.10. NOVEDADES / CHANGELOG (Menú: "Novedades")
+   Muestra el historial completo de versiones de CinetCore con el detalle de
+   mejoras, correcciones y nuevas herramientas añadidas en cada actualización.
+
+================================================================================
+6. ARCHIVOS DE REGISTRO (LOGS) Y RESOLUCIÓN DE PROBLEMAS
+--------------------------------------------------------------------------------
+En la carpeta donde está guardado "CinetCore.exe" encontrará una subcarpeta
+llamada "Logs". Allí se almacenan archivos automáticos diarios:
+- error_AAAA-MM-DD.txt : Errores, fallos en conexión o bloqueos.
+- query_AAAA-MM-DD.txt : Historial de auditoría de las consultas realizadas.
+- info_AAAA-MM-DD.txt  : Sucesos normales de inicio, versión y actualización.
+
+PREGUNTAS FRECUENTES (FAQ):
+
+Q: ¿Qué hago si me aparece "Error de conexión a la base de datos"?
+A: 1. Verifique que el cable de red o Wi-Fi del equipo esté encendido.
+   2. Verifique si puede acceder al servidor de base de datos desde su PC.
+   3. Revise que el archivo "dbconfig.ini" esté en la carpeta de la aplicación
+      y tenga las contraseñas y servidores correctos configurados.
+
+Q: ¿Qué hago si el programa no se actualiza o cierra al actualizar?
+A: Asegúrese de tener permisos para escribir archivos en la carpeta de
+   instalación y compruebe su conexión a internet. Si el archivo queda
+   bloqueado, descargue la versión más reciente manualmente desde IT.
+
+Q: ¿Por qué en "Importar Excel" no reconoce mi archivo?
+A: Verifique que el Excel esté cerrado en otras aplicaciones (por ejemplo, en
+   Microsoft Excel) antes de procesarlo, y que cuente con las columnas
+   estándar de Cinet (especialmente "ID Unico").
+
+================================================================================
+7. SOPORTE TÉCNICO Y CONTACTO
+--------------------------------------------------------------------------------
+Cuando requiera asistencia del área de Soporte Técnico o Sistemas, por favor
+tenga a mano la siguiente información para un diagnóstico rápido:
+
+1. Número exacto de versión (ej: CinetCore v1.15.0).
+2. Captura de pantalla del mensaje de error o ventana donde ocurrió.
+3. El archivo de registro correspondiente al día del problema:
+   -> Carpeta "Logs" -> "error_AAAA-MM-DD.txt".
+4. Descripción breve de los pasos que estaba haciendo al ocurrir el suceso.
+================================================================================

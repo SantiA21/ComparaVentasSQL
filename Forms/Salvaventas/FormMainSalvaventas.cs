@@ -33,6 +33,8 @@ namespace CinetCore.Forms.Salvaventas
         private Button btnBuscar;
         private Button btnInsertarValMov;
         private Button btnReinsertar;
+        private Button btnVerCajas;
+        private FormVerSucursalesV2 _formSucursales;
 
         private Label lblStatus;
         private Label lblEquipoEncontrado;
@@ -105,11 +107,16 @@ namespace CinetCore.Forms.Salvaventas
             btnReinsertar.FlatAppearance.BorderSize = 0;
             btnReinsertar.Click += async (s, e) => await BtnReinsertar_Click(s, e);
 
-            lblStatus = new Label() { Location = new Point(510, 185), AutoSize = true, ForeColor = Color.FromArgb(100, 100, 100), Font = new Font("Segoe UI", 9.5F) };
+            btnVerCajas = new Button() { Text = "VER CAJAS", Location = new Point(500, 175), Width = 130, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(23, 162, 184), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
+            btnVerCajas.FlatAppearance.BorderSize = 0;
+            btnVerCajas.Click += BtnVerCajas_Click;
+
+            lblStatus = new Label() { Location = new Point(645, 185), AutoSize = true, ForeColor = Color.FromArgb(100, 100, 100), Font = new Font("Segoe UI", 9.5F) };
 
             panelTop.Controls.Add(btnBuscar);
             panelTop.Controls.Add(btnInsertarValMov);
             panelTop.Controls.Add(btnReinsertar);
+            panelTop.Controls.Add(btnVerCajas);
             panelTop.Controls.Add(lblStatus);
 
             var panelBottom = new Panel() { Dock = DockStyle.Fill, Padding = new Padding(20) };
@@ -354,6 +361,7 @@ namespace CinetCore.Forms.Salvaventas
         private void SetLoading(bool isLoading, string msg)
         {
             btnBuscar.Enabled = !isLoading;
+            btnVerCajas.Enabled = !isLoading;
             if (isLoading)
             {
                 btnReinsertar.Enabled = false;
@@ -367,6 +375,41 @@ namespace CinetCore.Forms.Salvaventas
             var formConexion = new FormConexionSalvaventas();
             formConexion.Show();
             this.Close();
+        }
+
+        private string GetMotherServerConnectionString()
+        {
+            string server = _ip.Contains(",") ? _ip : $"{_ip},1433";
+            return $"Server={server};Database=backoffice;User Id=sa;Password={_password};TrustServerCertificate=True;";
+        }
+
+        private void BtnVerCajas_Click(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(_ip))
+            {
+                CinetCore.Utils.Alert.Show("Debe cargar primero el servidor.");
+                return;
+            }
+
+            if (_formSucursales == null || _formSucursales.IsDisposed)
+            {
+                string connectionString = GetMotherServerConnectionString();
+                _formSucursales = new FormVerSucursalesV2(connectionString);
+                _formSucursales.Show();
+            }
+            else
+            {
+                _formSucursales.BringToFront();
+            }
+        }
+
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            if (_formSucursales != null && !_formSucursales.IsDisposed)
+            {
+                _formSucursales.Close();
+            }
+            base.OnFormClosed(e);
         }
     }
 }

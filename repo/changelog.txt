@@ -1,3 +1,6 @@
+[1.18.4]
+- Se agrego un boton para consultar cajas en el salva ventas
+
 [1.18.3]
 - Se busca en las bases de AFA, Gourmet y Pizza las ventas faltantes
 
