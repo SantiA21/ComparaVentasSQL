@@ -1,10 +1,13 @@
-[1.18.4]
+[1.22.0]
+- Se agrega un contador cuando se procesa el excel de las ventas que faltan o no
+
+[1.21.0]
 - Se agrego un boton para consultar cajas en el salva ventas
 
-[1.18.3]
+[1.20.0]
 - Se busca en las bases de AFA, Gourmet y Pizza las ventas faltantes
 
-[1.18.2]
+[1.19.0]
 - Pregunta si queres insertar el valor de HNC en dbo.valores_tipos en caso de que no exista
 
 [1.18.1]

@@ -27,6 +27,8 @@ public partial class FormComparaExcel : Form
 
         dataAccess = CinetCore.Infrastructure.AppDI.GetService<CinetCore.Data.DataAccess>();
         dgvResultados.RowHeadersVisible = false;
+        dgvResultados.AllowUserToAddRows = false;
+        ActualizarContador();
 
         cbBaseDatos.SelectedIndexChanged += CbBaseDatos_SelectedIndexChanged;
 
@@ -130,6 +132,7 @@ public partial class FormComparaExcel : Form
             CargarComboDesdeTabla(dtOriginal, cbLocal, "Local");
 
             lblEstado.Text = "✅ Proceso finalizado";
+            ActualizarContador();
         }
         catch (Exception ex)
         {
@@ -220,6 +223,7 @@ public partial class FormComparaExcel : Form
 
         CargarComboDesdeVista(dv, cbSucursal, "Sucursal");
         CargarComboDesdeVista(dv, cbLocal, "Local");
+        ActualizarContador();
     }
 
     private void CargarComboDesdeTabla(DataTable tabla, ComboBox combo, string columna)
@@ -379,6 +383,29 @@ public partial class FormComparaExcel : Form
         }
 
         lblEstado.Text = "Filtros limpiados.";
+        ActualizarContador();
+    }
+
+
+    private void ActualizarContador()
+    {
+        int cantidad = 0;
+        if (dgvResultados.DataSource is DataView dv)
+        {
+            cantidad = dv.Count;
+        }
+        else if (dgvResultados.DataSource is DataTable dt)
+        {
+            cantidad = dt.Rows.Count;
+        }
+        else if (dgvResultados.Rows.Count > 0)
+        {
+            cantidad = dgvResultados.Rows.Count;
+            if (dgvResultados.AllowUserToAddRows && cantidad > 0)
+                cantidad--;
+        }
+
+        lblContador.Text = $"Registros: {cantidad}";
     }
 
 

@@ -1,4 +1,4 @@
-﻿namespace CinetCore
+namespace CinetCore
 {
     partial class FormComparaExcel
     {
@@ -48,6 +48,7 @@
             label2 = new Label();
             label3 = new Label();
             btnLimpiarFiltros = new Button();
+            lblContador = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
             SuspendLayout();
             // 
@@ -269,12 +270,24 @@
             btnLimpiarFiltros.UseVisualStyleBackColor = false;
             btnLimpiarFiltros.Click += btnLimpiarFiltros_Click;
             // 
+            // lblContador
+            // 
+            lblContador.AutoSize = true;
+            lblContador.Font = new Font("Segoe UI", 9.75F, FontStyle.Bold);
+            lblContador.Location = new Point(148, 83);
+            lblContador.Margin = new Padding(4, 0, 4, 0);
+            lblContador.Name = "lblContador";
+            lblContador.Size = new Size(82, 17);
+            lblContador.TabIndex = 20;
+            lblContador.Text = "Registros: 0";
+            // 
             // FormComparaExcel
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LightGray;
             ClientSize = new Size(859, 497);
+            Controls.Add(lblContador);
             Controls.Add(btnLimpiarFiltros);
             Controls.Add(label3);
             Controls.Add(label2);
@@ -328,6 +341,7 @@
         private Label label2;
         private Label label3;
         private Button btnLimpiarFiltros;
+        private Label lblContador;
     }
 }
 
