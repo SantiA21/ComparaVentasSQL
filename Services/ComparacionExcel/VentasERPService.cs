@@ -25,17 +25,51 @@ namespace CinetCore.Services.ComparacionExcel
             string numero,
             string tipo)
         {
-            string query = @"
-                SELECT TOP 1 PERI_CODIGO, vene_fecha
-                FROM ventas_e 
-                WHERE suc_codigo = @suc 
-                  AND vene_numero = @num 
-                  AND cbtee_codigo = @tipo;
+            string query;
+            if (string.Equals(dbKey, "GMG_ERP", StringComparison.OrdinalIgnoreCase))
+            {
+                query = @"
+                    SELECT TOP 1 PERI_CODIGO, vene_fecha
+                    FROM (
+                        SELECT PERI_CODIGO, vene_fecha, suc_codigo, vene_numero, cbtee_codigo FROM [GMG_ERP].dbo.ventas_e
+                        UNION ALL
+                        SELECT PERI_CODIGO, vene_fecha, suc_codigo, vene_numero, cbtee_codigo FROM [PIZZA_ERP].dbo.ventas_e
+                        UNION ALL
+                        SELECT PERI_CODIGO, vene_fecha, suc_codigo, vene_numero, cbtee_codigo FROM [AMERICAN_FAVS_ERP].dbo.ventas_e
+                        UNION ALL
+                        SELECT PERI_CODIGO, vene_fecha, suc_codigo, vene_numero, cbtee_codigo FROM [GOURMET_ERP].dbo.ventas_e
+                    ) AS v
+                    WHERE suc_codigo = @suc 
+                      AND vene_numero = @num 
+                      AND cbtee_codigo = @tipo;
 
-                SELECT TOP 1 PERI_CODIGO 
-                FROM ventas_e 
-                WHERE suc_codigo = @suc;
-            ";
+                    SELECT TOP 1 PERI_CODIGO 
+                    FROM (
+                        SELECT PERI_CODIGO, suc_codigo FROM [GMG_ERP].dbo.ventas_e
+                        UNION ALL
+                        SELECT PERI_CODIGO, suc_codigo FROM [PIZZA_ERP].dbo.ventas_e
+                        UNION ALL
+                        SELECT PERI_CODIGO, suc_codigo FROM [AMERICAN_FAVS_ERP].dbo.ventas_e
+                        UNION ALL
+                        SELECT PERI_CODIGO, suc_codigo FROM [GOURMET_ERP].dbo.ventas_e
+                    ) AS v
+                    WHERE suc_codigo = @suc;
+                ";
+            }
+            else
+            {
+                query = @"
+                    SELECT TOP 1 PERI_CODIGO, vene_fecha
+                    FROM ventas_e 
+                    WHERE suc_codigo = @suc 
+                      AND vene_numero = @num 
+                      AND cbtee_codigo = @tipo;
+
+                    SELECT TOP 1 PERI_CODIGO 
+                    FROM ventas_e 
+                    WHERE suc_codigo = @suc;
+                ";
+            }
 
             using var conn = _dataAccess.GetConnection(dbKey);
             using var multi = conn.QueryMultiple(query, new { suc = sucCodigo, num = numero, tipo = tipo });

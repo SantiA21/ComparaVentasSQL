@@ -1,3 +1,6 @@
+[1.18.3]
+- Se busca en las bases de AFA, Gourmet y Pizza las ventas faltantes
+
 [1.18.2]
 - Pregunta si queres insertar el valor de HNC en dbo.valores_tipos en caso de que no exista
 
