@@ -1,3 +1,6 @@
+[1.23.4]
+- Se agrega un mensaje avisando que ventas se salvaron de ventas_efe,dfe, tfe
+
 [1.23.3]
 - Se realizan mejoras en el salva ventas por lote
 

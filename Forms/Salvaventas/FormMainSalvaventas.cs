@@ -403,7 +403,13 @@ namespace CinetCore.Forms.Salvaventas
                 SetLoading(true, "Reinsertando venta...");
                 var dbService = new DatabaseService(_ip, _password);
                 await dbService.InsertarVentasRescatadasAsync(_lastEquipo, _lastResultados, sucCodigo, veneNumero, cbteeCodigo, valCodigo);
-                CinetCore.Utils.Alert.Show($"✅ La venta {sucCodigo}-{veneNumero} ({cbteeCodigo}) se reinsertó correctamente en el equipo {_lastEquipo}.", "Venta Reinsertada con Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                string tablasRescate = _lastResultados != null ? string.Join(", ", _lastResultados.Select(r => r.TableName)) : "N/A";
+                CinetCore.Utils.Alert.Show(
+                    $"✅ La venta {sucCodigo}-{veneNumero} ({cbteeCodigo}) se salvó y reinsertó correctamente en el equipo {_lastEquipo}.\n\n" +
+                    $"📋 Tablas salvadas:\n• {string.Join("\n• ", _lastResultados?.Select(r => r.TableName) ?? new List<string>())}",
+                    "Venta Salvada y Reinsertada con Éxito",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
                 lblStatus.Text = "Re-inserción completada.";
                 btnReinsertar.Enabled = false; 
             }
@@ -775,7 +781,7 @@ namespace CinetCore.Forms.Salvaventas
 
                 RefrescarGrillaLote();
                 var existentes = _listaLote.Where(x => x.YaExiste).Select(x => $"{x.SucCodigo}-{x.VeneNumero}" + (string.IsNullOrEmpty(x.Equipo) ? " (Backoffice)" : $" ({x.Equipo})")).ToList();
-                var listRescatables = _listaLote.Where(x => x.Rescatable).Select(x => $"{x.SucCodigo}-{x.VeneNumero} ({x.Equipo})").ToList();
+                var listRescatables = _listaLote.Where(x => x.Rescatable).Select(x => $"{x.SucCodigo}-{x.VeneNumero} [Equipo: {x.Equipo} | Encontrada en: {(x.ResultadosRescate != null ? string.Join(", ", x.ResultadosRescate.Select(r => r.TableName)) : "N/A")}]").ToList();
                 var faltantes = _listaLote.Where(x => !x.YaExiste && !x.Rescatable).Select(x => $"{x.SucCodigo}-{x.VeneNumero}" + (string.IsNullOrEmpty(x.Equipo) ? "" : $" ({x.Equipo})")).ToList();
 
                 int rescatables = listRescatables.Count;
@@ -870,7 +876,8 @@ namespace CinetCore.Forms.Salvaventas
                         await dbService.InsertarVentasRescatadasAsync(item.Equipo, item.ResultadosRescate, item.SucCodigo, item.VeneNumero, item.CbteeCodigo, item.ValCodigo);
                         item.Estado = "[✔] Reinsertada con éxito";
                         item.Rescatable = false;
-                        listExitosas.Add($"{item.SucCodigo}-{item.VeneNumero} (Equipo: {item.Equipo})");
+                        string tablasSalvadas = item.ResultadosRescate != null ? string.Join(", ", item.ResultadosRescate.Select(r => r.TableName)) : "N/A";
+                        listExitosas.Add($"{item.SucCodigo}-{item.VeneNumero} [Equipo: {item.Equipo} | Salvada de: {tablasSalvadas}]");
                     }
                     catch (Exception ex)
                     {
