@@ -403,7 +403,7 @@ namespace CinetCore.Forms.Salvaventas
                 SetLoading(true, "Reinsertando venta...");
                 var dbService = new DatabaseService(_ip, _password);
                 await dbService.InsertarVentasRescatadasAsync(_lastEquipo, _lastResultados, sucCodigo, veneNumero, cbteeCodigo, valCodigo);
-                CinetCore.Utils.Alert.Show("Las ventas se reinsertaron correctamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                CinetCore.Utils.Alert.Show($"✅ La venta {sucCodigo}-{veneNumero} ({cbteeCodigo}) se reinsertó correctamente en el equipo {_lastEquipo}.", "Venta Reinsertada con Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 lblStatus.Text = "Re-inserción completada.";
                 btnReinsertar.Enabled = false; 
             }
@@ -735,15 +735,45 @@ namespace CinetCore.Forms.Salvaventas
                 }
 
                 RefrescarGrillaLote();
-                int rescatables = _listaLote.Count(x => x.Rescatable);
-                int noEncontradas = _listaLote.Count(x => !x.YaExiste && !x.Rescatable);
+                var existentes = _listaLote.Where(x => x.YaExiste).Select(x => $"{x.SucCodigo}-{x.VeneNumero}" + (string.IsNullOrEmpty(x.Equipo) ? " (Backoffice)" : $" ({x.Equipo})")).ToList();
+                var listRescatables = _listaLote.Where(x => x.Rescatable).Select(x => $"{x.SucCodigo}-{x.VeneNumero} ({x.Equipo})").ToList();
+                var faltantes = _listaLote.Where(x => !x.YaExiste && !x.Rescatable).Select(x => $"{x.SucCodigo}-{x.VeneNumero}" + (string.IsNullOrEmpty(x.Equipo) ? "" : $" ({x.Equipo})")).ToList();
+
+                int rescatables = listRescatables.Count;
+                int noEncontradas = faltantes.Count;
                 btnReinsertarLote.Enabled = (rescatables > 0);
                 lblStatus.Text = $"Búsqueda en lote finalizada. ({rescatables} rescatables de {_listaLote.Count})";
 
+                string FormatearLista(List<string> lista, int max = 10)
+                {
+                    if (lista.Count == 0) return "";
+                    var mostradas = lista.Take(max).ToList();
+                    string res = "• " + string.Join("\n• ", mostradas);
+                    if (lista.Count > max)
+                        res += $"\n• ... y {lista.Count - max} más";
+                    return res;
+                }
+
+                string resumen = $"Resumen de búsqueda en lote ({_listaLote.Count} ventas):\n\n";
+
+                if (existentes.Count > 0)
+                {
+                    resumen += $"✔ YA EXISTEN ({existentes.Count}):\n" + FormatearLista(existentes) + "\n\n";
+                }
+                if (listRescatables.Count > 0)
+                {
+                    resumen += $"🚀 RESCATABLES ({listRescatables.Count}):\n" + FormatearLista(listRescatables) + "\n\n";
+                }
+                if (faltantes.Count > 0)
+                {
+                    resumen += $"✖ NO EXISTEN / FALTANTES ({faltantes.Count}):\n" + FormatearLista(faltantes) + "\n\n";
+                }
+
                 if (rescatables == 0 && noEncontradas > 0)
                 {
+                    resumen += "¿Desea abrir el formulario de Inserción Manual para cargar las ventas faltantes?";
                     var resp = CinetCore.Utils.Alert.Show(
-                        $"Búsqueda en lote completada:\n• 0 ventas son rescatables en tablas temporales.\n• {noEncontradas} ventas NO existen en el servidor remoto.\n\n¿Desea abrir el formulario de Inserción Manual para cargar las ventas faltantes?",
+                        resumen.TrimEnd(),
                         "0 Rescatables - ¿Insertar Manualmente?",
                         MessageBoxButtons.YesNo,
                         MessageBoxIcon.Question);
@@ -755,10 +785,10 @@ namespace CinetCore.Forms.Salvaventas
                 }
                 else
                 {
+                    resumen += "Puede reinsertar las rescatables presionando '🚀 REINSERTAR LOTE' o usar '📝 INSERTAR MANUAL' para las faltantes.";
                     CinetCore.Utils.Alert.Show(
-                        $"Búsqueda completada:\n• {rescatables} listas para reinsertar automáticamente.\n• {_listaLote.Count(x => x.YaExiste)} ya existían en el equipo.\n• {noEncontradas} no encontradas (disponibles para inserción manual).\n\n" +
-                        $"Puede reinsertar las rescatables presione '🚀 REINSERTAR LOTE' o utilizar el botón '📝 INSERTAR MANUAL' para cargar las faltantes.",
-                        "Resultado Búsqueda Lote",
+                        resumen.TrimEnd(),
+                        "Resultado de Búsqueda en Lote",
                         MessageBoxButtons.OK,
                         MessageBoxIcon.Information);
                 }
@@ -788,7 +818,8 @@ namespace CinetCore.Forms.Salvaventas
             {
                 SetLoading(true, $"Reinsertando {rescatables.Count} ventas en lote...");
                 var dbService = new DatabaseService(_ip, _password);
-                int exitosas = 0;
+                var listExitosas = new List<string>();
+                var listFallidas = new List<string>();
 
                 foreach (var item in rescatables)
                 {
@@ -800,19 +831,31 @@ namespace CinetCore.Forms.Salvaventas
                         await dbService.InsertarVentasRescatadasAsync(item.Equipo, item.ResultadosRescate, item.SucCodigo, item.VeneNumero, item.CbteeCodigo, item.ValCodigo);
                         item.Estado = "[✔] Reinsertada con éxito";
                         item.Rescatable = false;
-                        exitosas++;
+                        listExitosas.Add($"{item.SucCodigo}-{item.VeneNumero} (Equipo: {item.Equipo})");
                     }
                     catch (Exception ex)
                     {
                         Logger.Error($"Error al reinsertar en lote {item.SucCodigo}-{item.VeneNumero}", ex);
                         item.Estado = $"[✖] Error: {ex.Message}";
+                        listFallidas.Add($"{item.SucCodigo}-{item.VeneNumero}: {ex.Message}");
                     }
                     RefrescarGrillaLote();
                 }
 
                 btnReinsertarLote.Enabled = false;
-                lblStatus.Text = $"Reinserción en lote completada. ({exitosas}/{rescatables.Count})";
-                CinetCore.Utils.Alert.Show($"Reinserción completada: {exitosas} ventas reinsertadas exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                lblStatus.Text = $"Reinserción en lote completada. ({listExitosas.Count}/{rescatables.Count})";
+
+                string mensajeAlert = $"Reinserción en Lote finalizada ({listExitosas.Count} de {rescatables.Count}).\n\n";
+                if (listExitosas.Count > 0)
+                {
+                    mensajeAlert += $"✅ Ventas reinsertadas exitosamente:\n• " + string.Join("\n• ", listExitosas) + "\n\n";
+                }
+                if (listFallidas.Count > 0)
+                {
+                    mensajeAlert += $"❌ Ventas con error:\n• " + string.Join("\n• ", listFallidas);
+                }
+
+                CinetCore.Utils.Alert.Show(mensajeAlert.TrimEnd(), "Detalle de Reinserción en Lote", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
