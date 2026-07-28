@@ -1,10 +1,12 @@
 using CinetCore.Utils;
 using System;
+using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Drawing;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using CinetCore.Infrastructure;
+using CinetCore.Services.Salvaventas;
 
 namespace CinetCore.Forms.Salvaventas
 {
@@ -21,9 +23,11 @@ namespace CinetCore.Forms.Salvaventas
         private Label lblIp;
         private Label lblPassword;
         private Label lblVersion;
+        private List<VentaRescueRequest> _ventasParaRescatar;
 
-        public FormConexionSalvaventas()
+        public FormConexionSalvaventas(List<VentaRescueRequest> ventasParaRescatar = null)
         {
+            _ventasParaRescatar = ventasParaRescatar;
             InitializeComponent();
             CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             lblVersion.Visible = false;
@@ -32,6 +36,11 @@ namespace CinetCore.Forms.Salvaventas
             {
                 txtPassword.Text = _savedPassword;
                 chkRecordar.Checked = true;
+            }
+
+            if (_ventasParaRescatar != null && _ventasParaRescatar.Count > 0)
+            {
+                this.Text = $"Conexión - Local {_ventasParaRescatar[0].Local} ({_ventasParaRescatar.Count} ventas)";
             }
         }
 
@@ -124,7 +133,22 @@ namespace CinetCore.Forms.Salvaventas
 
                 try 
                 {
-                    FormMainSalvaventas mainWindow = new FormMainSalvaventas(ip, password, codLocal);
+                    bool modoLote = false;
+                    if (_ventasParaRescatar != null && _ventasParaRescatar.Count > 0)
+                    {
+                        modoLote = true;
+                    }
+                    else
+                    {
+                        var respuesta = MessageBox.Show(
+                            "¿Desea realizar el salvataje de múltiples ventas en lote (Lista)?\n\n• Sí: Modo Lote / Múltiples Ventas.\n• No: Modo Individual (1 venta).",
+                            "Modo de Salvataje",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Question);
+                        modoLote = (respuesta == DialogResult.Yes);
+                    }
+
+                    FormMainSalvaventas mainWindow = new FormMainSalvaventas(ip, password, codLocal, _ventasParaRescatar, modoLote);
                     mainWindow.Show();
                     this.Close();
                 }

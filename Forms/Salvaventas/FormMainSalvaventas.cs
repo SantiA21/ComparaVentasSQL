@@ -40,13 +40,33 @@ namespace CinetCore.Forms.Salvaventas
         private Label lblEquipoEncontrado;
         private FlowLayoutPanel panelResultados;
 
-        public FormMainSalvaventas(string ip, string password, string codLocal = "Desconocido")
+        private bool _modoLote;
+        private List<VentaRescueRequest> _listaLote = new List<VentaRescueRequest>();
+        private DataGridView dgvLote;
+        private GroupBox groupParams;
+        private GroupBox groupLote;
+        private Button btnBuscarLote;
+        private Button btnReinsertarLote;
+        private Button btnAgregarFilaLote;
+        private Button btnQuitarFilaLote;
+        private Button btnPegarListaLote;
+        private RadioButton rdoIndividual;
+        private RadioButton rdoLote;
+
+        public FormMainSalvaventas(string ip, string password, string codLocal = "Desconocido", List<VentaRescueRequest> ventasLote = null, bool modoLote = false)
         {
             _ip = ip;
             _password = password;
+            _modoLote = modoLote;
+            if (ventasLote != null && ventasLote.Count > 0)
+            {
+                _listaLote = ventasLote;
+                _modoLote = true;
+            }
             InitializeComponent();
             CinetCore.Utils.UIHelper.ApplyModernTheme(this);
             lblLocal.Text = $"Estás conectado a: {codLocal}";
+            ActualizarModoUI();
         }
 
         private void InitializeComponent()
@@ -65,7 +85,14 @@ namespace CinetCore.Forms.Salvaventas
             btnDesconectar.FlatAppearance.BorderSize = 0;
             btnDesconectar.Click += BtnDesconectar_Click;
 
-            var groupParams = new GroupBox() { Text = "Parámetros de Búsqueda", Location = new Point(20, 60), Size = new Size(940, 100), Font = new Font("Segoe UI Semibold", 9F), ForeColor = Color.FromArgb(64, 64, 64) };
+            rdoIndividual = new RadioButton() { Text = "Venta Individual", Location = new Point(320, 20), AutoSize = true, Font = new Font("Segoe UI Semibold", 9.5F), Checked = !_modoLote };
+            rdoLote = new RadioButton() { Text = "Múltiples Ventas (Lote)", Location = new Point(470, 20), AutoSize = true, Font = new Font("Segoe UI Semibold", 9.5F), Checked = _modoLote };
+            rdoIndividual.CheckedChanged += (s, e) => { if (rdoIndividual.Checked) { _modoLote = false; ActualizarModoUI(); } };
+            rdoLote.CheckedChanged += (s, e) => { if (rdoLote.Checked) { _modoLote = true; ActualizarModoUI(); } };
+            panelTop.Controls.Add(rdoIndividual);
+            panelTop.Controls.Add(rdoLote);
+
+            groupParams = new GroupBox() { Text = "Parámetros de Búsqueda", Location = new Point(20, 50), Size = new Size(940, 115), Font = new Font("Segoe UI Semibold", 9F), ForeColor = Color.FromArgb(64, 64, 64) };
             
             groupParams.Controls.Add(new Label() { Text = "Sucursal:", Location = new Point(20, 35), AutoSize = true, Font = new Font("Segoe UI", 9F), ForeColor = Color.Black });
             txtSucursal = new TextBox() { Location = new Point(85, 33), Width = 100, Font = new Font("Segoe UI", 9F) };
@@ -95,6 +122,36 @@ namespace CinetCore.Forms.Salvaventas
             panelTop.Controls.Add(btnDesconectar);
             panelTop.Controls.Add(groupParams);
 
+            groupLote = new GroupBox() { Text = "Lista de Ventas para Salvataje en Lote", Location = new Point(20, 50), Size = new Size(940, 115), Font = new Font("Segoe UI Semibold", 9F), ForeColor = Color.FromArgb(64, 64, 64) };
+            
+            btnAgregarFilaLote = new Button() { Text = "+ Agregar Fila", Location = new Point(15, 25), Width = 110, Height = 30, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White };
+            btnAgregarFilaLote.FlatAppearance.BorderSize = 0;
+            btnAgregarFilaLote.Click += BtnAgregarFilaLote_Click;
+
+            btnQuitarFilaLote = new Button() { Text = "- Quitar Fila", Location = new Point(135, 25), Width = 110, Height = 30, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(220, 53, 69), ForeColor = Color.White };
+            btnQuitarFilaLote.FlatAppearance.BorderSize = 0;
+            btnQuitarFilaLote.Click += BtnQuitarFilaLote_Click;
+
+            btnPegarListaLote = new Button() { Text = "📋 Pegar Lista", Location = new Point(255, 25), Width = 120, Height = 30, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(23, 162, 184), ForeColor = Color.White };
+            btnPegarListaLote.FlatAppearance.BorderSize = 0;
+            btnPegarListaLote.Click += BtnPegarListaLote_Click;
+
+            dgvLote = new DataGridView() {
+                Location = new Point(15, 60),
+                Size = new Size(910, 48),
+                BackgroundColor = Color.White,
+                BorderStyle = BorderStyle.None,
+                AllowUserToAddRows = false,
+                RowHeadersVisible = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
+            };
+
+            groupLote.Controls.Add(btnAgregarFilaLote);
+            groupLote.Controls.Add(btnQuitarFilaLote);
+            groupLote.Controls.Add(btnPegarListaLote);
+            groupLote.Controls.Add(dgvLote);
+            panelTop.Controls.Add(groupLote);
+
             btnBuscar = new Button() { Text = "BUSCAR VENTA", Location = new Point(20, 175), Width = 150, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
             btnBuscar.FlatAppearance.BorderSize = 0;
             btnBuscar.Click += async (s, e) => await BtnBuscar_Click(s, e);
@@ -113,10 +170,20 @@ namespace CinetCore.Forms.Salvaventas
 
             lblStatus = new Label() { Location = new Point(645, 185), AutoSize = true, ForeColor = Color.FromArgb(100, 100, 100), Font = new Font("Segoe UI", 9.5F) };
 
+            btnBuscarLote = new Button() { Text = "BUSCAR EN LOTE", Location = new Point(20, 175), Width = 150, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
+            btnBuscarLote.FlatAppearance.BorderSize = 0;
+            btnBuscarLote.Click += async (s, e) => await BtnBuscarLote_Click(s, e);
+
+            btnReinsertarLote = new Button() { Text = "REINSERTAR LOTE", Location = new Point(180, 175), Width = 150, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(40, 167, 69), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand, Enabled = false };
+            btnReinsertarLote.FlatAppearance.BorderSize = 0;
+            btnReinsertarLote.Click += async (s, e) => await BtnReinsertarLote_Click(s, e);
+
             panelTop.Controls.Add(btnBuscar);
             panelTop.Controls.Add(btnInsertarValMov);
             panelTop.Controls.Add(btnReinsertar);
             panelTop.Controls.Add(btnVerCajas);
+            panelTop.Controls.Add(btnBuscarLote);
+            panelTop.Controls.Add(btnReinsertarLote);
             panelTop.Controls.Add(lblStatus);
 
             var panelBottom = new Panel() { Dock = DockStyle.Fill, Padding = new Padding(20) };
@@ -362,10 +429,12 @@ namespace CinetCore.Forms.Salvaventas
         {
             btnBuscar.Enabled = !isLoading;
             btnVerCajas.Enabled = !isLoading;
+            if (btnBuscarLote != null) btnBuscarLote.Enabled = !isLoading;
             if (isLoading)
             {
                 btnReinsertar.Enabled = false;
                 btnInsertarValMov.Enabled = false;
+                if (btnReinsertarLote != null) btnReinsertarLote.Enabled = false;
             }
             lblStatus.Text = msg;
         }
@@ -400,6 +469,231 @@ namespace CinetCore.Forms.Salvaventas
             else
             {
                 _formSucursales.BringToFront();
+            }
+        }
+
+        private void ActualizarModoUI()
+        {
+            if (groupParams == null || groupLote == null) return;
+
+            groupParams.Visible = !_modoLote;
+            btnBuscar.Visible = !_modoLote;
+            btnInsertarValMov.Visible = !_modoLote;
+            btnReinsertar.Visible = !_modoLote;
+
+            groupLote.Visible = _modoLote;
+            btnBuscarLote.Visible = _modoLote;
+            btnReinsertarLote.Visible = _modoLote;
+
+            if (_modoLote)
+            {
+                RefrescarGrillaLote();
+            }
+        }
+
+        private void RefrescarGrillaLote()
+        {
+            dgvLote.DataSource = null;
+            dgvLote.DataSource = _listaLote;
+            if (dgvLote.Columns.Contains("ResultadosRescate"))
+                dgvLote.Columns["ResultadosRescate"].Visible = false;
+            if (dgvLote.Columns.Contains("YaExiste"))
+                dgvLote.Columns["YaExiste"].Visible = false;
+            if (dgvLote.Columns.Contains("Rescatable"))
+                dgvLote.Columns["Rescatable"].Visible = false;
+            dgvLote.Refresh();
+        }
+
+        private void BtnAgregarFilaLote_Click(object sender, EventArgs e)
+        {
+            _listaLote.Add(new VentaRescueRequest { SucCodigo = "01", VeneNumero = "", CbteeCodigo = "FAB", ValCodigo = "EFECTIVO" });
+            RefrescarGrillaLote();
+        }
+
+        private void BtnQuitarFilaLote_Click(object sender, EventArgs e)
+        {
+            if (dgvLote.CurrentRow != null && dgvLote.CurrentRow.Index >= 0 && dgvLote.CurrentRow.Index < _listaLote.Count)
+            {
+                _listaLote.RemoveAt(dgvLote.CurrentRow.Index);
+                RefrescarGrillaLote();
+            }
+        }
+
+        private void BtnPegarListaLote_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string texto = Clipboard.GetText();
+                if (string.IsNullOrWhiteSpace(texto))
+                {
+                    CinetCore.Utils.Alert.Show("El portapapeles está vacío.");
+                    return;
+                }
+
+                var lineas = texto.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
+                int agregadas = 0;
+                foreach (var linea in lineas)
+                {
+                    var partes = linea.Split(new[] { ',', '\t', '-', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                    if (partes.Length >= 2)
+                    {
+                        _listaLote.Add(new VentaRescueRequest
+                        {
+                            SucCodigo = partes[0].Trim(),
+                            VeneNumero = partes[1].Trim(),
+                            CbteeCodigo = partes.Length >= 3 ? partes[2].Trim() : "FAB",
+                            ValCodigo = partes.Length >= 4 ? partes[3].Trim() : "EFECTIVO"
+                        });
+                        agregadas++;
+                    }
+                }
+                RefrescarGrillaLote();
+                CinetCore.Utils.Alert.Show($"Se pegaron {agregadas} ventas desde el portapapeles.");
+            }
+            catch (Exception ex)
+            {
+                CinetCore.Utils.Alert.Show("Error al pegar desde el portapapeles: " + ex.Message);
+            }
+        }
+
+        private async Task BtnBuscarLote_Click(object sender, EventArgs e)
+        {
+            if (_listaLote == null || _listaLote.Count == 0)
+            {
+                CinetCore.Utils.Alert.Show("Agregue o pegue al menos una venta en la lista.");
+                return;
+            }
+
+            try
+            {
+                SetLoading(true, "Buscando en lote en servidores remotos...");
+                var dbService = new DatabaseService(_ip, _password);
+
+                foreach (var item in _listaLote)
+                {
+                    if (string.IsNullOrWhiteSpace(item.SucCodigo) || string.IsNullOrWhiteSpace(item.VeneNumero))
+                    {
+                        item.Estado = "[✖] Sucursal o Número inválido";
+                        continue;
+                    }
+
+                    item.Estado = "Detectando equipo...";
+                    RefrescarGrillaLote();
+
+                    string equipo = await dbService.FindEquipoAsync(item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                    if (string.IsNullOrEmpty(equipo))
+                    {
+                        item.Estado = "[✖] No encontrado (Sin equipo)";
+                        item.Equipo = "";
+                        continue;
+                    }
+                    item.Equipo = equipo;
+                }
+
+                var porEquipo = _listaLote.Where(x => !string.IsNullOrEmpty(x.Equipo)).GroupBy(x => x.Equipo);
+
+                foreach (var grupoEquipo in porEquipo)
+                {
+                    string equipo = grupoEquipo.Key;
+                    lblStatus.Text = $"Conectando al equipo {equipo}...";
+                    await dbService.EnsureLinkedServerAsync(equipo);
+
+                    foreach (var item in grupoEquipo)
+                    {
+                        item.Estado = $"Validando en {equipo}...";
+                        RefrescarGrillaLote();
+
+                        var (exists, message, foundDb) = await dbService.CheckVentaExistenteGlobalAsync(equipo, item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                        if (exists)
+                        {
+                            item.YaExiste = true;
+                            item.Rescatable = false;
+                            item.Estado = $"[✔] Ya existe ({foundDb})";
+                            continue;
+                        }
+
+                        var resultados = await dbService.SearchVentaInLinkedServerAsync(equipo, item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                        if (resultados != null && resultados.Count > 0)
+                        {
+                            item.YaExiste = false;
+                            item.Rescatable = true;
+                            item.ResultadosRescate = resultados;
+                            item.Estado = $"[🚀] Rescatable ({resultados[0].TableName})";
+                        }
+                        else
+                        {
+                            item.YaExiste = false;
+                            item.Rescatable = false;
+                            item.Estado = "[✖] No encontrada en servidor";
+                        }
+                    }
+                }
+
+                RefrescarGrillaLote();
+                int rescatables = _listaLote.Count(x => x.Rescatable);
+                btnReinsertarLote.Enabled = (rescatables > 0);
+                lblStatus.Text = $"Búsqueda en lote finalizada. ({rescatables} rescatables de {_listaLote.Count})";
+                CinetCore.Utils.Alert.Show($"Búsqueda completada:\n• {rescatables} listas para reinsertar.\n• {_listaLote.Count(x => x.YaExiste)} ya existían.\n• {_listaLote.Count(x => !x.YaExiste && !x.Rescatable)} no encontradas.", "Resultado Búsqueda Lote", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error en BtnBuscarLote_Click", ex);
+                CinetCore.Utils.Alert.Show($"Error en búsqueda por lote: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                lblStatus.Text = "Error en búsqueda por lote.";
+            }
+            finally
+            {
+                SetLoading(false, lblStatus.Text);
+            }
+        }
+
+        private async Task BtnReinsertarLote_Click(object sender, EventArgs e)
+        {
+            var rescatables = _listaLote.Where(x => x.Rescatable && x.ResultadosRescate != null && x.ResultadosRescate.Count > 0).ToList();
+            if (rescatables.Count == 0)
+            {
+                CinetCore.Utils.Alert.Show("No hay ventas rescatables en el lote.");
+                return;
+            }
+
+            try
+            {
+                SetLoading(true, $"Reinsertando {rescatables.Count} ventas en lote...");
+                var dbService = new DatabaseService(_ip, _password);
+                int exitosas = 0;
+
+                foreach (var item in rescatables)
+                {
+                    try
+                    {
+                        item.Estado = "Reinsertando...";
+                        RefrescarGrillaLote();
+
+                        await dbService.InsertarVentasRescatadasAsync(item.Equipo, item.ResultadosRescate, item.SucCodigo, item.VeneNumero, item.CbteeCodigo, item.ValCodigo);
+                        item.Estado = "[✔] Reinsertada con éxito";
+                        item.Rescatable = false;
+                        exitosas++;
+                    }
+                    catch (Exception ex)
+                    {
+                        Logger.Error($"Error al reinsertar en lote {item.SucCodigo}-{item.VeneNumero}", ex);
+                        item.Estado = $"[✖] Error: {ex.Message}";
+                    }
+                    RefrescarGrillaLote();
+                }
+
+                btnReinsertarLote.Enabled = false;
+                lblStatus.Text = $"Reinserción en lote completada. ({exitosas}/{rescatables.Count})";
+                CinetCore.Utils.Alert.Show($"Reinserción completada: {exitosas} ventas reinsertadas exitosamente.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                Logger.Error("Error en BtnReinsertarLote_Click", ex);
+                CinetCore.Utils.Alert.Show($"Error en reinserción de lote: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            finally
+            {
+                SetLoading(false, lblStatus.Text);
             }
         }
 

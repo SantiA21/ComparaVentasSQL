@@ -3,6 +3,7 @@ using CinetCore.Infrastructure;
 using CinetCore.Utils;
 using ClosedXML.Excel;
 using CinetCore.Services.ComparacionExcel;
+using CinetCore.Services.Salvaventas;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -318,6 +319,65 @@ public partial class FormComparaExcel : Form
             Logger.LogError(ex);
             CinetCore.Utils.Alert.Show("Error al exportar: " + ex.Message);
         }
+    }
+
+    private void btnSalvarSeleccionadas_Click(object sender, EventArgs e)
+    {
+        if (dgvResultados.Rows.Count == 0)
+        {
+            CinetCore.Utils.Alert.Show("No hay filas en la grilla.");
+            return;
+        }
+
+        var seleccionadas = new List<DataGridViewRow>();
+        foreach (DataGridViewRow row in dgvResultados.Rows)
+        {
+            if (row.Cells["Seleccionado"].Value != null && 
+                Convert.ToBoolean(row.Cells["Seleccionado"].Value) == true)
+            {
+                seleccionadas.Add(row);
+            }
+        }
+
+        if (seleccionadas.Count == 0)
+        {
+            CinetCore.Utils.Alert.Show("Seleccione al menos una venta marcando la casilla de la columna.", "Validación", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            return;
+        }
+
+        var locales = seleccionadas
+            .Select(r => r.Cells["Local"].Value?.ToString())
+            .Where(l => !string.IsNullOrWhiteSpace(l))
+            .Distinct()
+            .ToList();
+
+        if (locales.Count > 1)
+        {
+            CinetCore.Utils.Alert.Show(
+                $"Has seleccionado ventas pertenecientes a múltiples locales ({string.Join(", ", locales)}).\n" +
+                "Salvaventas se conecta por IP a un solo local a la vez. Por favor, filtra por un Local o marca únicamente ventas del mismo local.",
+                "Conflicto de Locales", 
+                MessageBoxButtons.OK, 
+                MessageBoxIcon.Warning);
+            return;
+        }
+
+        string codLocal = locales.FirstOrDefault() ?? "Desconocido";
+
+        var listaRescate = new List<VentaRescueRequest>();
+        foreach (var r in seleccionadas)
+        {
+            listaRescate.Add(new VentaRescueRequest
+            {
+                SucCodigo = r.Cells["Sucursal"].Value?.ToString(),
+                VeneNumero = r.Cells["Comprobante"].Value?.ToString(),
+                CbteeCodigo = r.Cells["Tipo"].Value?.ToString() ?? "FAB",
+                Local = codLocal
+            });
+        }
+
+        var loginForm = new CinetCore.Forms.Salvaventas.FormConexionSalvaventas(listaRescate);
+        loginForm.Show();
     }
 
     private void chkMostrarTodos_CheckedChanged(object sender, EventArgs e)

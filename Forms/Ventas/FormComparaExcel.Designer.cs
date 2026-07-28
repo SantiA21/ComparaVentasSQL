@@ -36,6 +36,7 @@ namespace CinetCore
             dgvResultados = new DataGridView();
             lblEstado = new Label();
             btnExportar = new Button();
+            btnSalvarSeleccionadas = new Button();
             chkMostrarTodos = new CheckBox();
             chkSoloExistentes = new CheckBox();
             chkSoloNoExistentes = new CheckBox();
@@ -133,6 +134,21 @@ namespace CinetCore
             btnExportar.Text = "Exportar";
             btnExportar.UseVisualStyleBackColor = false;
             btnExportar.Click += btnExportar_Click;
+            // 
+            // btnSalvarSeleccionadas
+            // 
+            btnSalvarSeleccionadas.BackColor = Color.FromArgb(40, 167, 69);
+            btnSalvarSeleccionadas.Cursor = Cursors.Hand;
+            btnSalvarSeleccionadas.FlatStyle = FlatStyle.Flat;
+            btnSalvarSeleccionadas.ForeColor = SystemColors.Window;
+            btnSalvarSeleccionadas.Location = new Point(565, 426);
+            btnSalvarSeleccionadas.Margin = new Padding(4, 3, 4, 3);
+            btnSalvarSeleccionadas.Name = "btnSalvarSeleccionadas";
+            btnSalvarSeleccionadas.Size = new Size(165, 33);
+            btnSalvarSeleccionadas.TabIndex = 7;
+            btnSalvarSeleccionadas.Text = "Salvar Seleccionadas";
+            btnSalvarSeleccionadas.UseVisualStyleBackColor = false;
+            btnSalvarSeleccionadas.Click += btnSalvarSeleccionadas_Click;
             // 
             // chkMostrarTodos
             // 
@@ -301,6 +317,7 @@ namespace CinetCore
             Controls.Add(chkSoloExistentes);
             Controls.Add(chkMostrarTodos);
             Controls.Add(btnExportar);
+            Controls.Add(btnSalvarSeleccionadas);
             Controls.Add(lblEstado);
             Controls.Add(dgvResultados);
             Controls.Add(btnProcesar);
@@ -329,6 +346,7 @@ namespace CinetCore
         private System.Windows.Forms.DataGridView dgvResultados;
         private System.Windows.Forms.Label lblEstado;
         private System.Windows.Forms.Button btnExportar;
+        private System.Windows.Forms.Button btnSalvarSeleccionadas;
         private CheckBox chkMostrarTodos;
         private CheckBox chkSoloExistentes;
         private CheckBox chkSoloNoExistentes;
