@@ -1,3 +1,9 @@
+[1.23.1]
+- Se realizan mejoras en el salva ventas por lote
+
+[1.23.0]
+- Se agrega un salva ventas desde el form de importar excel
+
 [1.22.0]
 - Se agrega un contador cuando se procesa el excel de las ventas que faltan o no
 

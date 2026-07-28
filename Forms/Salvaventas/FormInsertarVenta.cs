@@ -24,7 +24,7 @@ namespace CinetCore.Forms.Salvaventas
         private Button btnInsertar;
         private Button btnCancelar;
 
-        public FormInsertarVenta(string ip, string password, string sucCodigo, string veneNumero, string cbteeCodigo, string valCodigo)
+        public FormInsertarVenta(string ip, string password, string sucCodigo, string veneNumero, string cbteeCodigo, string valCodigo, decimal? importe = null, string cae = null, DateTime? fecha = null)
         {
             _ip = ip;
             _password = password;
@@ -38,6 +38,19 @@ namespace CinetCore.Forms.Salvaventas
             if (!string.IsNullOrEmpty(valCodigo))
             {
                 cmbValCodigo.SelectedItem = valCodigo;
+            }
+
+            if (importe.HasValue && importe.Value > 0)
+            {
+                txtImporte.Text = importe.Value.ToString("0.00");
+            }
+            if (!string.IsNullOrEmpty(cae))
+            {
+                txtCae.Text = cae;
+            }
+            if (fecha.HasValue && fecha.Value > DateTime.MinValue)
+            {
+                dpFecha.Value = fecha.Value;
             }
         }
 

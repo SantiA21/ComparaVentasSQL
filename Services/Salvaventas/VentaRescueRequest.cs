@@ -15,5 +15,9 @@ namespace CinetCore.Services.Salvaventas
         public List<ResultGroup> ResultadosRescate { get; set; } = new List<ResultGroup>();
         public bool YaExiste { get; set; } = false;
         public bool Rescatable { get; set; } = false;
+
+        public decimal? Importe { get; set; }
+        public string CAE { get; set; }
+        public DateTime? Fecha { get; set; }
     }
 }

@@ -39,6 +39,7 @@ namespace CinetCore.Forms.Salvaventas
         private Label lblStatus;
         private Label lblEquipoEncontrado;
         private FlowLayoutPanel panelResultados;
+        private Panel panelTop;
 
         private bool _modoLote;
         private List<VentaRescueRequest> _listaLote = new List<VentaRescueRequest>();
@@ -50,6 +51,7 @@ namespace CinetCore.Forms.Salvaventas
         private Button btnAgregarFilaLote;
         private Button btnQuitarFilaLote;
         private Button btnPegarListaLote;
+        private Button btnInsertarManualLote;
         private RadioButton rdoIndividual;
         private RadioButton rdoLote;
 
@@ -77,7 +79,7 @@ namespace CinetCore.Forms.Salvaventas
             this.BackColor = Color.White;
             this.Font = new Font("Segoe UI", 9F, FontStyle.Regular, GraphicsUnit.Point);
 
-            var panelTop = new Panel() { Dock = DockStyle.Top, Height = 230, BackColor = Color.FromArgb(245, 246, 248) };
+            panelTop = new Panel() { Dock = DockStyle.Top, Height = 230, BackColor = Color.FromArgb(245, 246, 248) };
             
             lblLocal = new Label() { Location = new Point(20, 20), AutoSize = true, Font = new Font("Segoe UI Semibold", 12F, FontStyle.Bold), ForeColor = Color.FromArgb(0, 122, 204) };
             
@@ -122,34 +124,38 @@ namespace CinetCore.Forms.Salvaventas
             panelTop.Controls.Add(btnDesconectar);
             panelTop.Controls.Add(groupParams);
 
-            groupLote = new GroupBox() { Text = "Lista de Ventas para Salvataje en Lote", Location = new Point(20, 50), Size = new Size(940, 115), Font = new Font("Segoe UI Semibold", 9F), ForeColor = Color.FromArgb(64, 64, 64) };
+            groupLote = new GroupBox() { Text = "Acciones de Lote (Lista de Ventas)", Location = new Point(20, 50), Size = new Size(940, 75), Font = new Font("Segoe UI Semibold", 9F), ForeColor = Color.FromArgb(64, 64, 64) };
             
-            btnAgregarFilaLote = new Button() { Text = "+ Agregar Fila", Location = new Point(15, 25), Width = 110, Height = 30, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White };
+            btnAgregarFilaLote = new Button() { Text = "+ Agregar Fila", Location = new Point(15, 25), Width = 110, Height = 35, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White, Cursor = Cursors.Hand };
             btnAgregarFilaLote.FlatAppearance.BorderSize = 0;
             btnAgregarFilaLote.Click += BtnAgregarFilaLote_Click;
 
-            btnQuitarFilaLote = new Button() { Text = "- Quitar Fila", Location = new Point(135, 25), Width = 110, Height = 30, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(220, 53, 69), ForeColor = Color.White };
+            btnQuitarFilaLote = new Button() { Text = "- Quitar Fila", Location = new Point(135, 25), Width = 110, Height = 35, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(220, 53, 69), ForeColor = Color.White, Cursor = Cursors.Hand };
             btnQuitarFilaLote.FlatAppearance.BorderSize = 0;
             btnQuitarFilaLote.Click += BtnQuitarFilaLote_Click;
 
-            btnPegarListaLote = new Button() { Text = "📋 Pegar Lista", Location = new Point(255, 25), Width = 120, Height = 30, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(23, 162, 184), ForeColor = Color.White };
+            btnPegarListaLote = new Button() { Text = "📋 Pegar Lista", Location = new Point(255, 25), Width = 120, Height = 35, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(23, 162, 184), ForeColor = Color.White, Cursor = Cursors.Hand };
             btnPegarListaLote.FlatAppearance.BorderSize = 0;
             btnPegarListaLote.Click += BtnPegarListaLote_Click;
 
-            dgvLote = new DataGridView() {
-                Location = new Point(15, 60),
-                Size = new Size(910, 48),
-                BackgroundColor = Color.White,
-                BorderStyle = BorderStyle.None,
-                AllowUserToAddRows = false,
-                RowHeadersVisible = false,
-                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill
-            };
+            btnBuscarLote = new Button() { Text = "🔍 BUSCAR EN LOTE", Location = new Point(385, 25), Width = 145, Height = 35, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
+            btnBuscarLote.FlatAppearance.BorderSize = 0;
+            btnBuscarLote.Click += async (s, e) => await BtnBuscarLote_Click(s, e);
+
+            btnReinsertarLote = new Button() { Text = "🚀 REINSERTAR LOTE", Location = new Point(540, 25), Width = 175, Height = 35, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(40, 167, 69), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand, Enabled = false };
+            btnReinsertarLote.FlatAppearance.BorderSize = 0;
+            btnReinsertarLote.Click += async (s, e) => await BtnReinsertarLote_Click(s, e);
+
+            btnInsertarManualLote = new Button() { Text = "📝 INSERTAR MANUAL", Location = new Point(725, 25), Width = 195, Height = 35, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(253, 126, 20), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
+            btnInsertarManualLote.FlatAppearance.BorderSize = 0;
+            btnInsertarManualLote.Click += BtnInsertarManualLote_Click;
 
             groupLote.Controls.Add(btnAgregarFilaLote);
             groupLote.Controls.Add(btnQuitarFilaLote);
             groupLote.Controls.Add(btnPegarListaLote);
-            groupLote.Controls.Add(dgvLote);
+            groupLote.Controls.Add(btnBuscarLote);
+            groupLote.Controls.Add(btnReinsertarLote);
+            groupLote.Controls.Add(btnInsertarManualLote);
             panelTop.Controls.Add(groupLote);
 
             btnBuscar = new Button() { Text = "BUSCAR VENTA", Location = new Point(20, 175), Width = 150, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
@@ -170,20 +176,10 @@ namespace CinetCore.Forms.Salvaventas
 
             lblStatus = new Label() { Location = new Point(645, 185), AutoSize = true, ForeColor = Color.FromArgb(100, 100, 100), Font = new Font("Segoe UI", 9.5F) };
 
-            btnBuscarLote = new Button() { Text = "BUSCAR EN LOTE", Location = new Point(20, 175), Width = 150, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(0, 122, 204), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
-            btnBuscarLote.FlatAppearance.BorderSize = 0;
-            btnBuscarLote.Click += async (s, e) => await BtnBuscarLote_Click(s, e);
-
-            btnReinsertarLote = new Button() { Text = "REINSERTAR LOTE", Location = new Point(180, 175), Width = 150, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(40, 167, 69), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand, Enabled = false };
-            btnReinsertarLote.FlatAppearance.BorderSize = 0;
-            btnReinsertarLote.Click += async (s, e) => await BtnReinsertarLote_Click(s, e);
-
             panelTop.Controls.Add(btnBuscar);
             panelTop.Controls.Add(btnInsertarValMov);
             panelTop.Controls.Add(btnReinsertar);
             panelTop.Controls.Add(btnVerCajas);
-            panelTop.Controls.Add(btnBuscarLote);
-            panelTop.Controls.Add(btnReinsertarLote);
             panelTop.Controls.Add(lblStatus);
 
             var panelBottom = new Panel() { Dock = DockStyle.Fill, Padding = new Padding(20) };
@@ -192,8 +188,35 @@ namespace CinetCore.Forms.Salvaventas
             
             panelResultados = new FlowLayoutPanel() { Location = new Point(20, 40), Size = new Size(940, 400), AutoScroll = true, Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right, BackColor = Color.White, FlowDirection = FlowDirection.TopDown, WrapContents = false };
 
+            dgvLote = new DataGridView() {
+                Location = new Point(20, 15),
+                Size = new Size(940, 420),
+                Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right,
+                BackgroundColor = Color.White,
+                BorderStyle = BorderStyle.Fixed3D,
+                CellBorderStyle = DataGridViewCellBorderStyle.SingleHorizontal,
+                ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.None,
+                ColumnHeadersHeight = 38,
+                EnableHeadersVisualStyles = false,
+                RowHeadersVisible = true,
+                RowTemplate = { Height = 32 },
+                AllowUserToAddRows = false,
+                AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill,
+                SelectionMode = DataGridViewSelectionMode.FullRowSelect,
+                Font = new Font("Segoe UI", 9.5F)
+            };
+            dgvLote.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(43, 108, 176);
+            dgvLote.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
+            dgvLote.ColumnHeadersDefaultCellStyle.Font = new Font("Segoe UI Semibold", 10F, FontStyle.Bold);
+            dgvLote.ColumnHeadersDefaultCellStyle.Alignment = DataGridViewContentAlignment.MiddleLeft;
+            dgvLote.AlternatingRowsDefaultCellStyle.BackColor = Color.FromArgb(245, 248, 252);
+            dgvLote.DefaultCellStyle.SelectionBackColor = Color.FromArgb(210, 230, 255);
+            dgvLote.DefaultCellStyle.SelectionForeColor = Color.Black;
+            dgvLote.CellDoubleClick += DgvLote_CellDoubleClick;
+
             panelBottom.Controls.Add(lblEquipoEncontrado);
             panelBottom.Controls.Add(panelResultados);
+            panelBottom.Controls.Add(dgvLote);
 
             this.Controls.Add(panelBottom);
             this.Controls.Add(panelTop);
@@ -430,6 +453,7 @@ namespace CinetCore.Forms.Salvaventas
             btnBuscar.Enabled = !isLoading;
             btnVerCajas.Enabled = !isLoading;
             if (btnBuscarLote != null) btnBuscarLote.Enabled = !isLoading;
+            if (btnInsertarManualLote != null) btnInsertarManualLote.Enabled = !isLoading;
             if (isLoading)
             {
                 btnReinsertar.Enabled = false;
@@ -480,14 +504,30 @@ namespace CinetCore.Forms.Salvaventas
             btnBuscar.Visible = !_modoLote;
             btnInsertarValMov.Visible = !_modoLote;
             btnReinsertar.Visible = !_modoLote;
+            btnVerCajas.Visible = !_modoLote;
 
             groupLote.Visible = _modoLote;
-            btnBuscarLote.Visible = _modoLote;
-            btnReinsertarLote.Visible = _modoLote;
 
             if (_modoLote)
             {
+                panelTop.Height = 140;
+                lblStatus.Location = new Point(25, 125);
+                lblStatus.BringToFront();
+
+                panelResultados.Visible = false;
+                lblEquipoEncontrado.Visible = false;
+                dgvLote.Visible = true;
+                dgvLote.BringToFront();
                 RefrescarGrillaLote();
+            }
+            else
+            {
+                panelTop.Height = 230;
+                lblStatus.Location = new Point(645, 185);
+
+                panelResultados.Visible = true;
+                lblEquipoEncontrado.Visible = true;
+                dgvLote.Visible = false;
             }
         }
 
@@ -556,6 +596,58 @@ namespace CinetCore.Forms.Salvaventas
             }
         }
 
+        private void BtnInsertarManualLote_Click(object sender, EventArgs e)
+        {
+            VentaRescueRequest obj = null;
+            if (dgvLote.CurrentRow != null && dgvLote.CurrentRow.Index >= 0 && dgvLote.CurrentRow.Index < _listaLote.Count)
+            {
+                obj = _listaLote[dgvLote.CurrentRow.Index];
+            }
+            else
+            {
+                obj = _listaLote.FirstOrDefault(x => !x.YaExiste && !x.Rescatable) ?? _listaLote.FirstOrDefault();
+            }
+
+            if (obj == null)
+            {
+                CinetCore.Utils.Alert.Show("No hay ventas en la lista para insertar manualmente.");
+                return;
+            }
+
+            AbrirInsertarManualLote(obj);
+        }
+
+        private void DgvLote_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.RowIndex < _listaLote.Count)
+            {
+                var obj = _listaLote[e.RowIndex];
+                if (CinetCore.Utils.Alert.Show($"¿Desea abrir el cargador manual para la venta {obj.SucCodigo}-{obj.VeneNumero}?", "Insertar Manualmente", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    AbrirInsertarManualLote(obj);
+                }
+            }
+        }
+
+        private void AbrirInsertarManualLote(VentaRescueRequest obj)
+        {
+            try
+            {
+                var window = new FormInsertarVenta(_ip, _password, obj.SucCodigo, obj.VeneNumero, obj.CbteeCodigo, obj.ValCodigo, obj.Importe, obj.CAE, obj.Fecha);
+                if (window.ShowDialog() == DialogResult.OK)
+                {
+                    obj.YaExiste = true;
+                    obj.Rescatable = false;
+                    obj.Estado = "[✔] Insertada en Backoffice";
+                    RefrescarGrillaLote();
+                }
+            }
+            catch (Exception ex)
+            {
+                CinetCore.Utils.Alert.Show($"Error al abrir cargador manual: {ex.Message}");
+            }
+        }
+
         private async Task BtnBuscarLote_Click(object sender, EventArgs e)
         {
             if (_listaLote == null || _listaLote.Count == 0)
@@ -574,6 +666,19 @@ namespace CinetCore.Forms.Salvaventas
                     if (string.IsNullOrWhiteSpace(item.SucCodigo) || string.IsNullOrWhiteSpace(item.VeneNumero))
                     {
                         item.Estado = "[✖] Sucursal o Número inválido";
+                        continue;
+                    }
+
+                    item.Estado = "Validando en Backoffice...";
+                    RefrescarGrillaLote();
+
+                    var boCheck = await dbService.ValidarVentaExistenteBackofficeAsync(item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                    if (boCheck.Exists)
+                    {
+                        item.YaExiste = true;
+                        item.Rescatable = false;
+                        item.Estado = "[✔] " + boCheck.Message;
+                        item.Equipo = "BACKOFFICE";
                         continue;
                     }
 
@@ -631,9 +736,32 @@ namespace CinetCore.Forms.Salvaventas
 
                 RefrescarGrillaLote();
                 int rescatables = _listaLote.Count(x => x.Rescatable);
+                int noEncontradas = _listaLote.Count(x => !x.YaExiste && !x.Rescatable);
                 btnReinsertarLote.Enabled = (rescatables > 0);
                 lblStatus.Text = $"Búsqueda en lote finalizada. ({rescatables} rescatables de {_listaLote.Count})";
-                CinetCore.Utils.Alert.Show($"Búsqueda completada:\n• {rescatables} listas para reinsertar.\n• {_listaLote.Count(x => x.YaExiste)} ya existían.\n• {_listaLote.Count(x => !x.YaExiste && !x.Rescatable)} no encontradas.", "Resultado Búsqueda Lote", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                if (rescatables == 0 && noEncontradas > 0)
+                {
+                    var resp = CinetCore.Utils.Alert.Show(
+                        $"Búsqueda en lote completada:\n• 0 ventas son rescatables en tablas temporales.\n• {noEncontradas} ventas NO existen en el servidor remoto.\n\n¿Desea abrir el formulario de Inserción Manual para cargar las ventas faltantes?",
+                        "0 Rescatables - ¿Insertar Manualmente?",
+                        MessageBoxButtons.YesNo,
+                        MessageBoxIcon.Question);
+                    if (resp == DialogResult.Yes)
+                    {
+                        var primeraNoEncontrada = _listaLote.First(x => !x.YaExiste && !x.Rescatable);
+                        AbrirInsertarManualLote(primeraNoEncontrada);
+                    }
+                }
+                else
+                {
+                    CinetCore.Utils.Alert.Show(
+                        $"Búsqueda completada:\n• {rescatables} listas para reinsertar automáticamente.\n• {_listaLote.Count(x => x.YaExiste)} ya existían en el equipo.\n• {noEncontradas} no encontradas (disponibles para inserción manual).\n\n" +
+                        $"Puede reinsertar las rescatables presione '🚀 REINSERTAR LOTE' o utilizar el botón '📝 INSERTAR MANUAL' para cargar las faltantes.",
+                        "Resultado Búsqueda Lote",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Information);
+                }
             }
             catch (Exception ex)
             {

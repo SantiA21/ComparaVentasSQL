@@ -367,12 +367,25 @@ public partial class FormComparaExcel : Form
         var listaRescate = new List<VentaRescueRequest>();
         foreach (var r in seleccionadas)
         {
+            decimal? importeVal = null;
+            if (decimal.TryParse(r.Cells["Importe"].Value?.ToString()?.Replace(".", ","), out decimal imp))
+                importeVal = imp;
+
+            DateTime? fechaVal = null;
+            if (DateTime.TryParse(r.Cells["Fecha"].Value?.ToString(), out DateTime fec))
+                fechaVal = fec;
+
+            string caeVal = r.Cells["CAE"].Value?.ToString();
+
             listaRescate.Add(new VentaRescueRequest
             {
                 SucCodigo = r.Cells["Sucursal"].Value?.ToString(),
                 VeneNumero = r.Cells["Comprobante"].Value?.ToString(),
                 CbteeCodigo = r.Cells["Tipo"].Value?.ToString() ?? "FAB",
-                Local = codLocal
+                Local = codLocal,
+                Importe = importeVal,
+                Fecha = fechaVal,
+                CAE = caeVal
             });
         }
 
