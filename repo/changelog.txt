@@ -1,3 +1,9 @@
+[1.23.3]
+- Se realizan mejoras en el salva ventas por lote
+
+[1.23.2]
+- Se corrige ventana de insertar venta manual porque bloqueaba toda la app y no se podia usar para buscar datos
+
 [1.23.1]
 - Se realizan mejoras en el salva ventas por lote
 

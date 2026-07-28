@@ -454,6 +454,13 @@ namespace CinetCore.Forms.Salvaventas
             btnVerCajas.Enabled = !isLoading;
             if (btnBuscarLote != null) btnBuscarLote.Enabled = !isLoading;
             if (btnInsertarManualLote != null) btnInsertarManualLote.Enabled = !isLoading;
+            if (btnAgregarFilaLote != null) btnAgregarFilaLote.Enabled = !isLoading;
+            if (btnQuitarFilaLote != null) btnQuitarFilaLote.Enabled = !isLoading;
+            if (btnPegarListaLote != null) btnPegarListaLote.Enabled = !isLoading;
+            if (rdoIndividual != null) rdoIndividual.Enabled = !isLoading;
+            if (rdoLote != null) rdoLote.Enabled = !isLoading;
+            if (dgvLote != null) dgvLote.Enabled = !isLoading;
+
             if (isLoading)
             {
                 btnReinsertar.Enabled = false;
@@ -634,13 +641,17 @@ namespace CinetCore.Forms.Salvaventas
             try
             {
                 var window = new FormInsertarVenta(_ip, _password, obj.SucCodigo, obj.VeneNumero, obj.CbteeCodigo, obj.ValCodigo, obj.Importe, obj.CAE, obj.Fecha);
-                if (window.ShowDialog() == DialogResult.OK)
+                window.FormClosed += (s, args) =>
                 {
-                    obj.YaExiste = true;
-                    obj.Rescatable = false;
-                    obj.Estado = "[✔] Insertada en Backoffice";
-                    RefrescarGrillaLote();
-                }
+                    if (window.DialogResult == DialogResult.OK)
+                    {
+                        obj.YaExiste = true;
+                        obj.Rescatable = false;
+                        obj.Estado = "[✔] Insertada en Backoffice";
+                        RefrescarGrillaLote();
+                    }
+                };
+                window.Show();
             }
             catch (Exception ex)
             {
@@ -669,67 +680,95 @@ namespace CinetCore.Forms.Salvaventas
                         continue;
                     }
 
-                    item.Estado = "Validando en Backoffice...";
-                    RefrescarGrillaLote();
-
-                    var boCheck = await dbService.ValidarVentaExistenteBackofficeAsync(item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
-                    if (boCheck.Exists)
+                    try
                     {
-                        item.YaExiste = true;
-                        item.Rescatable = false;
-                        item.Estado = "[✔] " + boCheck.Message;
-                        item.Equipo = "BACKOFFICE";
-                        continue;
+                        item.Estado = "Validando en Backoffice...";
+                        RefrescarGrillaLote();
+
+                        var boCheck = await dbService.ValidarVentaExistenteBackofficeAsync(item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                        if (boCheck.Exists)
+                        {
+                            item.YaExiste = true;
+                            item.Rescatable = false;
+                            item.Estado = "[✔] " + boCheck.Message;
+                            item.Equipo = "BACKOFFICE";
+                            continue;
+                        }
+
+                        item.Estado = "Detectando equipo...";
+                        RefrescarGrillaLote();
+
+                        string equipo = await dbService.FindEquipoAsync(item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                        if (string.IsNullOrEmpty(equipo))
+                        {
+                            item.Estado = "[✖] No encontrado (Sin equipo)";
+                            item.Equipo = "";
+                            continue;
+                        }
+                        item.Equipo = equipo;
                     }
-
-                    item.Estado = "Detectando equipo...";
-                    RefrescarGrillaLote();
-
-                    string equipo = await dbService.FindEquipoAsync(item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
-                    if (string.IsNullOrEmpty(equipo))
+                    catch (Exception exItem)
                     {
-                        item.Estado = "[✖] No encontrado (Sin equipo)";
-                        item.Equipo = "";
-                        continue;
+                        Logger.Error($"Error en verificación inicial de {item.SucCodigo}-{item.VeneNumero}", exItem);
+                        item.Estado = $"[✖] Error: {exItem.Message}";
                     }
-                    item.Equipo = equipo;
                 }
 
-                var porEquipo = _listaLote.Where(x => !string.IsNullOrEmpty(x.Equipo)).GroupBy(x => x.Equipo);
+                var porEquipo = _listaLote.Where(x => !x.YaExiste && !string.IsNullOrEmpty(x.Equipo)).GroupBy(x => x.Equipo);
 
                 foreach (var grupoEquipo in porEquipo)
                 {
                     string equipo = grupoEquipo.Key;
-                    lblStatus.Text = $"Conectando al equipo {equipo}...";
-                    await dbService.EnsureLinkedServerAsync(equipo);
+                    try
+                    {
+                        lblStatus.Text = $"Conectando al equipo {equipo}...";
+                        await dbService.EnsureLinkedServerAsync(equipo);
+                    }
+                    catch (Exception exEquipo)
+                    {
+                        Logger.Error($"Error conectando al equipo {equipo}", exEquipo);
+                        foreach (var item in grupoEquipo)
+                        {
+                            item.Estado = $"[✖] Error de conexión al equipo {equipo}";
+                        }
+                        continue;
+                    }
 
                     foreach (var item in grupoEquipo)
                     {
-                        item.Estado = $"Validando en {equipo}...";
-                        RefrescarGrillaLote();
+                        try
+                        {
+                            item.Estado = $"Validando en {equipo}...";
+                            RefrescarGrillaLote();
 
-                        var (exists, message, foundDb) = await dbService.CheckVentaExistenteGlobalAsync(equipo, item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
-                        if (exists)
-                        {
-                            item.YaExiste = true;
-                            item.Rescatable = false;
-                            item.Estado = $"[✔] Ya existe ({foundDb})";
-                            continue;
-                        }
+                            var (exists, message, foundDb) = await dbService.CheckVentaExistenteGlobalAsync(equipo, item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                            if (exists)
+                            {
+                                item.YaExiste = true;
+                                item.Rescatable = false;
+                                item.Estado = $"[✔] Ya existe ({foundDb})";
+                                continue;
+                            }
 
-                        var resultados = await dbService.SearchVentaInLinkedServerAsync(equipo, item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
-                        if (resultados != null && resultados.Count > 0)
-                        {
-                            item.YaExiste = false;
-                            item.Rescatable = true;
-                            item.ResultadosRescate = resultados;
-                            item.Estado = $"[🚀] Rescatable ({resultados[0].TableName})";
+                            var resultados = await dbService.SearchVentaInLinkedServerAsync(equipo, item.SucCodigo, item.VeneNumero, item.CbteeCodigo);
+                            if (resultados != null && resultados.Count > 0)
+                            {
+                                item.YaExiste = false;
+                                item.Rescatable = true;
+                                item.ResultadosRescate = resultados;
+                                item.Estado = $"[🚀] Rescatable ({resultados[0].TableName})";
+                            }
+                            else
+                            {
+                                item.YaExiste = false;
+                                item.Rescatable = false;
+                                item.Estado = "[✖] No encontrada en servidor";
+                            }
                         }
-                        else
+                        catch (Exception exVenta)
                         {
-                            item.YaExiste = false;
-                            item.Rescatable = false;
-                            item.Estado = "[✖] No encontrada en servidor";
+                            Logger.Error($"Error en búsqueda remota de {item.SucCodigo}-{item.VeneNumero}", exVenta);
+                            item.Estado = $"[✖] Error remoto: {exVenta.Message}";
                         }
                     }
                 }

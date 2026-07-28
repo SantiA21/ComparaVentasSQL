@@ -33,42 +33,9 @@ namespace CinetCore.Services.Salvaventas
 
         public async Task<string> FindEquipoAsync(string sucCodigo, string veneNumero, string cbteeCodigo)
         {
-            string query = @"
-use backoffice;
-declare @infoCaja table([caja] varchar(20), [equipo] varchar(259), [version] varchar(200) );
-
-insert into @infoCaja
-select distinct caja,EQUIPO,valor from (
-select RANK() OVER (
-    PARTITION BY caja, parametro
-    ORDER BY fechatrans desc) rango, *
-from hparamloc
-where parametro = 'VERSION') subQuery
-where rango = 1
-order by equipo
-
-SELECT vene_caja, suc_codigo, equipo
-FROM (
-    SELECT 
-        ROW_NUMBER() OVER (PARTITION BY v.vene_caja ORDER BY v.vene_fecha DESC) AS rn,
-        v.vene_caja,
-        v.suc_codigo,
-        i.equipo
-    FROM VENTAS_E v
-    INNER JOIN @infoCaja i ON v.vene_caja = i.caja COLLATE SQL_Latin1_General_CP1_CI_AS
-    WHERE v.vene_caja != '' AND v.suc_codigo = @sucCodigo AND v.vene_numero = @veneNumero AND v.cbtee_codigo = @cbteeCodigo
-) AS subquery
-WHERE rn = 1
-ORDER BY equipo;";
-
             using var connection = new SqlConnection(GetConnectionString());
             await connection.OpenAsync();
 
-            // We filter the query by passing the parameters to limit to the requested sale, 
-            // since the original query returns all. If the original query is meant to just return the latest for each, 
-            // and we filter after, we should use the exact original query and then filter in memory, 
-            // but filtering in SQL is better. 
-            // Wait, the original query from the user was:
             string originalQuery = @"
 declare @infoCaja table([caja] varchar(20), [equipo] varchar(259), [version] varchar(200) );
 
