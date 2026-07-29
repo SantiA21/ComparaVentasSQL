@@ -5,8 +5,19 @@ namespace CinetCore.Services.Salvaventas
 {
     public class VentaRescueRequest
     {
-        public string SucCodigo { get; set; }
-        public string VeneNumero { get; set; }
+        private string _sucCodigo;
+        public string SucCodigo
+        {
+            get => _sucCodigo;
+            set => _sucCodigo = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(value);
+        }
+
+        private string _veneNumero;
+        public string VeneNumero
+        {
+            get => _veneNumero;
+            set => _veneNumero = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(value);
+        }
         public string CbteeCodigo { get; set; } = "FAB";
         public string ValCodigo { get; set; } = "EFECTIVO";
         public string Local { get; set; }

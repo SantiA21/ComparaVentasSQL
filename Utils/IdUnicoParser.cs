@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +8,24 @@ namespace CinetCore.Utils
 {
     public static class IdUnicoParser
     {
+        public static string NormalizarSucursal(string sucursal)
+        {
+            if (string.IsNullOrWhiteSpace(sucursal))
+                return sucursal?.Trim() ?? "";
+
+            string s = sucursal.Trim();
+            return s.All(char.IsDigit) ? s.PadLeft(4, '0') : s;
+        }
+
+        public static string NormalizarComprobante(string comprobante)
+        {
+            if (string.IsNullOrWhiteSpace(comprobante))
+                return comprobante?.Trim() ?? "";
+
+            string c = comprobante.Trim();
+            return c.All(char.IsDigit) ? c.PadLeft(8, '0') : c;
+        }
+
         public static bool TryParse(
             string idUnico,
             out string sucursal,
@@ -26,10 +44,10 @@ namespace CinetCore.Utils
                 return false;
 
 
-            sucursal = partes[0].PadLeft(4, '0');
+            sucursal = NormalizarSucursal(partes[0]);
 
 
-            comprobante = partes[1].PadLeft(8, '0');
+            comprobante = NormalizarComprobante(partes[1]);
 
 
             tipo = partes[2] switch

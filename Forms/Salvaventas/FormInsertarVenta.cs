@@ -31,8 +31,8 @@ namespace CinetCore.Forms.Salvaventas
             InitializeComponent();
             CinetCore.Utils.UIHelper.ApplyModernTheme(this);
 
-            txtSucursal.Text = sucCodigo;
-            txtNumero.Text = veneNumero;
+            txtSucursal.Text = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(sucCodigo);
+            txtNumero.Text = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(veneNumero);
             txtTipo.Text = cbteeCodigo;
             
             if (!string.IsNullOrEmpty(valCodigo))
@@ -138,8 +138,8 @@ namespace CinetCore.Forms.Salvaventas
 
         private async Task BtnInsertar_Click(object sender, EventArgs e)
         {
-            string sucCodigo = txtSucursal.Text.Trim();
-            string veneNumero = txtNumero.Text.Trim();
+            string sucCodigo = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(txtSucursal.Text);
+            string veneNumero = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(txtNumero.Text);
             string cbteeCodigo = txtTipo.Text.Trim();
             string numCaja = txtNumCaja.Text.Trim();
             string importeText = txtImporte.Text.Trim();

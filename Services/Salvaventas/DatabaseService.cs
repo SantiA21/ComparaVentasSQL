@@ -136,9 +136,9 @@ ORDER BY equipo;";
             var databases = new[] { "cinet_pdv", "cinet_pdv_auto", "cinet_pdv_totem" };
             // El usuario pidió resultados en el orden: ventas_efe, ventas_dfe, ventas_tfe y renombradas.
             var tablesInfo = new[] { 
-                new { Table = "ventas_efe", DisplayName = "Ventas EFE" }, 
-                new { Table = "ventas_dfe", DisplayName = "Ventas DFE" }, 
-                new { Table = "ventas_tfe", DisplayName = "Ventas TFE" } 
+                new { Table = "ventas_efe", DisplayName = "ventas_efe" }, 
+                new { Table = "ventas_dfe", DisplayName = "ventas_dfe" }, 
+                new { Table = "ventas_tfe", DisplayName = "ventas_tfe" } 
             };
 
             var results = new List<ResultGroup>();
@@ -415,11 +415,14 @@ ORDER BY equipo;";
 
             try
             {
-                var mappings = new Dictionary<string, string>
+                var mappings = new Dictionary<string, string>(StringComparer.OrdinalIgnoreCase)
                 {
                     { "Ventas EFE", "ventas_e" },
                     { "Ventas DFE", "ventas_d" },
-                    { "Ventas TFE", "ventas_t" }
+                    { "Ventas TFE", "ventas_t" },
+                    { "ventas_efe", "ventas_e" },
+                    { "ventas_dfe", "ventas_d" },
+                    { "ventas_tfe", "ventas_t" }
                 };
 
                 // Agrupar por base de datos destino para validar 1 vez por base
@@ -439,7 +442,8 @@ ORDER BY equipo;";
                         string sourceName = sourceGroup.TableName.Split('(')[0].Trim();
                         if (!mappings.ContainsKey(sourceName)) continue;
 
-                        string sourceTableName = sourceName == "Ventas EFE" ? "ventas_efe" : sourceName == "Ventas DFE" ? "ventas_dfe" : "ventas_tfe";
+                        string sourceTableName = (sourceName.Equals("Ventas EFE", StringComparison.OrdinalIgnoreCase) || sourceName.Equals("ventas_efe", StringComparison.OrdinalIgnoreCase)) ? "ventas_efe" :
+                                                 (sourceName.Equals("Ventas DFE", StringComparison.OrdinalIgnoreCase) || sourceName.Equals("ventas_dfe", StringComparison.OrdinalIgnoreCase)) ? "ventas_dfe" : "ventas_tfe";
                         string destTableName = mappings[sourceName];
 
                         // Obtener columnas locales (remotas en realidad, porque reinsertamos en el equipo remoto)
@@ -527,7 +531,7 @@ BEGIN
             [vene_terminal],[vene_canal],[vene_bolsin],[numerox])
      VALUES
            (@puntoventa,'01','VTAS',@tipocomprobante,@numerocomprobante,'000001','10',@peri_cod,
-            '0','1','01',@fecha,@fecha,'10','1','P',
+            '0','1','01',@fecha,@fecha,'10','1','1',
             @fecha,'','','0',@fecha,'S','','00',@valCodigo,
             '1.00',@fecha,'','','N','','0.00','','','','','','','','','','','','','1.00','','','',
             null,null,null,',S','N',null,'','','0001','07:37:53',null,'',null,'','',@CAE,@numerocierre,

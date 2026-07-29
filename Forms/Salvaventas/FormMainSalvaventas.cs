@@ -98,10 +98,12 @@ namespace CinetCore.Forms.Salvaventas
             
             groupParams.Controls.Add(new Label() { Text = "Sucursal:", Location = new Point(20, 35), AutoSize = true, Font = new Font("Segoe UI", 9F), ForeColor = Color.Black });
             txtSucursal = new TextBox() { Location = new Point(85, 33), Width = 100, Font = new Font("Segoe UI", 9F) };
+            txtSucursal.Leave += (s, e) => { txtSucursal.Text = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(txtSucursal.Text); };
             groupParams.Controls.Add(txtSucursal);
             
             groupParams.Controls.Add(new Label() { Text = "Número:", Location = new Point(210, 35), AutoSize = true, Font = new Font("Segoe UI", 9F), ForeColor = Color.Black });
             txtNumero = new TextBox() { Location = new Point(270, 33), Width = 150, Font = new Font("Segoe UI", 9F) };
+            txtNumero.Leave += (s, e) => { txtNumero.Text = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(txtNumero.Text); };
             groupParams.Controls.Add(txtNumero);
 
             groupParams.Controls.Add(new Label() { Text = "Hostname (Opcional):", Location = new Point(450, 35), AutoSize = true, Font = new Font("Segoe UI", 9F), ForeColor = Color.Black });
@@ -213,6 +215,32 @@ namespace CinetCore.Forms.Salvaventas
             dgvLote.DefaultCellStyle.SelectionBackColor = Color.FromArgb(210, 230, 255);
             dgvLote.DefaultCellStyle.SelectionForeColor = Color.Black;
             dgvLote.CellDoubleClick += DgvLote_CellDoubleClick;
+            dgvLote.CellFormatting += (s, e) => {
+                if (dgvLote.Columns[e.ColumnIndex].Name == "Estado" && e.Value != null)
+                {
+                    string val = e.Value.ToString();
+                    if (val.Contains("RESCATADA") || val.Contains("Reinsertada"))
+                    {
+                        e.CellStyle.ForeColor = Color.FromArgb(40, 167, 69); // Verde éxito
+                        e.CellStyle.Font = new Font(dgvLote.Font, FontStyle.Bold);
+                    }
+                    else if (val.Contains("Rescatable") || val.Contains("RESCATABLE") || val.Contains("🚀"))
+                    {
+                        e.CellStyle.ForeColor = Color.FromArgb(0, 122, 204); // Azul
+                        e.CellStyle.Font = new Font(dgvLote.Font, FontStyle.Bold);
+                    }
+                    else if (val.Contains("Error") || val.Contains("✖") || val.Contains("No encontrada"))
+                    {
+                        e.CellStyle.ForeColor = Color.FromArgb(220, 53, 69); // Rojo
+                        e.CellStyle.Font = new Font(dgvLote.Font, FontStyle.Bold);
+                    }
+                    else if (val.Contains("Ya existe") || val.Contains("✔"))
+                    {
+                        e.CellStyle.ForeColor = Color.FromArgb(40, 110, 60); // Verde normal
+                        e.CellStyle.Font = new Font(dgvLote.Font, FontStyle.Bold);
+                    }
+                }
+            };
 
             panelBottom.Controls.Add(lblEquipoEncontrado);
             panelBottom.Controls.Add(panelResultados);
@@ -224,6 +252,9 @@ namespace CinetCore.Forms.Salvaventas
 
         private async Task BtnBuscar_Click(object sender, EventArgs e)
         {
+            txtSucursal.Text = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(txtSucursal.Text);
+            txtNumero.Text = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(txtNumero.Text);
+
             string sucCodigo = txtSucursal.Text.Trim();
             string veneNumero = txtNumero.Text.Trim();
             string cbteeCodigo = cmbTipo.SelectedItem?.ToString() ?? "";
@@ -329,7 +360,9 @@ namespace CinetCore.Forms.Salvaventas
                     _lastEquipo = equipo;
                     btnReinsertar.Enabled = true;
                     ShowResultados(resultados);
-                    lblStatus.Text = "Búsqueda completada exitosamente.";
+                    string tablasEncontradas = string.Join(", ", resultados.Select(r => r.TableName));
+                    lblStatus.Text = $"[🚀] RESCATABLE de: {tablasEncontradas}";
+                    lblStatus.ForeColor = Color.FromArgb(0, 122, 204);
                 }
                 else
                 {
@@ -393,6 +426,9 @@ namespace CinetCore.Forms.Salvaventas
             if (_lastResultados == null || _lastResultados.Count == 0 || string.IsNullOrEmpty(_lastEquipo))
                 return;
 
+            txtSucursal.Text = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(txtSucursal.Text);
+            txtNumero.Text = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(txtNumero.Text);
+
             string sucCodigo = txtSucursal.Text.Trim();
             string veneNumero = txtNumero.Text.Trim();
             string cbteeCodigo = cmbTipo.SelectedItem?.ToString() ?? "";
@@ -405,12 +441,13 @@ namespace CinetCore.Forms.Salvaventas
                 await dbService.InsertarVentasRescatadasAsync(_lastEquipo, _lastResultados, sucCodigo, veneNumero, cbteeCodigo, valCodigo);
                 string tablasRescate = _lastResultados != null ? string.Join(", ", _lastResultados.Select(r => r.TableName)) : "N/A";
                 CinetCore.Utils.Alert.Show(
-                    $"✅ La venta {sucCodigo}-{veneNumero} ({cbteeCodigo}) se salvó y reinsertó correctamente en el equipo {_lastEquipo}.\n\n" +
-                    $"📋 Tablas salvadas:\n• {string.Join("\n• ", _lastResultados?.Select(r => r.TableName) ?? new List<string>())}",
-                    "Venta Salvada y Reinsertada con Éxito",
+                    $"✅ [✔] VENTA RESCATADA CON ÉXITO\n\nLa venta {sucCodigo}-{veneNumero} ({cbteeCodigo}) se salvó y reinsertó en el equipo {_lastEquipo}.\n\n" +
+                    $"📋 RESCATADA de tabla(s):\n• {string.Join("\n• ", _lastResultados?.Select(r => r.TableName) ?? new List<string>())}",
+                    "Venta RESCATADA con Éxito",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
-                lblStatus.Text = "Re-inserción completada.";
+                lblStatus.Text = $"[✔] RESCATADA de: {tablasRescate}";
+                lblStatus.ForeColor = Color.FromArgb(40, 167, 69);
                 btnReinsertar.Enabled = false; 
             }
             catch (Exception ex)
@@ -428,6 +465,9 @@ namespace CinetCore.Forms.Salvaventas
 
         private async Task BtnInsertarValMov_Click(object sender, EventArgs e)
         {
+            txtSucursal.Text = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(txtSucursal.Text);
+            txtNumero.Text = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(txtNumero.Text);
+
             string sucCodigo = txtSucursal.Text.Trim();
             string veneNumero = txtNumero.Text.Trim();
             string cbteeCodigo = cmbTipo.SelectedItem?.ToString() ?? "";
@@ -559,7 +599,7 @@ namespace CinetCore.Forms.Salvaventas
 
         private void BtnAgregarFilaLote_Click(object sender, EventArgs e)
         {
-            _listaLote.Add(new VentaRescueRequest { SucCodigo = "01", VeneNumero = "", CbteeCodigo = "FAB", ValCodigo = "EFECTIVO" });
+            _listaLote.Add(new VentaRescueRequest { SucCodigo = "0001", VeneNumero = "", CbteeCodigo = "FAB", ValCodigo = "EFECTIVO" });
             RefrescarGrillaLote();
         }
 
@@ -680,6 +720,9 @@ namespace CinetCore.Forms.Salvaventas
 
                 foreach (var item in _listaLote)
                 {
+                    item.SucCodigo = CinetCore.Utils.IdUnicoParser.NormalizarSucursal(item.SucCodigo);
+                    item.VeneNumero = CinetCore.Utils.IdUnicoParser.NormalizarComprobante(item.VeneNumero);
+
                     if (string.IsNullOrWhiteSpace(item.SucCodigo) || string.IsNullOrWhiteSpace(item.VeneNumero))
                     {
                         item.Estado = "[✖] Sucursal o Número inválido";
@@ -762,7 +805,8 @@ namespace CinetCore.Forms.Salvaventas
                                 item.YaExiste = false;
                                 item.Rescatable = true;
                                 item.ResultadosRescate = resultados;
-                                item.Estado = $"[🚀] Rescatable ({resultados[0].TableName})";
+                                string tablasEncontradas = string.Join(", ", resultados.Select(r => r.TableName));
+                                item.Estado = $"[🚀] Rescatable de: {tablasEncontradas}";
                             }
                             else
                             {
@@ -874,10 +918,10 @@ namespace CinetCore.Forms.Salvaventas
                         RefrescarGrillaLote();
 
                         await dbService.InsertarVentasRescatadasAsync(item.Equipo, item.ResultadosRescate, item.SucCodigo, item.VeneNumero, item.CbteeCodigo, item.ValCodigo);
-                        item.Estado = "[✔] Reinsertada con éxito";
-                        item.Rescatable = false;
                         string tablasSalvadas = item.ResultadosRescate != null ? string.Join(", ", item.ResultadosRescate.Select(r => r.TableName)) : "N/A";
-                        listExitosas.Add($"{item.SucCodigo}-{item.VeneNumero} [Equipo: {item.Equipo} | Salvada de: {tablasSalvadas}]");
+                        item.Estado = $"[✔] RESCATADA de: {tablasSalvadas}";
+                        item.Rescatable = false;
+                        listExitosas.Add($"{item.SucCodigo}-{item.VeneNumero} [✔ RESCATADA de: {tablasSalvadas} | Equipo: {item.Equipo}]");
                     }
                     catch (Exception ex)
                     {
