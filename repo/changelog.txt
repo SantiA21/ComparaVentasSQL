@@ -1,3 +1,9 @@
+[1.25.2]
+- Se modifican los nombres de botones que inicia cada form
+
+[1.25.1]
+- Se fixea el form de procesar excel porque no se podia usar para buscar datos
+
 [1.25.0]
 - Se reestructura el proyecto
 - Se optimiza el codigo

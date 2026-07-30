@@ -126,6 +126,10 @@ namespace CinetCore.Data
             {
                 var builder = new SqlConnectionStringBuilder(connectionString);
                 builder.TrustServerCertificate = true;
+                if (!connectionString.Contains("Encrypt", StringComparison.OrdinalIgnoreCase))
+                {
+                    builder.Encrypt = SqlConnectionEncryptOption.Optional;
+                }
                 return builder.ConnectionString;
             }
             catch

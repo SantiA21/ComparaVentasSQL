@@ -23,7 +23,8 @@ namespace CinetCore.Services.ComparacionExcel
             string dbKey,
             string sucCodigo,
             string numero,
-            string tipo)
+            string tipo,
+            SqlConnection? existingConn = null)
         {
             string query;
             if (string.Equals(dbKey, "GMG_ERP", StringComparison.OrdinalIgnoreCase))
@@ -71,37 +72,60 @@ namespace CinetCore.Services.ComparacionExcel
                 ";
             }
 
-            using var conn = _dataAccess.GetConnection(dbKey);
-            using var multi = conn.QueryMultiple(query, new { suc = sucCodigo, num = numero, tipo = tipo });
-
-            var firstResult = multi.ReadFirstOrDefault();
-            if (firstResult != null && firstResult.PERI_CODIGO != null)
+            SqlConnection? localConn = null;
+            SqlConnection conn;
+            if (existingConn != null)
             {
-                return new VentaResultado
+                conn = existingConn;
+                if (conn.State != System.Data.ConnectionState.Open)
                 {
-                    Local = firstResult.PERI_CODIGO.ToString(),
-                    Existe = "✅ Existe",
-                    Fecha = firstResult.vene_fecha != null
-                             ? Convert.ToDateTime(firstResult.vene_fecha).ToString("dd/MM/yyyy")
-                             : ""
-                };
+                    conn.Open();
+                }
+            }
+            else
+            {
+                localConn = _dataAccess.GetConnection(dbKey);
+                localConn.Open();
+                conn = localConn;
             }
 
-            var secondResult = multi.ReadFirstOrDefault();
-            if (secondResult != null && secondResult.PERI_CODIGO != null)
+            try
             {
+                using var multi = conn.QueryMultiple(query, new { suc = sucCodigo, num = numero, tipo = tipo });
+
+                var firstResult = multi.ReadFirstOrDefault();
+                if (firstResult != null && firstResult.PERI_CODIGO != null)
+                {
+                    return new VentaResultado
+                    {
+                        Local = firstResult.PERI_CODIGO.ToString(),
+                        Existe = "✅ Existe",
+                        Fecha = firstResult.vene_fecha != null
+                                 ? Convert.ToDateTime(firstResult.vene_fecha).ToString("dd/MM/yyyy")
+                                 : ""
+                    };
+                }
+
+                var secondResult = multi.ReadFirstOrDefault();
+                if (secondResult != null && secondResult.PERI_CODIGO != null)
+                {
+                    return new VentaResultado
+                    {
+                        Local = secondResult.PERI_CODIGO.ToString(),
+                        Existe = "❌ No existe"
+                    };
+                }
+
                 return new VentaResultado
                 {
-                    Local = secondResult.PERI_CODIGO.ToString(),
+                    Local = "-",
                     Existe = "❌ No existe"
                 };
             }
-
-            return new VentaResultado
+            finally
             {
-                Local = "-",
-                Existe = "❌ No existe"
-            };
+                localConn?.Dispose();
+            }
         }
     }
 }

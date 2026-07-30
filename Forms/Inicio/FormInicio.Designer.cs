@@ -60,7 +60,7 @@ namespace CinetCore
             menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, herramientasToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(410, 24);
+            menuStrip.Size = new Size(470, 24);
             menuStrip.TabIndex = 15;
             // 
             // ventasToolStripMenuItem
@@ -68,41 +68,41 @@ namespace CinetCore
             ventasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { importarExcelToolStripMenuItem, consultarVentaToolStripMenuItem, ventasConCAEAToolStripMenuItem, modificarImporteToolStripMenuItem, salvaVentasToolStripMenuItem });
             ventasToolStripMenuItem.Name = "ventasToolStripMenuItem";
             ventasToolStripMenuItem.Size = new Size(53, 20);
-            ventasToolStripMenuItem.Text = "Ventas";
+            ventasToolStripMenuItem.Text = "🛒 Ventas";
             // 
             // importarExcelToolStripMenuItem
             // 
             importarExcelToolStripMenuItem.Name = "importarExcelToolStripMenuItem";
             importarExcelToolStripMenuItem.Size = new Size(170, 22);
-            importarExcelToolStripMenuItem.Text = "Importar excel";
+            importarExcelToolStripMenuItem.Text = "📊 Importar Excel";
             importarExcelToolStripMenuItem.Click += importarExcelToolStripMenuItem_Click;
             // 
             // consultarVentaToolStripMenuItem
             // 
             consultarVentaToolStripMenuItem.Name = "consultarVentaToolStripMenuItem";
             consultarVentaToolStripMenuItem.Size = new Size(170, 22);
-            consultarVentaToolStripMenuItem.Text = "Consultar venta";
+            consultarVentaToolStripMenuItem.Text = "🔍 Consultar venta";
             consultarVentaToolStripMenuItem.Click += consultarVentaToolStripMenuItem_Click;
             // 
             // ventasConCAEAToolStripMenuItem
             // 
             ventasConCAEAToolStripMenuItem.Name = "ventasConCAEAToolStripMenuItem";
             ventasConCAEAToolStripMenuItem.Size = new Size(170, 22);
-            ventasConCAEAToolStripMenuItem.Text = "Ventas con CAEA";
+            ventasConCAEAToolStripMenuItem.Text = "📄 Ventas con CAEA";
             ventasConCAEAToolStripMenuItem.Click += ventasConCAEAToolStripMenuItem_Click;
             // 
             // modificarImporteToolStripMenuItem
             // 
             modificarImporteToolStripMenuItem.Name = "modificarImporteToolStripMenuItem";
             modificarImporteToolStripMenuItem.Size = new Size(170, 22);
-            modificarImporteToolStripMenuItem.Text = "Modificar importe";
+            modificarImporteToolStripMenuItem.Text = "✏️ Modificar importe";
             modificarImporteToolStripMenuItem.Click += modificarImporteToolStripMenuItem_Click;
             // 
             // salvaVentasToolStripMenuItem
             // 
             salvaVentasToolStripMenuItem.Name = "salvaVentasToolStripMenuItem";
             salvaVentasToolStripMenuItem.Size = new Size(170, 22);
-            salvaVentasToolStripMenuItem.Text = "Salva ventas";
+            salvaVentasToolStripMenuItem.Text = "🛟 Salva ventas";
             salvaVentasToolStripMenuItem.Click += salvaVentasToolStripMenuItem_Click;
             // 
             // sucursalesToolStripMenuItem
@@ -110,20 +110,20 @@ namespace CinetCore
             sucursalesToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { verSucursalesToolStripMenuItem, insertarSucursalToolStripMenuItem });
             sucursalesToolStripMenuItem.Name = "sucursalesToolStripMenuItem";
             sucursalesToolStripMenuItem.Size = new Size(74, 20);
-            sucursalesToolStripMenuItem.Text = "Sucursales";
+            sucursalesToolStripMenuItem.Text = "🏢 Sucursales";
             // 
             // verSucursalesToolStripMenuItem
             // 
             verSucursalesToolStripMenuItem.Name = "verSucursalesToolStripMenuItem";
             verSucursalesToolStripMenuItem.Size = new Size(174, 22);
-            verSucursalesToolStripMenuItem.Text = "Ver sucursales";
+            verSucursalesToolStripMenuItem.Text = "📋 Ver sucursales";
             verSucursalesToolStripMenuItem.Click += verSucursalesToolStripMenuItem_Click;
             // 
             // insertarSucursalToolStripMenuItem
             // 
             insertarSucursalToolStripMenuItem.Name = "insertarSucursalToolStripMenuItem";
             insertarSucursalToolStripMenuItem.Size = new Size(174, 22);
-            insertarSucursalToolStripMenuItem.Text = "Insertar sucursal FE";
+            insertarSucursalToolStripMenuItem.Text = "➕ Insertar sucursal FE";
             insertarSucursalToolStripMenuItem.Click += insertarSucursalToolStripMenuItem_Click;
             // 
             // usuariosToolStripMenuItem
@@ -131,7 +131,7 @@ namespace CinetCore
             usuariosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { usuariosMOSTAZAERPToolStripMenuItem, usuariosGMGERPToolStripMenuItem, usuariosBackofficeToolStripMenuItem });
             usuariosToolStripMenuItem.Name = "usuariosToolStripMenuItem";
             usuariosToolStripMenuItem.Size = new Size(64, 20);
-            usuariosToolStripMenuItem.Text = "Usuarios";
+            usuariosToolStripMenuItem.Text = "👥 Usuarios";
             // 
             // usuariosMOSTAZAERPToolStripMenuItem
             // 
@@ -151,7 +151,7 @@ namespace CinetCore
             // 
             usuariosBackofficeToolStripMenuItem.Name = "usuariosBackofficeToolStripMenuItem";
             usuariosBackofficeToolStripMenuItem.Size = new Size(201, 22);
-            usuariosBackofficeToolStripMenuItem.Text = "Usuarios backoffice";
+            usuariosBackofficeToolStripMenuItem.Text = "🖥️ Usuarios backoffice";
             usuariosBackofficeToolStripMenuItem.Click += usuariosBackofficeToolStripMenuItem_Click;
             // 
             // preciosToolStripMenuItem
@@ -159,7 +159,7 @@ namespace CinetCore
             preciosToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { preciosMostazaToolStripMenuItem, preciosGmgToolStripMenuItem });
             preciosToolStripMenuItem.Name = "preciosToolStripMenuItem";
             preciosToolStripMenuItem.Size = new Size(57, 20);
-            preciosToolStripMenuItem.Text = "Precios";
+            preciosToolStripMenuItem.Text = "💲 Precios";
             preciosToolStripMenuItem.Click += preciosToolStripMenuItem_Click;
             // 
             // preciosMostazaToolStripMenuItem
@@ -173,7 +173,7 @@ namespace CinetCore
             // 
             preciosGmgToolStripMenuItem.Name = "preciosGmgToolStripMenuItem";
             preciosGmgToolStripMenuItem.Size = new Size(159, 22);
-            preciosGmgToolStripMenuItem.Text = "Precios Gmg";
+            preciosGmgToolStripMenuItem.Text = "Precios GMG";
             preciosGmgToolStripMenuItem.Click += preciosGmgToolStripMenuItem_Click;
             // 
             // herramientasToolStripMenuItem
@@ -181,7 +181,7 @@ namespace CinetCore
             herramientasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { visorLogsToolStripMenuItem, healthCheckToolStripMenuItem, changelogToolStripMenuItem });
             herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
             herramientasToolStripMenuItem.Size = new Size(90, 20);
-            herramientasToolStripMenuItem.Text = "Herramientas";
+            herramientasToolStripMenuItem.Text = "🛠️ Herramientas";
             // 
             // visorLogsToolStripMenuItem
             // 
@@ -208,7 +208,7 @@ namespace CinetCore
             // 
             lblVersion.AutoSize = true;
             lblVersion.FlatStyle = FlatStyle.Popup;
-            lblVersion.Location = new Point(223, 281);
+            lblVersion.Location = new Point(283, 281);
             lblVersion.Name = "lblVersion";
             lblVersion.Size = new Size(38, 15);
             lblVersion.TabIndex = 14;
@@ -219,7 +219,7 @@ namespace CinetCore
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(410, 305);
+            ClientSize = new Size(470, 305);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip);
             Icon = (Icon)resources.GetObject("$this.Icon");

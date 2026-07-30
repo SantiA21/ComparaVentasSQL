@@ -93,6 +93,9 @@ public partial class FormComparaExcel : Form
 
             DataTable dt = CrearTablaResultados();
 
+            using var sharedConn = dataAccess.GetConnection(selectedDbKey);
+            sharedConn.Open();
+
             foreach (var fila in excelService.LeerExcel(txtArchivo.Text))
             {
                 if (!IdUnicoParser.TryParse(
@@ -108,7 +111,8 @@ public partial class FormComparaExcel : Form
                     selectedDbKey,
                     sucursal,
                     comprobante,
-                    tipo
+                    tipo,
+                    sharedConn
                 );
 
                 dt.Rows.Add(
