@@ -7,7 +7,6 @@
 *.user
 *.suo
 dbconfig.ini
-Data/DataAccess.cs
 
 # Archivos de compilación
 bin/
@@ -62,19 +61,6 @@ TestResults/
 *.coveragexml
 *.testsettings
 *.vsmdi
-
-# Archivos de publicación de ClickOnce
-publish/
-
-# Archivos de entorno de usuario
-*.suo
-*.user
-*.userosscache
-*.sln.docstates
-
-# Archivos temporales de diseño
-~$*
-*.tmp
 
 # Archivos específicos de Windows
 Thumbs.db

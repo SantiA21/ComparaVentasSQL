@@ -1,9 +1,9 @@
-﻿using CinetCore.Data;
+using CinetCore.Data;
 using CinetCore.Infrastructure;
 using CinetCore.Models;
 using System;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace CinetCore.Services.Importes
 {
@@ -65,6 +65,7 @@ WHERE CBTEINSUC_CODIGO = @SUCURSAL
 
                     cmd.ExecuteNonQuery();
                     tran.Commit();
+                    Logger.LogInfo($"[AUDITORÍA] Importe modificado exitosamente en {dbKey}. Sucursal: {req.Sucursal}, Comprobante: {req.Comprobante}, TipoCbte: {req.TipoComprobante}, Nuevo Total: {req.Total}, IVA: {req.Iva}, Neto: {req.Neto}");
                 }
             }
         }

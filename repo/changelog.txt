@@ -1,3 +1,10 @@
+[1.25.0]
+- Se reestructura el proyecto
+- Se optimiza el codigo
+- Se updatean librerias
+- Se agregan logs en los formularios
+- Se agrega estado de bd
+
 [1.24.0]
 - Se cambia el insert de ventas_e, antes se insertaba una P en ESTV_CODIGO, ahora se inserta un 1
 - Se valida que en el form del salva ventas, el numero de venta se autocomplete con 0 adelante en caso de que no se ingrese el numero completo

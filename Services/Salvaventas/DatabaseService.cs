@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Dapper;
 using CinetCore.Infrastructure;
 
@@ -127,10 +127,10 @@ ORDER BY equipo;";
             }
         }
 
-        public async Task<List<ResultGroup>> SearchVentaInLinkedServerAsync(string equipo, string sucCodigo, string veneNumero, string cbteeCodigo)
+        public async Task<List<ResultGroup>> SearchVentaInLinkedServerAsync(string equipo, string sucCodigo, string veneNumero, string cbteeCodigo, System.Threading.CancellationToken cancellationToken = default)
         {
             using var connection = new SqlConnection(GetConnectionString());
-            await connection.OpenAsync();
+            await connection.OpenAsync(cancellationToken);
             Logger.Info($"Iniciando búsqueda de rescate en equipo remoto: {equipo}");
 
             var databases = new[] { "cinet_pdv", "cinet_pdv_auto", "cinet_pdv_totem" };
@@ -147,6 +147,7 @@ ORDER BY equipo;";
             {
                 foreach (var db in databases)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     string fullTableName = $"[{equipo}].[{db}].[dbo].[{tableInfo.Table}]";
                     string query = $@"
                         BEGIN TRY
@@ -163,7 +164,7 @@ ORDER BY equipo;";
                     try
                     {
                         Logger.Info($"Ejecutando Query SearchVentaInLinkedServerAsync en {fullTableName}:\n{query}");
-                        using var reader = await connection.ExecuteReaderAsync(query, new { veneNumero, sucCodigo, cbteeCodigo });
+                        using var reader = await connection.ExecuteReaderAsync(new CommandDefinition(query, new { veneNumero, sucCodigo, cbteeCodigo }, commandTimeout: 10, cancellationToken: cancellationToken));
                         var dt = new DataTable();
                         dt.Load(reader);
 
@@ -343,10 +344,10 @@ ORDER BY equipo;";
             return results;
         }
 
-        public async Task<List<ResultGroup>> SearchVentaPrincipalesAsync(string equipo, string sucCodigo, string veneNumero, string cbteeCodigo)
+        public async Task<List<ResultGroup>> SearchVentaPrincipalesAsync(string equipo, string sucCodigo, string veneNumero, string cbteeCodigo, System.Threading.CancellationToken cancellationToken = default)
         {
             using var connection = new SqlConnection(GetConnectionString());
-            await connection.OpenAsync();
+            await connection.OpenAsync(cancellationToken);
             var results = new List<ResultGroup>();
 
             string[] databases = { "cinet_pdv", "cinet_pdv_auto", "cinet_pdv_totem" };
@@ -361,6 +362,7 @@ ORDER BY equipo;";
             {
                 foreach (var db in databases)
                 {
+                    cancellationToken.ThrowIfCancellationRequested();
                     string fullTableName = $"[{equipo}].[{db}].[dbo].[{tableInfo.Table}]";
                     string query = "";
                     if (tableInfo.Type == "Ventas")
@@ -389,7 +391,7 @@ ORDER BY equipo;";
 
                     try
                     {
-                        using var reader = await connection.ExecuteReaderAsync(query, new { veneNumero, sucCodigo, cbteeCodigo });
+                        using var reader = await connection.ExecuteReaderAsync(new CommandDefinition(query, new { veneNumero, sucCodigo, cbteeCodigo }, commandTimeout: 10, cancellationToken: cancellationToken));
                         var dt = new DataTable();
                         dt.Load(reader);
 

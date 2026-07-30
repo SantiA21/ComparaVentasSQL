@@ -1,5 +1,6 @@
-﻿using CinetCore.Infrastructure;
+using CinetCore.Infrastructure;
 using CinetCore;
+using CinetCore.Forms.Comunes;
 using Microsoft.VisualBasic;
 
 namespace CinetCore.Utils
@@ -24,6 +25,7 @@ namespace CinetCore.Utils
                     return false;
                 }
 
+                Logger.LogInfo("[SEGURIDAD] Validación de clave exitosa para operación protegida.");
                 return true;
             }
         }

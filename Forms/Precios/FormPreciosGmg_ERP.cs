@@ -1,4 +1,6 @@
 using CinetCore.Utils;
+using CinetCore.Infrastructure;
+using CinetCore.Models;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -91,6 +93,7 @@ namespace CinetCore.Forms.Precios
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 CinetCore.Utils.Alert.Show(ex.Message);
             }
             finally
@@ -123,7 +126,10 @@ namespace CinetCore.Forms.Precios
             var response = await client.GetAsync(url);
 
             if (!response.IsSuccessStatusCode)
+            {
+                Logger.LogInfo($"[PRECIOS GMG] Error HTTP al consultar API en {url}: {(int)response.StatusCode} {response.ReasonPhrase}");
                 return null;
+            }
 
             var json = await response.Content.ReadAsStringAsync();
 
@@ -146,6 +152,7 @@ namespace CinetCore.Forms.Precios
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 CinetCore.Utils.Alert.Show(
                     ex.Message,
                     "Error",

@@ -2,8 +2,9 @@ using System;
 using System.Data;
 using System.Reflection;
 using System.Windows.Forms;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using CinetCore.Utils;
+using CinetCore.Infrastructure;
 
 namespace CinetCore
 {
@@ -36,6 +37,7 @@ namespace CinetCore
                 using (var conn = new SqlConnection(_connectionString))
                 using (var da = new SqlDataAdapter(_query, conn))
                 {
+                    Logger.LogQuery(_query);
                     DataTable dt = new DataTable();
                     da.Fill(dt);
                     dgvDatos.DataSource = dt;
@@ -43,6 +45,7 @@ namespace CinetCore
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 CinetCore.Utils.Alert.Show(
                     UserMessageHelper.GetFriendlyMessage("al consultar las ventas con CAEA del equipo seleccionado", ex),
                     "Error",

@@ -2,6 +2,7 @@ using System;
 using System.Net.Http;
 using System.Reflection;
 using System.Threading.Tasks;
+using CinetCore.Infrastructure;
 
 public static class UpdateChecker
 {
@@ -25,9 +26,9 @@ public static class UpdateChecker
 
             return versionRemota > versionLocal;
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-
+            Logger.LogInfo($"[UPDATE] No se pudo verificar actualización remota: {ex.Message}");
             return false;
         }
     }

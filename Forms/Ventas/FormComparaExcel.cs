@@ -7,7 +7,7 @@ using CinetCore.Services.Salvaventas;
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System.Linq;
 using System.Reflection;
 using System.Windows.Forms;
@@ -133,6 +133,7 @@ public partial class FormComparaExcel : Form
             CargarComboDesdeTabla(dtOriginal, cbLocal, "Local");
 
             lblEstado.Text = "✅ Proceso finalizado";
+            Logger.LogInfo($"[COMPARACIÓN EXCEL] Proceso finalizado. Archivo: {txtArchivo.Text}, Base de datos: {selectedDbKey}, Filas comparadas: {dt.Rows.Count}");
             ActualizarContador();
         }
         catch (Exception ex)

@@ -44,6 +44,9 @@ namespace CinetCore
             usuariosGMGERPToolStripMenuItem = new ToolStripMenuItem();
             usuariosBackofficeToolStripMenuItem = new ToolStripMenuItem();
             preciosToolStripMenuItem = new ToolStripMenuItem();
+            herramientasToolStripMenuItem = new ToolStripMenuItem();
+            visorLogsToolStripMenuItem = new ToolStripMenuItem();
+            healthCheckToolStripMenuItem = new ToolStripMenuItem();
             ayudaToolStripMenuItem = new ToolStripMenuItem();
             novToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
@@ -55,7 +58,7 @@ namespace CinetCore
             // 
             // menuStrip
             // 
-            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, ayudaToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, herramientasToolStripMenuItem, ayudaToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
             menuStrip.Size = new Size(349, 24);
@@ -169,6 +172,27 @@ namespace CinetCore
             preciosToolStripMenuItem.Text = "Precios";
             preciosToolStripMenuItem.Click += preciosToolStripMenuItem_Click;
             // 
+            // herramientasToolStripMenuItem
+            // 
+            herramientasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { visorLogsToolStripMenuItem, healthCheckToolStripMenuItem });
+            herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
+            herramientasToolStripMenuItem.Size = new Size(90, 20);
+            herramientasToolStripMenuItem.Text = "Herramientas";
+            // 
+            // visorLogsToolStripMenuItem
+            // 
+            visorLogsToolStripMenuItem.Name = "visorLogsToolStripMenuItem";
+            visorLogsToolStripMenuItem.Size = new Size(200, 22);
+            visorLogsToolStripMenuItem.Text = "📋 Visor de Logs";
+            visorLogsToolStripMenuItem.Click += visorLogsToolStripMenuItem_Click;
+            // 
+            // healthCheckToolStripMenuItem
+            // 
+            healthCheckToolStripMenuItem.Name = "healthCheckToolStripMenuItem";
+            healthCheckToolStripMenuItem.Size = new Size(200, 22);
+            healthCheckToolStripMenuItem.Text = "🟢 Diagnóstico de BD";
+            healthCheckToolStripMenuItem.Click += healthCheckToolStripMenuItem_Click;
+            // 
             // ayudaToolStripMenuItem
             // 
             ayudaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novToolStripMenuItem });
@@ -254,5 +278,8 @@ namespace CinetCore
         private ToolStripMenuItem preciosToolStripMenuItem;
         private ToolStripMenuItem preciosMostazaToolStripMenuItem;
         private ToolStripMenuItem preciosGmgToolStripMenuItem;
+        private ToolStripMenuItem herramientasToolStripMenuItem;
+        private ToolStripMenuItem visorLogsToolStripMenuItem;
+        private ToolStripMenuItem healthCheckToolStripMenuItem;
     }
 }

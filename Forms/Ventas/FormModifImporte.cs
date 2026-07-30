@@ -67,6 +67,7 @@ namespace CinetCore
 
                 service.ModificarImporte(selectedDbKey, request);
 
+                Logger.LogInfo($"[AUDITORÍA UI] Modificación de importe completada para el comprobante {request.Sucursal}-{request.Comprobante} ({selectedDbKey}).");
                 CinetCore.Utils.Alert.Show("Modificación realizada correctamente.", "Éxito");
             }
             catch (Exception ex)

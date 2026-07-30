@@ -48,7 +48,7 @@ namespace CinetCore.Forms.Sucursales
 
         private void txtSucursal_KeyPress(object sender, KeyPressEventArgs e)
         {
-            // Permitir solo números y Backspace
+            // Permitir solo nÃºmeros y Backspace
             if (!char.IsDigit(e.KeyChar) && e.KeyChar != (char)Keys.Back)
             {
                 e.Handled = true;
@@ -71,7 +71,7 @@ namespace CinetCore.Forms.Sucursales
             // Seguridad extra
             if (!int.TryParse(txtSucursal.Text, out int valor) || valor < 0)
             {
-                CinetCore.Utils.Alert.Show("Sucursal inválida.");
+                CinetCore.Utils.Alert.Show("Sucursal invÃ¡lida.");
                 txtSucursal.Focus();
                 return;
             }
@@ -83,7 +83,7 @@ namespace CinetCore.Forms.Sucursales
         {
             if (!int.TryParse(txtSucursal.Text, out int suc))
             {
-                CinetCore.Utils.Alert.Show("La sucursal debe ser numérica.");
+                CinetCore.Utils.Alert.Show("La sucursal debe ser numÃ©rica.");
                 return false;
             }
 
@@ -95,7 +95,7 @@ namespace CinetCore.Forms.Sucursales
 
             if (txtSucursal.Text.Length > 4)
             {
-                CinetCore.Utils.Alert.Show("La sucursal no puede tener más de 4 dígitos.");
+                CinetCore.Utils.Alert.Show("La sucursal no puede tener mÃ¡s de 4 dÃ­gitos.");
                 return false;
             }
 
@@ -126,7 +126,7 @@ namespace CinetCore.Forms.Sucursales
                 Logger.LogInfo("Clave incorrecta al intentar insertar la sucursal");
 
                 CinetCore.Utils.Alert.Show(
-                    "La contraseña ingresada es incorrecta.",
+                    "La contraseÃ±a ingresada es incorrecta.",
                     "Acceso denegado",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Error
@@ -153,6 +153,7 @@ namespace CinetCore.Forms.Sucursales
             }
             catch (Exception ex)
             {
+                Logger.LogError(ex);
                 CinetCore.Utils.Alert.Show(
                     "Error al insertar la sucursal:\n" + ex.Message,
                     "Error",

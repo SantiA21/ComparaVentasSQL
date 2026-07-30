@@ -2,7 +2,7 @@ using CinetCore.Data;
 using CinetCore.Infrastructure;
 using CinetCore.Models;
 using System.Data;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using Dapper;
 
 namespace CinetCore.Services.Usuarios

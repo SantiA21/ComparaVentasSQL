@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using CinetCore.Services.Salvaventas;
 using CinetCore.Infrastructure;
+using ClosedXML.Excel;
 
 namespace CinetCore.Forms.Salvaventas
 {
@@ -34,6 +35,7 @@ namespace CinetCore.Forms.Salvaventas
         private Button btnInsertarValMov;
         private Button btnReinsertar;
         private Button btnVerCajas;
+        private Button btnExportarExcel;
         private FormVerSucursalesV2 _formSucursales;
 
         private Label lblStatus;
@@ -176,12 +178,17 @@ namespace CinetCore.Forms.Salvaventas
             btnVerCajas.FlatAppearance.BorderSize = 0;
             btnVerCajas.Click += BtnVerCajas_Click;
 
-            lblStatus = new Label() { Location = new Point(645, 185), AutoSize = true, ForeColor = Color.FromArgb(100, 100, 100), Font = new Font("Segoe UI", 9.5F) };
+            btnExportarExcel = new Button() { Text = "📊 EXPORTAR", Location = new Point(640, 175), Width = 120, Height = 40, FlatStyle = FlatStyle.Flat, BackColor = Color.FromArgb(108, 117, 125), ForeColor = Color.White, Font = new Font("Segoe UI Semibold", 9F), Cursor = Cursors.Hand };
+            btnExportarExcel.FlatAppearance.BorderSize = 0;
+            btnExportarExcel.Click += BtnExportarExcel_Click;
+
+            lblStatus = new Label() { Location = new Point(770, 185), AutoSize = true, ForeColor = Color.FromArgb(100, 100, 100), Font = new Font("Segoe UI", 9.5F) };
 
             panelTop.Controls.Add(btnBuscar);
             panelTop.Controls.Add(btnInsertarValMov);
             panelTop.Controls.Add(btnReinsertar);
             panelTop.Controls.Add(btnVerCajas);
+            panelTop.Controls.Add(btnExportarExcel);
             panelTop.Controls.Add(lblStatus);
 
             var panelBottom = new Panel() { Dock = DockStyle.Fill, Padding = new Padding(20) };
@@ -955,6 +962,88 @@ namespace CinetCore.Forms.Salvaventas
             finally
             {
                 SetLoading(false, lblStatus.Text);
+            }
+        }
+
+        private void BtnExportarExcel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                using (var sfd = new SaveFileDialog())
+                {
+                    sfd.Filter = "Archivos Excel (*.xlsx)|*.xlsx";
+                    sfd.FileName = $"Rescate_{DateTime.Now:yyyyMMdd_HHmmss}.xlsx";
+
+                    if (sfd.ShowDialog() == DialogResult.OK)
+                    {
+                        using (var wb = new XLWorkbook())
+                        {
+                            int hojasAgregadas = 0;
+
+                            if (_modoLote)
+                            {
+                                if (dgvLote.Rows.Count > 0)
+                                {
+                                    var dt = new DataTable();
+                                    foreach (DataGridViewColumn col in dgvLote.Columns)
+                                    {
+                                        dt.Columns.Add(col.HeaderText);
+                                    }
+
+                                    foreach (DataGridViewRow row in dgvLote.Rows)
+                                    {
+                                        if (row.IsNewRow) continue;
+                                        var newRow = dt.NewRow();
+                                        for (int i = 0; i < dgvLote.Columns.Count; i++)
+                                        {
+                                            newRow[i] = row.Cells[i].Value?.ToString() ?? "";
+                                        }
+                                        dt.Rows.Add(newRow);
+                                    }
+
+                                    wb.Worksheets.Add(dt, "Ventas Lote");
+                                    hojasAgregadas++;
+                                }
+                            }
+                            else
+                            {
+                                foreach (Control control in panelResultados.Controls)
+                                {
+                                    if (control is GroupBox gb)
+                                    {
+                                        var dgv = gb.Controls.OfType<DataGridView>().FirstOrDefault();
+                                        if (dgv != null && dgv.DataSource is DataView dv && dv.Count > 0)
+                                        {
+                                            string nombreHoja = gb.Text.Length > 28 ? gb.Text.Substring(0, 28) : gb.Text;
+                                            string charsInvalidos = "[]*?/\\:";
+                                            foreach (char c in charsInvalidos)
+                                            {
+                                                nombreHoja = nombreHoja.Replace(c, '_');
+                                            }
+
+                                            wb.Worksheets.Add(dv.ToTable(), nombreHoja);
+                                            hojasAgregadas++;
+                                        }
+                                    }
+                                }
+                            }
+
+                            if (hojasAgregadas == 0)
+                            {
+                                CinetCore.Utils.Alert.Show("No hay datos cargados para exportar a Excel.");
+                                return;
+                            }
+
+                            wb.SaveAs(sfd.FileName);
+                            CinetCore.Utils.Alert.Show("Archivo Excel exportado exitosamente.");
+                        }
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Logger.LogError(ex);
+                CinetCore.Utils.Alert.Show($"Error al exportar a Excel: {ex.Message}");
             }
         }
 

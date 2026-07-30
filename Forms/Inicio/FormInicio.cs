@@ -1,8 +1,10 @@
 using CinetCore;
+using CinetCore.Forms.Comunes;
 using CinetCore.Forms.Precios;
 using CinetCore.Forms.Sucursales;
 using CinetCore.Forms.Usuarios;
 using CinetCore.Utils;
+using CinetCore.Infrastructure;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -92,6 +94,7 @@ namespace CinetCore
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information
             );
+                    Logger.LogInfo($"[UPDATE] Nueva versión detectada ({versionNueva}). Iniciando actualización automática.");
                     LanzarUpdater();
                     Application.Exit();
                 }
@@ -266,6 +269,22 @@ namespace CinetCore
                 mainForm.ShowDialog();
             }
             this.Show();
+        }
+
+        private void visorLogsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var frm = new FormVisorLogs())
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
+        private void healthCheckToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var frm = new FormHealthCheck())
+            {
+                frm.ShowDialog(this);
+            }
         }
     }
 }
