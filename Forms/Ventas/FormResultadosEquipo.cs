@@ -34,7 +34,7 @@ namespace CinetCore
         {
             try
             {
-                using (var conn = new SqlConnection(_connectionString))
+                using (var conn = new SqlConnection(CinetCore.Data.DataAccess.EnsureTrustServerCertificate(_connectionString)))
                 using (var da = new SqlDataAdapter(_query, conn))
                 {
                     Logger.LogQuery(_query);

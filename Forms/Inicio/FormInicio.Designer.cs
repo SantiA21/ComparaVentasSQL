@@ -36,6 +36,7 @@ namespace CinetCore
             consultarVentaToolStripMenuItem = new ToolStripMenuItem();
             ventasConCAEAToolStripMenuItem = new ToolStripMenuItem();
             modificarImporteToolStripMenuItem = new ToolStripMenuItem();
+            salvaVentasToolStripMenuItem = new ToolStripMenuItem();
             sucursalesToolStripMenuItem = new ToolStripMenuItem();
             verSucursalesToolStripMenuItem = new ToolStripMenuItem();
             insertarSucursalToolStripMenuItem = new ToolStripMenuItem();
@@ -44,33 +45,22 @@ namespace CinetCore
             usuariosGMGERPToolStripMenuItem = new ToolStripMenuItem();
             usuariosBackofficeToolStripMenuItem = new ToolStripMenuItem();
             preciosToolStripMenuItem = new ToolStripMenuItem();
+            preciosMostazaToolStripMenuItem = new ToolStripMenuItem();
+            preciosGmgToolStripMenuItem = new ToolStripMenuItem();
             herramientasToolStripMenuItem = new ToolStripMenuItem();
             visorLogsToolStripMenuItem = new ToolStripMenuItem();
             healthCheckToolStripMenuItem = new ToolStripMenuItem();
-            ayudaToolStripMenuItem = new ToolStripMenuItem();
-            novToolStripMenuItem = new ToolStripMenuItem();
+            changelogToolStripMenuItem = new ToolStripMenuItem();
             lblVersion = new Label();
-            preciosMostazaToolStripMenuItem = new ToolStripMenuItem();
-            preciosGmgToolStripMenuItem = new ToolStripMenuItem();
-            salvaVentasToolStripMenuItem = new ToolStripMenuItem();
             menuStrip.SuspendLayout();
             SuspendLayout();
             // 
             // menuStrip
             // 
-            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, herramientasToolStripMenuItem, ayudaToolStripMenuItem });
+            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, herramientasToolStripMenuItem });
             menuStrip.Location = new Point(0, 0);
             menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(349, 24);
-            menuStrip.TabIndex = 15;
-            SuspendLayout();
-            // 
-            // menuStrip
-            // 
-            menuStrip.Items.AddRange(new ToolStripItem[] { ventasToolStripMenuItem, sucursalesToolStripMenuItem, usuariosToolStripMenuItem, preciosToolStripMenuItem, ayudaToolStripMenuItem });
-            menuStrip.Location = new Point(0, 0);
-            menuStrip.Name = "menuStrip";
-            menuStrip.Size = new Size(349, 24);
+            menuStrip.Size = new Size(410, 24);
             menuStrip.TabIndex = 15;
             // 
             // ventasToolStripMenuItem
@@ -172,9 +162,23 @@ namespace CinetCore
             preciosToolStripMenuItem.Text = "Precios";
             preciosToolStripMenuItem.Click += preciosToolStripMenuItem_Click;
             // 
+            // preciosMostazaToolStripMenuItem
+            // 
+            preciosMostazaToolStripMenuItem.Name = "preciosMostazaToolStripMenuItem";
+            preciosMostazaToolStripMenuItem.Size = new Size(159, 22);
+            preciosMostazaToolStripMenuItem.Text = "Precios Mostaza";
+            preciosMostazaToolStripMenuItem.Click += preciosMostazaToolStripMenuItem_Click;
+            // 
+            // preciosGmgToolStripMenuItem
+            // 
+            preciosGmgToolStripMenuItem.Name = "preciosGmgToolStripMenuItem";
+            preciosGmgToolStripMenuItem.Size = new Size(159, 22);
+            preciosGmgToolStripMenuItem.Text = "Precios Gmg";
+            preciosGmgToolStripMenuItem.Click += preciosGmgToolStripMenuItem_Click;
+            // 
             // herramientasToolStripMenuItem
             // 
-            herramientasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { visorLogsToolStripMenuItem, healthCheckToolStripMenuItem });
+            herramientasToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { visorLogsToolStripMenuItem, healthCheckToolStripMenuItem, changelogToolStripMenuItem });
             herramientasToolStripMenuItem.Name = "herramientasToolStripMenuItem";
             herramientasToolStripMenuItem.Size = new Size(90, 20);
             herramientasToolStripMenuItem.Text = "Herramientas";
@@ -182,30 +186,23 @@ namespace CinetCore
             // visorLogsToolStripMenuItem
             // 
             visorLogsToolStripMenuItem.Name = "visorLogsToolStripMenuItem";
-            visorLogsToolStripMenuItem.Size = new Size(200, 22);
+            visorLogsToolStripMenuItem.Size = new Size(186, 22);
             visorLogsToolStripMenuItem.Text = "📋 Visor de Logs";
             visorLogsToolStripMenuItem.Click += visorLogsToolStripMenuItem_Click;
             // 
             // healthCheckToolStripMenuItem
             // 
             healthCheckToolStripMenuItem.Name = "healthCheckToolStripMenuItem";
-            healthCheckToolStripMenuItem.Size = new Size(200, 22);
-            healthCheckToolStripMenuItem.Text = "🟢 Diagnóstico de BD";
+            healthCheckToolStripMenuItem.Size = new Size(186, 22);
+            healthCheckToolStripMenuItem.Text = "\U0001f7e2 Diagnóstico de BD";
             healthCheckToolStripMenuItem.Click += healthCheckToolStripMenuItem_Click;
             // 
-            // ayudaToolStripMenuItem
+            // changelogToolStripMenuItem
             // 
-            ayudaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { novToolStripMenuItem });
-            ayudaToolStripMenuItem.Name = "ayudaToolStripMenuItem";
-            ayudaToolStripMenuItem.Size = new Size(53, 20);
-            ayudaToolStripMenuItem.Text = "Ayuda";
-            // 
-            // novToolStripMenuItem
-            // 
-            novToolStripMenuItem.Name = "novToolStripMenuItem";
-            novToolStripMenuItem.Size = new Size(133, 22);
-            novToolStripMenuItem.Text = "Novedades";
-            novToolStripMenuItem.Click += novToolStripMenuItem_Click;
+            changelogToolStripMenuItem.Name = "changelogToolStripMenuItem";
+            changelogToolStripMenuItem.Size = new Size(186, 22);
+            changelogToolStripMenuItem.Text = "📜 Changelog (Novedades)";
+            changelogToolStripMenuItem.Click += changelogToolStripMenuItem_Click;
             // 
             // lblVersion
             // 
@@ -217,26 +214,12 @@ namespace CinetCore
             lblVersion.TabIndex = 14;
             lblVersion.Text = "label3";
             // 
-            // preciosMostazaToolStripMenuItem
-            // 
-            preciosMostazaToolStripMenuItem.Name = "preciosMostazaToolStripMenuItem";
-            preciosMostazaToolStripMenuItem.Size = new Size(180, 22);
-            preciosMostazaToolStripMenuItem.Text = "Precios Mostaza";
-            preciosMostazaToolStripMenuItem.Click += preciosMostazaToolStripMenuItem_Click;
-            // 
-            // preciosGmgToolStripMenuItem
-            // 
-            preciosGmgToolStripMenuItem.Name = "preciosGmgToolStripMenuItem";
-            preciosGmgToolStripMenuItem.Size = new Size(180, 22);
-            preciosGmgToolStripMenuItem.Text = "Precios Gmg";
-            preciosGmgToolStripMenuItem.Click += preciosGmgToolStripMenuItem_Click;
-            // 
             // FormInicio
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ActiveCaption;
-            ClientSize = new Size(349, 305);
+            ClientSize = new Size(410, 305);
             Controls.Add(lblVersion);
             Controls.Add(menuStrip);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -271,8 +254,6 @@ namespace CinetCore
         private ToolStripMenuItem usuariosToolStripMenuItem;
         private ToolStripMenuItem usuariosMOSTAZAERPToolStripMenuItem;
         private ToolStripMenuItem usuariosGMGERPToolStripMenuItem;
-        private ToolStripMenuItem ayudaToolStripMenuItem;
-        private ToolStripMenuItem novToolStripMenuItem;
         private ToolStripMenuItem usuariosBackofficeToolStripMenuItem;
         private ToolStripMenuItem insertarSucursalToolStripMenuItem;
         private ToolStripMenuItem preciosToolStripMenuItem;
@@ -281,5 +262,6 @@ namespace CinetCore
         private ToolStripMenuItem herramientasToolStripMenuItem;
         private ToolStripMenuItem visorLogsToolStripMenuItem;
         private ToolStripMenuItem healthCheckToolStripMenuItem;
+        private ToolStripMenuItem changelogToolStripMenuItem;
     }
 }

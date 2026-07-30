@@ -55,7 +55,7 @@ namespace CinetCore.Data
                         string valor = lineaLimpia.Substring("ConnectionString=".Length).Trim();
                         if (!string.IsNullOrWhiteSpace(seccionActual) && !string.IsNullOrWhiteSpace(valor))
                         {
-                            connectionStrings[seccionActual] = valor;
+                            connectionStrings[seccionActual] = EnsureTrustServerCertificate(valor);
                         }
                     }
                     else if (lineaLimpia.Contains("="))
@@ -105,7 +105,8 @@ namespace CinetCore.Data
             if (!connectionStrings.ContainsKey(dbKey))
                 throw new ArgumentException("Base de datos no encontrada");
 
-            return new SqlConnection(connectionStrings[dbKey]);
+            string connStr = EnsureTrustServerCertificate(connectionStrings[dbKey]);
+            return new SqlConnection(connStr);
         }
 
         public SqlConnection GetRemoteConnection(ConexionBackOffice config)
@@ -114,6 +115,28 @@ namespace CinetCore.Data
                 $"Server={config.Ip};Database={config.Database};User Id={config.Usuario};Password={config.Password};TrustServerCertificate=True;";
 
             return new SqlConnection(connectionString);
+        }
+
+        public static string EnsureTrustServerCertificate(string connectionString)
+        {
+            if (string.IsNullOrWhiteSpace(connectionString))
+                return connectionString;
+
+            try
+            {
+                var builder = new SqlConnectionStringBuilder(connectionString);
+                builder.TrustServerCertificate = true;
+                return builder.ConnectionString;
+            }
+            catch
+            {
+                if (!connectionString.Contains("TrustServerCertificate", StringComparison.OrdinalIgnoreCase) &&
+                    !connectionString.Contains("Trust Server Certificate", StringComparison.OrdinalIgnoreCase))
+                {
+                    return connectionString.TrimEnd(';') + ";TrustServerCertificate=True;";
+                }
+                return connectionString;
+            }
         }
     }
 }

@@ -178,14 +178,6 @@ namespace CinetCore
             this.Show();
         }
 
-        private void novToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            using (var frm = new FormChangelog())
-            {
-                frm.ShowDialog();
-            }
-        }
-
         private void usuariosMOSTAZAERPToolStripMenuItem_Click(object sender, EventArgs e)
         {
             this.Hide();
@@ -282,6 +274,14 @@ namespace CinetCore
         private void healthCheckToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var frm = new FormHealthCheck())
+            {
+                frm.ShowDialog(this);
+            }
+        }
+
+        private void changelogToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var frm = new FormChangelog())
             {
                 frm.ShowDialog(this);
             }

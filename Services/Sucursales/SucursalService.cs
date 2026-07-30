@@ -130,7 +130,7 @@ WHERE rn = 1
 ORDER BY equipo;
 ";
             DataTable dt = new DataTable();
-            using (var conn = new SqlConnection(connectionString))
+            using (var conn = new SqlConnection(CinetCore.Data.DataAccess.EnsureTrustServerCertificate(connectionString)))
             using (var cmd = new SqlCommand(query, conn))
             using (var da = new SqlDataAdapter(cmd))
             {
