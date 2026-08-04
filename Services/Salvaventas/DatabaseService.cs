@@ -485,7 +485,7 @@ ORDER BY equipo;";
                     string queryFecha = $@"
                         SELECT TOP 1 vene_fecha FROM [{equipo}].[{dbName}].[dbo].[ventas_efe] 
                         WHERE cbtee_codigo = @cbteeCodigo AND vene_numero = @veneNumero AND suc_Codigo = @sucCodigo";
-                    var veneFecha = await connection.ExecuteScalarAsync<DateTime?>(queryFecha, new { cbteeCodigo, veneNumero, sucCodigo }) ?? DateTime.Now;
+                    var veneFecha = (await connection.ExecuteScalarAsync<DateTime?>(queryFecha, new { cbteeCodigo, veneNumero, sucCodigo }))?.Date ?? DateTime.Now.Date;
 
                     string insertVal = $@"
                         INSERT INTO [{equipo}].[{dbName}].[dbo].[VAL_MOVIMIENTOS] 
@@ -536,7 +536,7 @@ BEGIN
             '0','1','01',@fecha,@fecha,'10','1','1',
             @fecha,'','','0',@fecha,'S','','00',@valCodigo,
             '1.00',@fecha,'','','N','','0.00','','','','','','','','','','','','','1.00','','','',
-            null,null,null,',S','N',null,'','','0001','07:37:53',null,'',null,'','',@CAE,@numerocierre,
+            null,null,null,',S','N',null,'','','0001','08:00:00',null,'',null,'','',@CAE,@numerocierre,
             null,null,null,'','288','S','','',@numcaja,'16309441','MOSTRADOR','',null)
 
 END
@@ -590,7 +590,7 @@ update VAL_MOVIMIENTOS set asi_transmitido = null where CBTEINSUC_CODIGO = @punt
                 puntoventa = sucCodigo,
                 tipocomprobante = cbteeCodigo,
                 numerocomprobante = veneNumero,
-                fecha = fecha,
+                fecha = fecha.Date,
                 total_ticket = importe,
                 CAE = cae,
                 numcaja = numCaja,
@@ -619,7 +619,7 @@ update VAL_MOVIMIENTOS set asi_transmitido = null where CBTEINSUC_CODIGO = @punt
                 string queryFecha = $@"
                     SELECT TOP 1 vene_fecha FROM {dbPrefix}[ventas_e] 
                     WHERE cbtee_codigo = @cbteeCodigo AND vene_numero = @veneNumero AND suc_Codigo = @sucCodigo";
-                var veneFecha = await connection.ExecuteScalarAsync<DateTime?>(queryFecha, new { cbteeCodigo, veneNumero, sucCodigo }) ?? DateTime.Now;
+                var veneFecha = (await connection.ExecuteScalarAsync<DateTime?>(queryFecha, new { cbteeCodigo, veneNumero, sucCodigo }))?.Date ?? DateTime.Now.Date;
 
                 string insertVal = $@"
                     INSERT INTO {dbPrefix}[VAL_MOVIMIENTOS] 

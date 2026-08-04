@@ -145,7 +145,7 @@ namespace CinetCore.Forms.Salvaventas
             string importeText = txtImporte.Text.Trim();
             string cae = txtCae.Text.Trim();
             string valCodigo = cmbValCodigo.SelectedItem?.ToString();
-            DateTime fecha = dpFecha.Value;
+            DateTime fecha = dpFecha.Value.Date;
 
             if (string.IsNullOrEmpty(numCaja) || string.IsNullOrEmpty(importeText) || string.IsNullOrEmpty(valCodigo))
             {
@@ -177,7 +177,7 @@ namespace CinetCore.Forms.Salvaventas
                     }
                 }
 
-                await dbService.InsertarVentaManualAsync(sucCodigo, veneNumero, cbteeCodigo, fecha, importeTotal, cae, int.Parse(numCaja), valCodigo);
+                await dbService.InsertarVentaManualAsync(sucCodigo, veneNumero, cbteeCodigo, fecha.Date, importeTotal, cae, int.Parse(numCaja), valCodigo);
 
                 CinetCore.Utils.Alert.Show("La venta se insertó manualmente en el Backoffice de manera exitosa.", "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 this.DialogResult = DialogResult.OK;

@@ -1,3 +1,6 @@
+[1.12.3]
+- Se fixea la query que se usa para insertar venta
+
 [1.25.2]
 - Se modifican los nombres de botones que inicia cada form
 
